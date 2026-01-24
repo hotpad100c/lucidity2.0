@@ -1,0 +1,17 @@
+// 1.21.5	-999999999-01-01T00:00:00	MaLiLib/Tags for minecraft:block
+881c21fbeb663cf90f8d35626bdd7b44d130692a data/malilib/tags/block/all_banners_fix.json
+f6ef48454b763dcde3b1dac70d6a67d6824818be data/malilib/tags/block/all_signs_fix.json
+a64be370a0f7e5cbff6c172ae7b23ab3f73ffb58 data/malilib/tags/block/concrete_blocks.json
+93a3afaafe23a81abf04b78e4e91be44d2221a7a data/malilib/tags/block/concrete_powder_fix.json
+8f1648035bf3294132ed58b77b7bba3784a3e15a data/malilib/tags/block/coral_fans_fix.json
+9ff80a785d2e339489284e13972373a1ea29b722 data/malilib/tags/block/glass_blocks.json
+b82ba58836f08028c1ac948fa2eb6e26ff6c91f3 data/malilib/tags/block/glass_panes.json
+5971d0447ebf3ad63f7bac334301a05a0c515944 data/malilib/tags/block/glazed_terracotta_blocks.json
+fdc54dfc8ed421b61360855bd5ed9e48981639a5 data/malilib/tags/block/gravity_blocks.json
+ca17304c32607ec5be83d260c01c59eeb48ccf50 data/malilib/tags/block/immovable_blocks.json
+4b491a8aae930d974c4361a996ae44ece8283102 data/malilib/tags/block/leaves_fix.json
+c19b0bd4822e3d70ead923514361fcdeafc304b6 data/malilib/tags/block/needs_shears.json
+c5bac7cc1a3226bc3f38c363d0f28ab1a0f510c9 data/malilib/tags/block/needs_silk_touch.json
+66edda4de40bfbef054e3ec5b8e9588729404acc data/malilib/tags/block/ore_blocks.json
+a93490c58da0b49ce2f34a06928d22d8fd07f594 data/malilib/tags/block/sculk_blocks.json
+9c886bd7485ddaf951a6fefefe1293582f797004 data/malilib/tags/block/wool_blocks_fix.json

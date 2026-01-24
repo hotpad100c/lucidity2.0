@@ -1,0 +1,16 @@
+accessWidener v2 named
+accessible field net/minecraft/world/entity/boss/enderdragon/phases/DragonHoldingPatternPhase currentPath Lnet/minecraft/world/level/pathfinder/Path;
+accessible field net/minecraft/world/level/pathfinder/Path nodes Ljava/util/List;
+accessible class net/minecraft/client/renderer/block/ModelBlockRenderer$AmbientOcclusionFace
+accessible field net/minecraft/client/multiplayer/ClientChunkCache storage Lnet/minecraft/client/multiplayer/ClientChunkCache$Storage;
+accessible field net/minecraft/world/entity/projectile/LargeFireball explosionPower I
+accessible field net/minecraft/client/resources/model/SimpleBakedModel unculledFaces Ljava/util/List;
+accessible field net/minecraft/client/multiplayer/ClientChunkCache$Storage chunks Ljava/util/concurrent/atomic/AtomicReferenceArray;
+accessible field net/minecraft/world/entity/projectile/windcharge/WindCharge EXPLOSION_DAMAGE_CALCULATOR Lnet/minecraft/world/level/ExplosionDamageCalculator;
+accessible class net/minecraft/client/renderer/chunk/RenderChunk
+# accessible field net/minecraft/world/entity/item/PrimedTnt explosionPower F
+accessible field net/minecraft/world/entity/monster/Creeper explosionRadius I
+accessible field net/minecraft/world/entity/monster/Creeper swell I
+accessible method net/minecraft/client/renderer/entity/EntityRenderDispatcher renderVector (Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lorg/joml/Vector3f;Lnet/minecraft/world/phys/Vec3;I)V
+accessible method net/minecraft/client/renderer/block/ModelBlockRenderer renderModelFaceFlat (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;IIZLcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;Ljava/util/BitSet;)V
+accessible method net/minecraft/world/level/block/RespawnAnchorBlock isWaterThatWouldFlow (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Level;)Z
