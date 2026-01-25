@@ -37,7 +37,7 @@ public class VaultBlockEntityRendererMixin {
     @Shadow @Final private RandomSource random;
     //? if >=1.21.5 {
     @Inject(method = "render(Lnet/minecraft/world/level/block/entity/vault/VaultBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/world/phys/Vec3;)V",
-            at = @At(target = "Lnet/minecraft/client/renderer/entity/ItemEntityRenderer;renderMultipleFromCount(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/ItemClusterRenderState;Lnet/minecraft/util/RandomSource;)V",
+            at = @At(target = "Lcom/mojang/blaze3d/vertex/PoseStack;popPose()V",
                     value = "INVOKE",
                     shift = At.Shift.AFTER
             ))
@@ -61,7 +61,7 @@ public class VaultBlockEntityRendererMixin {
     *///?}
         if (VAULT_ITEM_DISPLAY.getBooleanValue()) {
             poseStack.pushPose();
-            poseStack.translate(0.5F, 0.4F + 1.0F, 0.5F);
+            poseStack.translate(0.5, 0.4F + 1.0F, 0.5);
             poseStack.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());
             ItemEntityRenderer.renderMultipleFromCount(
                     //? if <=1.21.3 {

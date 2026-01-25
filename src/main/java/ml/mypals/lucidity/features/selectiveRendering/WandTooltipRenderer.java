@@ -124,10 +124,10 @@ public class WandTooltipRenderer {
             if (item.icon != null) {
                 GlStateManager._enableBlend();
                 //? if >= 1.21.6 {
-                context.blit(RenderPipelines.GUI_TEXTURED, item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                //?} else if >=1.21.3 {
-                /*context.blit(RenderType::guiTextured, item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                *///?} else {
+                /*context.blit(RenderPipelines.GUI_TEXTURED, item.icon, x, y, 0, 0, 16, 16, 16, 16);
+                *///?} else if >=1.21.3 {
+                context.blit(RenderType::guiTextured, item.icon, x, y, 0, 0, 16, 16, 16, 16);
+                //?} else {
                 /*context.blit(item.icon, x, y, 0, 0, 16, 16, 16, 16);
                 *///?}
                 GlStateManager._disableBlend();
@@ -160,10 +160,10 @@ public class WandTooltipRenderer {
         int y = screenHeight - 60;
         GlStateManager._enableBlend();
         //? if >= 1.21.6 {
-        context.blit(RenderPipelines.GUI_TEXTURED,ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
+        /*context.blit(RenderPipelines.GUI_TEXTURED,ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        *///?} else if >=1.21.3 {
+        context.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        //?} else {
         /*context.blit(ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?}
         GlStateManager._disableBlend();
@@ -186,10 +186,10 @@ public class WandTooltipRenderer {
         };
         GlStateManager._enableBlend();
         //? if >= 1.21.6 {
-        context.blit(RenderPipelines.GUI_TEXTURED, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
+        /*context.blit(RenderPipelines.GUI_TEXTURED, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        *///?} else if >=1.21.3 {
+        context.blit(RenderType::guiTextured, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        //?} else {
         /*context.blit( secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?}
         GlStateManager._disableBlend();

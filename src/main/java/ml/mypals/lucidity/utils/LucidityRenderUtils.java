@@ -24,12 +24,12 @@ public class LucidityRenderUtils {
 
         //? if >= 1.21.6 {
 
-        RenderType renderType = RenderType.translucentMovingBlock();
-        //?} else if >=1.21.6 {
+        /*RenderType renderType = RenderType.translucentMovingBlock();
+        *///?} else if >=1.21.6 {
         /*RenderType renderType = RenderType.translucent();
         *///?} else if >=1.21.3 {
-        /*RenderSystem.setShader(CoreShaders.POSITION_COLOR);
-        *///?} else {
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
+        //?} else {
         /*RenderSystem.setShader(GameRenderer::getPositionColorShader);
         *///?}
         Tesselator tessellator = Tesselator.getInstance();

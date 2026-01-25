@@ -92,10 +92,10 @@ public abstract class MovingBlockRenderMixin {
         if(renderAdditional){
             renderAdditional = false;
             //? if >=1.21.6 {
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
-            //?} else {
-            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
-             *///?}
+            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
+            *///?} else {
+            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+             //?}
             poseStack.scale(1.001f,1.001f,1.001f);
             //? if >=1.21.5 {
             assert Minecraft.getInstance().level != null;

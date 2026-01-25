@@ -56,7 +56,7 @@ public class MediaShape extends Shape implements EmptyMesh {
     private static final Function<ResourceLocation, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
         MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
-        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*? if <1.21.6 {*//*, TriState.DEFAULT*//*?}*/, false)).createCompositeState(false)));
+        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*? if <1.21.6 {*/, TriState.DEFAULT/*?}*/, false)).createCompositeState(false)));
     }
     //?}
 
@@ -243,11 +243,10 @@ public class MediaShape extends Shape implements EmptyMesh {
 
 
         //? if >=1.21.6 {
-        RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
-        //?} else if >=1.21.5 {
-        //RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
-        /*RenderType renderType = RenderType.guiTextured(currentTextureId);
-        *///?} else {
+        /*RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
+        *///?} else if >=1.21.5 {
+        RenderType renderType = RenderType.guiTextured(currentTextureId);
+        //?} else {
         
         /*RenderSystem.setShaderTexture(0, currentTextureId);
         //? if >=1.21.3 {

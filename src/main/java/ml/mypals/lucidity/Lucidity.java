@@ -18,19 +18,21 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 //? if >=1.21.6 {
 
 //?} else if >= 1.21.4 {
-/*import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-*///?} else {
+//?} else {
 /*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 *///?}
-import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
+//?if>=1.21.6{
+/*import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
+*///?}
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -57,13 +59,13 @@ public class Lucidity implements ModInitializer {
         InitializationHandler.getInstance().registerInitializationHandler(new LucidityInit());
         registerVanillaKeyBindings();
         //? if >=1.21.6 {
-        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
+        /*HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 ResourceLocation.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),
                 (guiGraphics,deltaTracker)->{
                     WandTooltipRenderer.renderWandTooltip(guiGraphics);
                 });
-        //?} else if >= 1.21.4 {
-        /*HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
+        *///?} else if >= 1.21.4 {
+        HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
             wrapper.addLayer(new IdentifiedLayer() {
                 @Override
                 public ResourceLocation id() {
@@ -76,7 +78,7 @@ public class Lucidity implements ModInitializer {
                 }
             });
         });
-        *///?} else {
+        //?} else {
         /*HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> {
             WandTooltipRenderer.renderWandTooltip(guiGraphics);
         });
