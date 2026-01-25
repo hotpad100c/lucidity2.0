@@ -14,14 +14,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PanoramaRenderer.class)
 public class TitleScreenMixin {
-    @Mutable
+    //? if <=1.21.1 {
+    /*@Mutable
     @Shadow @Final private Minecraft minecraft;
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void preventNpeCrash(GuiGraphics guiGraphics, int i, int j, float f, float g, CallbackInfo ci) {
         if (this.minecraft == null) {
             this.minecraft = Minecraft.getInstance();
-            ci.cancel();
+            ci.cancel();//Idk why :(
         }
     }
+    *///?}
 }

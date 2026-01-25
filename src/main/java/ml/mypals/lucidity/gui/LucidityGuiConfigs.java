@@ -54,11 +54,13 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
         if (this.minecraft.level == null) {
             this.renderPanorama(guiGraphics, f);
         }
-        this.renderBlurredBackground(/*? if <=1.21.1 {*//*f*//*?}*//*?if>=1.21.6{*/guiGraphics/*?}*/);
+        //? if <1.21.6 {
+        /*this.renderBlurredBackground(/^? if <=1.21.1 {^//^f^//^?}^/);
+        *///?}
         this.renderMenuBackground(guiGraphics);
-        guiGraphics.blit(/*?if >= 1.21.6{*/ RenderPipelines.GUI_TEXTURED,/*?}else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
 
-        guiGraphics.blit(/*?if >= 1.21.6{*/ RenderPipelines.GUI_TEXTURED,/*?}else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
     }
     @Override
     public void initGui()

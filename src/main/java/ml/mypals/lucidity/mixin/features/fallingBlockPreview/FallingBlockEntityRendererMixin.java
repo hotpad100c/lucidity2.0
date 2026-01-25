@@ -77,7 +77,11 @@ public class FallingBlockEntityRendererMixin {
             poseStack.translate(offsetX, offsetY, offsetZ);
             poseStack.scale(1.001f, 1.001f, 1.001f);
 
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+            //? if >=1.21.6 {
+            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
+            //?} else {
+            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+            *///?}
 
             this.dispatcher.getModelRenderer().tesselateBlock(
                     Minecraft.getInstance().level,

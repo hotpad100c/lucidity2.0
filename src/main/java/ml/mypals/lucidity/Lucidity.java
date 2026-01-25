@@ -15,9 +15,9 @@ import ml.mypals.lucidity.init.LucidityInit;
 import ml.mypals.lucidity.features.netherPosCaculator.NetherPosCaculatorManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-//?if>=1.21.6{
+//? if >=1.21.6 {
 
-//?}else if >= 1.21.4 {
+//?} else if >= 1.21.4 {
 /*import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 *///?} else {
@@ -56,13 +56,13 @@ public class Lucidity implements ModInitializer {
     {
         InitializationHandler.getInstance().registerInitializationHandler(new LucidityInit());
         registerVanillaKeyBindings();
-        //?if>=1.21.6{
+        //? if >=1.21.6 {
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 ResourceLocation.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),
                 (guiGraphics,deltaTracker)->{
                     WandTooltipRenderer.renderWandTooltip(guiGraphics);
                 });
-        //?}else if >= 1.21.4 {
+        //?} else if >= 1.21.4 {
         /*HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
             wrapper.addLayer(new IdentifiedLayer() {
                 @Override

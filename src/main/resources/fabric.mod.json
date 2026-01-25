@@ -28,6 +28,7 @@
   "depends": {
     "fabricloader": ">=0.15",
     "minecraft": "${minecraft}",
-	"fabric-api": "*"
+	"fabric-api": "*",
+    "malilib": "*"
   }
 }

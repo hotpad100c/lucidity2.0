@@ -19,25 +19,25 @@ public class YaclLikeConfigTab extends ButtonGeneric {
     }
 
     @Override
-    //?if>=1.21.6{
+    //? if >=1.21.6 {
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
-    //?}else{
+    //?} else {
     /*public void render(int mouseX, int mouseY, boolean selected, GuiGraphics drawContext) {
     *///?}
         if (this.visible) {
             boolean yacaStyle = YACL_STYLE.getBooleanValue();
             this.renderDefaultBackground = !yacaStyle;
             if(yacaStyle) {
-                drawContext.blitSprite(/*?if >= 1.21.6{*/ RenderPipelines.GUI_TEXTURED,/*?}else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/
+                drawContext.blitSprite(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/
                         SPRITES.get(!this.enabled, this.hovered), this.getX(),
                         this.getY() - 2, this.width, this.height);
                 if (!this.enabled) {
                     this.renderFocusUnderline(drawContext, mc.font, Color.WHITE.getRGB());
                 }
             }
-            //?if>=1.21.6{
+            //? if >=1.21.6 {
             super.render(drawContext, mouseX, mouseY, selected);
-            //?}else{
+            //?} else {
             /*super.render(mouseX, mouseY, selected, drawContext);
             *///?}
         }

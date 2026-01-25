@@ -33,7 +33,6 @@ public class HotkeyCallbacks {
         FeatureToggle.WORLD_EATER_MINE_HELPER.setValueChangeCallback(iConfigBoolean -> WorldEaterHelperManager.refresh());
         FeatureToggle.FLUID_SOURCE_HIGHLIGHT.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
         FeatureToggle.BLOCK_NO_RANDOM_OFFSET.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
-        FeatureToggle.VOID_ALARM.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
         ImageRendererConfigs.IMAGES.setValueChangeCallback(configStringList -> ImageRenderManager.prepareImages());
         SelectiveRenderingConfigs.APPLY_TARGET_MODE.setValueChangeCallback((string)->scheduleChunkRebuild());
         SelectiveRenderingConfigs.SELECTED_AREAS.setValueChangeCallback((string)->resolveSelectedAreasFromString(string.getStrings()));

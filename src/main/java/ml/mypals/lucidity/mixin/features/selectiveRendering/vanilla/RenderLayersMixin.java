@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -12,9 +13,17 @@ import static ml.mypals.lucidity.config.FeatureToggle.FLUID_TRANSPARENCY_OVERRID
 @Mixin(ItemBlockRenderTypes.class)
 public class RenderLayersMixin {
     @WrapMethod(method = "getRenderLayer")
-    private static RenderType injectCustomFluidRenderLayer(FluidState fluidState, Operation<RenderType> original) {
+    //? if >=1.21.6 {
+    private static ChunkSectionLayer injectCustomFluidRenderLayer(FluidState fluidState, Operation<ChunkSectionLayer> original) {
+    //?} else {
+    /*private static RenderType injectCustomFluidRenderLayer(FluidState fluidState, Operation<RenderType> original) {
+    *///?}
         if (FLUID_TRANSPARENCY_OVERRIDE.getBooleanValue()) {
-            return RenderType.translucent();
+            //? if >=1.21.6 {
+            return ChunkSectionLayer.TRANSLUCENT;
+            //?} else {
+            /*return RenderType.translucent();
+            *///?}
         }else{
             return original.call(fluidState);
         }

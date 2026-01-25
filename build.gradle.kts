@@ -7,7 +7,6 @@ plugins {
 
 version = "${property("mod.version")}+${stonecutter.current.version}"
 base.archivesName = property("mod.id") as String
-
 val requiredJava = when {
     stonecutter.eval(stonecutter.current.version, ">=1.20.6") -> JavaVersion.VERSION_21
     stonecutter.eval(stonecutter.current.version, ">=1.18") -> JavaVersion.VERSION_17
@@ -53,6 +52,7 @@ dependencies {
     //modCompileOnly(files("pca-protocol-${property("deps.pca_version")}"))
 }
 val accesswidener = when {
+    stonecutter.eval(minecraft, ">=1.21.6") -> "1.21.6.accesswidener"
     stonecutter.eval(minecraft, ">=1.21.5") -> "1.21.5.accesswidener"
     stonecutter.eval(minecraft, ">=1.21.3") -> "1.21.4.accesswidener"
     else -> "1.21.1.accesswidener"
@@ -91,8 +91,8 @@ tasks {
 
         val props = mapOf(
             "id" to project.property("mod.id"),
-            "name" to project.property("mod.id"),
-            "version" to project.property("mod.id"),
+            "name" to project.property("mod.name"),
+            "version" to project.property("mod.version"),
             "minecraft" to project.property("mod.mc_dep")
         )
 

@@ -14,9 +14,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawner;
-//?if>=1.21.6{
+//? if >=1.21.6 {
 import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerStateData;
-//?}else{
+//?} else {
 /*import net.minecraft.world.level.block.entity.trialspawner.TrialSpawnerData;
 *///?}
 import net.minecraft.world.phys.Vec3;
@@ -42,9 +42,9 @@ public class TrialSpawnerBlockEntityRendererMixin {
                     shift = At.Shift.AFTER
             ))
     public void render(TrialSpawnerBlockEntity trialSpawnerBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, Vec3 vec3, CallbackInfo ci, @Local Level level, @Local TrialSpawner trialSpawner,
-                       //?if>=1.21.6{
+                       //? if >=1.21.6 {
                        @Local TrialSpawnerStateData trialSpawnerData
-                       //?}else{
+                       //?} else {
                        /*@Local TrialSpawnerData trialSpawnerData
                        *///?}
     ) {

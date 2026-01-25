@@ -1,5 +1,6 @@
 package ml.mypals.lucidity.utils;
 //? if >=1.21.5 {
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -21,9 +22,12 @@ public class LucidityRenderUtils {
     }
     public static void renderBox(PoseStack poseStack, AABB aABB, float f, float g, float h, float i) {
 
-        //? if >=1.21.5 {
-        RenderType renderType = RenderType.translucent();
-        //?} else if >=1.21.3 {
+        //? if >= 1.21.6 {
+
+        RenderType renderType = RenderType.translucentMovingBlock();
+        //?} else if >=1.21.6 {
+        /*RenderType renderType = RenderType.translucent();
+        *///?} else if >=1.21.3 {
         /*RenderSystem.setShader(CoreShaders.POSITION_COLOR);
         *///?} else {
         /*RenderSystem.setShader(GameRenderer::getPositionColorShader);
