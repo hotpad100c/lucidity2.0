@@ -15,11 +15,18 @@ import ml.mypals.lucidity.gui.LucidityGuiConfigs;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 
+import static ml.mypals.lucidity.LucidityModInfo.MOD_ID;
 import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class HotkeyCallbacks {
+    //? if >=1.21.9 {
+    static KeyMapping.Category SELECTIVE_RENDERING = KeyMapping.Category.register(
+            ResourceLocation.fromNamespaceAndPath(MOD_ID,"category.selective_renderings")
+    );
+    //?}
     public static KeyMapping addArea;
     public static KeyMapping switchRenderMode;
     public static KeyMapping deleteArea;
@@ -48,19 +55,31 @@ public class HotkeyCallbacks {
             "key.selective_renderings.addSelection",
             InputConstants.Type.KEYSYM,
             GLFW_KEY_EQUAL,
-            "category.selective_renderings"
+            //? if >=1.21.9 {
+            SELECTIVE_RENDERING
+            //?} else {
+            /*"category.selective_renderings"
+            *///?}
         ));
         switchRenderMode = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.selective_renderings.renderingMode",
                 InputConstants.Type.KEYSYM,
                 GLFW_KEY_LEFT_ALT,
-                "category.selective_renderings"
+                //? if >=1.21.9 {
+                SELECTIVE_RENDERING
+                //?} else {
+                /*"category.selective_renderings"
+                 *///?}
         ));
         deleteArea = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.selective_renderings.removeSelection",
                 InputConstants.Type.KEYSYM,
                 GLFW_KEY_MINUS,
-                "category.selective_renderings"
+                //? if >=1.21.9 {
+                SELECTIVE_RENDERING
+                //?} else {
+                /*"category.selective_renderings"
+                 *///?}
         ));
     }
     public static class Callbacks implements IHotkeyCallback {

@@ -4,12 +4,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.FallingBlockRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.level.block.FallingBlock;
 //?}
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -31,12 +34,18 @@ import static ml.mypals.lucidity.features.fallingBlockPreview.FallingBlockPredic
 public class FallingBlockEntityRendererMixin {
     @Shadow @Final private BlockRenderDispatcher dispatcher;
 
-    //? if >=1.21.3 {
-    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/FallingBlockRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    //? if >=1.21.9 {
+    @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/FallingBlockRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+            at = @At(target = "Lnet/minecraft/client/renderer/SubmitNodeCollector;submitMovingBlock(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/block/MovingBlockRenderState;)V",
+                    value = "TAIL"))
+    public void render(FallingBlockRenderState fallingBlockRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
+
+    //?} else if >=1.21.3 {
+    /*@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/FallingBlockRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                     value = "TAIL"))
     public void render(FallingBlockRenderState fallingBlockRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
+    *///?} else {
     /*@Inject(method = "render(Lnet/minecraft/world/entity/item/FallingBlockEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                     value = "TAIL"))
@@ -45,7 +54,11 @@ public class FallingBlockEntityRendererMixin {
 
         if(Minecraft.getInstance().level == null || !FALLING_BLOCK_PREVIEW.getBooleanValue()) return;
         //? if >=1.21.3 {
-        BlockState blockState = fallingBlockRenderState.blockState;
+        //? if >=1.21.9 {
+        BlockState blockState = fallingBlockRenderState.movingBlockRenderState.blockState;
+        //?} else {
+        /*BlockState blockState = fallingBlockRenderState.blockState;
+        *///?}
         BlockPos predictLandingPos = predictLandingPos(
                 Minecraft.getInstance().level,
                 fallingBlockRenderState.x,
@@ -77,11 +90,13 @@ public class FallingBlockEntityRendererMixin {
             poseStack.translate(offsetX, offsetY, offsetZ);
             poseStack.scale(1.001f, 1.001f, 1.001f);
 
+            //? if >=1.21.9 {
+            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.translucentMovingBlock());
             //? if >=1.21.6 {
-            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
-            *///?} else {
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
-            //?}
+            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
+            //?} else {
+            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+            *///?}
 
             this.dispatcher.getModelRenderer().tesselateBlock(
                     Minecraft.getInstance().level,
@@ -99,7 +114,7 @@ public class FallingBlockEntityRendererMixin {
                     /*RandomSource.create(),
                     blockState.getSeed(predictLandingPos),
                     *///?}
-                    i);
+                    LightTexture.FULL_BLOCK);
             poseStack.popPose();
         }
     }

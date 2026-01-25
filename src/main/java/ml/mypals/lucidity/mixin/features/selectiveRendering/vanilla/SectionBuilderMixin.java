@@ -26,7 +26,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+//? if >=1.21.5 {
 import net.minecraft.client.renderer.block.model.BlockModelPart;
+//?}
 import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;

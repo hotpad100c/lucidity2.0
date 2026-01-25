@@ -45,15 +45,15 @@ public abstract class BookViewScreenMixin extends Screen {
         Component outputText = Component.literal(component.getString()).append(Component.literal("(C: " + result + ")").withStyle(ChatFormatting.GOLD));
         int length = this.font.width(outputText);
         //? if >=1.21.6 {
-        /*context.drawString(font, outputText, width - length + 192 - 44, j, k, bl);
+        context.drawString(font, outputText, width - length + 192 - 44, j, k, bl);
         return 1;
-        *///?} else {
-        return context.drawString(font, outputText, width - length + 192 - 44, j, k, bl);
-        //?}
+        //?} else {
+        /*return context.drawString(font, outputText, width - length + 192 - 44, j, k, bl);
+        *///?}
     }
 
     //? if >=1.21.6 {
-    /*@WrapOperation(method = "render",at = @At(target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",value = "INVOKE"))
+    @WrapOperation(method = "render",at = @At(target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",value = "INVOKE"))
     private void render(GuiGraphics instance, Font font, Component component, int i, int j, int k, boolean bl, Operation<Void> original) {
         if (!CONTAINER_SIGNAL_PREVIEW.getBooleanValue()) {
             original.call(instance, font, component, i, j, k, bl);
@@ -61,8 +61,8 @@ public abstract class BookViewScreenMixin extends Screen {
             renderComparatorOutput(instance,font, component,i, j,k,bl);
         }
     }
-    *///?} else {
-    @WrapOperation(method = "render",at = @At(target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)I",value = "INVOKE"))
+    //?} else {
+    /*@WrapOperation(method = "render",at = @At(target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)I",value = "INVOKE"))
     private int render(GuiGraphics instance, Font font, Component component, int i, int j, int k, boolean bl, Operation<Integer> original) {
         if (!CONTAINER_SIGNAL_PREVIEW.getBooleanValue()) {
             return original.call(instance, font, component, i, j, k, bl);
@@ -70,6 +70,6 @@ public abstract class BookViewScreenMixin extends Screen {
             return renderComparatorOutput(instance,font, component,i, j,k,bl);
         }
     }
-    //?}
+    *///?}
 
 }

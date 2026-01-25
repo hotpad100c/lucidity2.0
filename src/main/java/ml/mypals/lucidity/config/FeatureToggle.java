@@ -61,6 +61,11 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
 
     private boolean enabled = false;
 
+    //? if >=1.21.9 {
+    private boolean dirty = false;
+    //?}
+
+
     FeatureToggle(String name, boolean enabled, boolean singlePlayerOnly)
     {
         this(name,enabled,singlePlayerOnly,"",(iConfigBoolean)->{});
@@ -145,6 +150,32 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     public void setComment(String s) {
         this.description = s;
     }
+
+    //? if >=1.21.9 {
+    @Override
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    @Override
+    public void markDirty() {
+        this.dirty = true;
+    }
+
+    @Override
+    public void markClean() {
+        this.dirty = false;
+    }
+
+    @Override
+    public void checkIfClean() {
+        if (this.isDirty())
+        {
+            this.markClean();
+            this.onValueChanged();
+        }
+    }
+    //?}
 
     @Override
     public void setValueFromJsonElement(JsonElement jsonElement) {

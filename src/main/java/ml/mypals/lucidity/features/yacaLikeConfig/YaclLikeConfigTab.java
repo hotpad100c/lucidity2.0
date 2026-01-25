@@ -4,7 +4,9 @@ import fi.dy.masa.malilib.gui.button.ButtonGeneric;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
+//? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
+//?}
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -20,15 +22,15 @@ public class YaclLikeConfigTab extends ButtonGeneric {
 
     @Override
     //? if >=1.21.6 {
-    /*public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
-    *///?} else {
-    public void render(int mouseX, int mouseY, boolean selected, GuiGraphics drawContext) {
-    //?}
+    public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
+    //?} else {
+    /*public void render(int mouseX, int mouseY, boolean selected, GuiGraphics drawContext) {
+    *///?}
         if (this.visible) {
             boolean yacaStyle = YACL_STYLE.getBooleanValue();
             this.renderDefaultBackground = !yacaStyle;
             if(yacaStyle) {
-                drawContext.blitSprite(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/
+                drawContext.blitSprite(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/
                         SPRITES.get(!this.enabled, this.hovered), this.getX(),
                         this.getY() - 2, this.width, this.height);
                 if (!this.enabled) {
@@ -36,10 +38,10 @@ public class YaclLikeConfigTab extends ButtonGeneric {
                 }
             }
             //? if >=1.21.6 {
-            /*super.render(drawContext, mouseX, mouseY, selected);
-            *///?} else {
-            super.render(mouseX, mouseY, selected, drawContext);
-            //?}
+            super.render(drawContext, mouseX, mouseY, selected);
+            //?} else {
+            /*super.render(mouseX, mouseY, selected, drawContext);
+            *///?}
         }
     }
 
