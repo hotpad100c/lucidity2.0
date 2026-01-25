@@ -38,10 +38,8 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     private static final int NAVBAR_MARGIN = 28;
 
     @Unique
-    private static final int BUTTON_TOP_Y = 26; // 按钮的 Y 坐标
+    private static final int BUTTON_TOP_Y = 26;
 
-    @Unique
-    private int lucidity$originalButtonX = -1; // 存储按钮的原始 X 坐标
 
 
 
@@ -183,17 +181,11 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
         this.lucidity$scrollOffset = Math.max(0, Math.min(offset, this.lucidity$maxScrollOffset));
     }
 
-    /**
-     * 绘制滚动指示箭头
-     */
     @Unique
     private void lucidity$drawScrollIndicators(GuiGraphics drawContext, int screenWidth) {
-        // 右侧箭头
         if (this.lucidity$scrollOffset < this.lucidity$maxScrollOffset - NAVBAR_MARGIN) {
             this.drawString(drawContext, "→", screenWidth - 15, BUTTON_TOP_Y - 6, 0xFFFFFFFF);
         }
-
-        // 左侧箭头
         if (this.lucidity$scrollOffset > NAVBAR_MARGIN) {
             this.drawString(drawContext, "←", 5, BUTTON_TOP_Y - 6, 0xFFFFFFFF);
         }

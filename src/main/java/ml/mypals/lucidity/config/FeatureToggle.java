@@ -43,7 +43,6 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     FALLING_BLOCK_PREVIEW("falling_block_preview",false),
     SOUND_VISUALIZE("sound_visualize",false),
     BLOCK_EVENT_VISUALIZE("block_event_visualize",false),
-    VOID_ALARM("void_alarm",false,true),
     MOB_SPAWN_VISUALIZE("mob_spawn_visualize",false,true),
     INVISIBLE_ENTITY_OVERRIDE("invisible_entity_transparency_override",false),
     MICROTIMING_MARKER_VISUALIZER("carpet_tis_microtiming_visual_enhance",false);

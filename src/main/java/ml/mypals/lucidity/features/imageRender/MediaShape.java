@@ -56,7 +56,7 @@ public class MediaShape extends Shape implements EmptyMesh {
     private static final Function<ResourceLocation, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
         MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
-        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, TriState.DEFAULT, false)).createCompositeState(false)));
+        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*?if<1.21.6{*//*, TriState.DEFAULT*//*?}*/, false)).createCompositeState(false)));
     }
     //?}
 
@@ -226,31 +226,28 @@ public class MediaShape extends Shape implements EmptyMesh {
                 DefaultVertexFormat.POSITION_TEX_COLOR
         );
 
-        RenderSystem.setShaderColor(
-                (float) this.baseColor.getRed() / 255.0F,
-                (float) this.baseColor.getGreen() / 255.0F,
-                (float) this.baseColor.getBlue() / 255.0F,
-                (float) this.baseColor.getAlpha() / 255.0F
-        );
+
 
         bufferBuilder.addVertex(builder.getPositionMatrix(),
                         (float) model_vertexes.get(0).x, (float) model_vertexes.get(0).y, (float) model_vertexes.get(0).z)
-                .setColor(255, 255, 255, 255).setUv(0.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
+                .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(0.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
                         (float) model_vertexes.get(1).x, (float) model_vertexes.get(1).y, (float) model_vertexes.get(1).z)
-                .setColor(255, 255, 255, 255).setUv(1.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
+                .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(1.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
                         (float) model_vertexes.get(2).x, (float) model_vertexes.get(2).y, (float) model_vertexes.get(2).z)
-                .setColor(255, 255, 255, 255).setUv(1.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
+                .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(1.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
                         (float) model_vertexes.get(3).x, (float) model_vertexes.get(3).y, (float) model_vertexes.get(3).z)
-                .setColor(255, 255, 255, 255).setUv(0.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
+                .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(0.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
 
 
-        //? if >=1.21.5 {
+        //?if>=1.21.6{
+        RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
+        //?}else if >=1.21.5 {
         //RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
-        RenderType renderType = RenderType.guiTextured(currentTextureId);
-        //?} else {
+        /*RenderType renderType = RenderType.guiTextured(currentTextureId);
+        *///?} else {
         
         /*RenderSystem.setShaderTexture(0, currentTextureId);
         //? if >=1.21.3 {
@@ -268,7 +265,6 @@ public class MediaShape extends Shape implements EmptyMesh {
         //?} else {
         /*BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         *///?}
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager._enableCull();
         if (this.seeThrough) GlStateManager._enableDepthTest();
     }

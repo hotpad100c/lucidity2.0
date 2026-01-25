@@ -60,8 +60,6 @@
     "features.visualizers.vaultItemDisplay.TrialSpawnerBlockEntityRendererMixin",
     "features.visualizers.vaultItemDisplay.VaultBlockEntityRendererMixin",
     "features.visualizers.witherDestructionRange.WitherEntityRendererMixin",
-    "features.voidAlarm.vanilla.SectionCompilerMixin",
-    "features.voidAlarm.vanilla.SectionMixin",
     "features.worldEatwrMineHelper.fabric.TerrainRenderContextMixin",
     "features.worldEatwrMineHelper.vanilla.BlockEntityRenderDispatcherMixin",
     "features.worldEatwrMineHelper.vanilla.FluidRendererMixin",
