@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,6 @@ public abstract class NaturalSpawnerMixin {
     private static boolean spawning = false;
     @Unique
     private static final ThreadLocal<SpawnTrace> CURRENT_TRACE = ThreadLocal.withInitial(SpawnTrace::new);
-
 
     @Inject(method =
             "spawnCategoryForChunk(Lnet/minecraft/world/entity/MobCategory;" +

@@ -23,10 +23,10 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class HotkeyCallbacks {
     //? if >=1.21.9 {
-    static KeyMapping.Category SELECTIVE_RENDERING = KeyMapping.Category.register(
+    /*static KeyMapping.Category SELECTIVE_RENDERING = KeyMapping.Category.register(
             ResourceLocation.fromNamespaceAndPath(MOD_ID,"category.selective_renderings")
     );
-    //?}
+    *///?}
     public static KeyMapping addArea;
     public static KeyMapping switchRenderMode;
     public static KeyMapping deleteArea;
@@ -56,30 +56,30 @@ public class HotkeyCallbacks {
             InputConstants.Type.KEYSYM,
             GLFW_KEY_EQUAL,
             //? if >=1.21.9 {
-            SELECTIVE_RENDERING
-            //?} else {
-            /*"category.selective_renderings"
-            *///?}
+            /*SELECTIVE_RENDERING
+            *///?} else {
+            "category.selective_renderings"
+            //?}
         ));
         switchRenderMode = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.selective_renderings.renderingMode",
                 InputConstants.Type.KEYSYM,
                 GLFW_KEY_LEFT_ALT,
                 //? if >=1.21.9 {
-                SELECTIVE_RENDERING
-                //?} else {
-                /*"category.selective_renderings"
-                 *///?}
+                /*SELECTIVE_RENDERING
+                *///?} else {
+                "category.selective_renderings"
+                 //?}
         ));
         deleteArea = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.selective_renderings.removeSelection",
                 InputConstants.Type.KEYSYM,
                 GLFW_KEY_MINUS,
                 //? if >=1.21.9 {
-                SELECTIVE_RENDERING
-                //?} else {
-                /*"category.selective_renderings"
-                 *///?}
+                /*SELECTIVE_RENDERING
+                *///?} else {
+                "category.selective_renderings"
+                 //?}
         ));
     }
     public static class Callbacks implements IHotkeyCallback {

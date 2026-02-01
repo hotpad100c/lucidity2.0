@@ -21,7 +21,7 @@ public abstract class SculkShriekerBlockMixin extends BaseEntityBlock implements
     }
     @WrapMethod(method = "getTicker")
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType, Operation<BlockEntityTicker<T>> original) {
-        return !level.isClientSide ?original.call(level,blockState,blockEntityType):
+        return !level.isClientSide() ?original.call(level,blockState,blockEntityType):
             createTickerHelper(
                 blockEntityType, //Custom ticker if its client-side
                 BlockEntityType.SCULK_SHRIEKER,

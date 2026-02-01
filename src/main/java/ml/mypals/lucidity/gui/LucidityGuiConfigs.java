@@ -8,12 +8,12 @@ import fi.dy.masa.malilib.gui.button.ButtonGeneric;
 import fi.dy.masa.malilib.gui.button.IButtonActionListener;
 import ml.mypals.lucidity.LucidityModInfo;
 import ml.mypals.lucidity.config.*;
-import ml.mypals.lucidity.features.yacaLikeConfig.YaclLikeConfigTab;
+import ml.mypals.lucidity.features.yaclLikeConfig.YaclLikeConfigTab;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 //? if >=1.21.6 {
-import net.minecraft.client.renderer.RenderPipelines;
-//?}
+/*import net.minecraft.client.renderer.RenderPipelines;
+*///?}
 import net.minecraft.client.renderer.RenderType;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,12 +57,12 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
             this.renderPanorama(guiGraphics, f);
         }
         //? if <1.21.6 {
-        /*this.renderBlurredBackground(/^? if <=1.21.1 {^//^f^//^?}^/);
-        *///?}
+        this.renderBlurredBackground(/*? if <=1.21.1 {*//*f*//*?}*/);
+        //?}
         this.renderMenuBackground(guiGraphics);
-        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
 
-        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
     }
     @Override
     public void initGui()

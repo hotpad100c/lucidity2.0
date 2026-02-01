@@ -1,10 +1,10 @@
 package ml.mypals.lucidity.features.imageRender;
 
 //? if >=1.21.5 {
-import com.mojang.blaze3d.opengl.GlStateManager;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
-*///?}
+/*import com.mojang.blaze3d.opengl.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
+//?}
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -24,8 +24,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 //? if >=1.21.5 {
-import net.minecraft.util.TriState;
-//?}
+/*import net.minecraft.util.TriState;
+*///?}
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -46,19 +46,19 @@ import java.util.function.Function;
 import static ml.mypals.lucidity.LucidityModInfo.MOD_ID;
 import static ml.mypals.lucidity.config.ImageRendererConfigs.*;
 //? if >=1.21.5 {
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+/*import com.mojang.blaze3d.pipeline.RenderPipeline;
 import static net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED_SNIPPET;
-//?}
+*///?}
 public class MediaShape extends Shape implements EmptyMesh {
 
     //? >=1.21.5 {
-    public static final RenderPipeline MEDIA_SHAPE_TEXTURE;
+    /*public static final RenderPipeline MEDIA_SHAPE_TEXTURE;
     private static final Function<ResourceLocation, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
         MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
-        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*? if <1.21.6 {*//*, TriState.DEFAULT*//*?}*/, false)).createCompositeState(false)));
+        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/^? if <1.21.6 {^/, TriState.DEFAULT/^?}^/, false)).createCompositeState(false)));
     }
-    //?}
+    *///?}
 
 
     private MediaData mediaData;
@@ -243,27 +243,27 @@ public class MediaShape extends Shape implements EmptyMesh {
 
 
         //? if >=1.21.6 {
-        RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
-        //?} else if >=1.21.5 {
+        /*RenderType renderType = MEDIA_SHAPE_RENDER_TYPE.apply(currentTextureId);
+        *///?} else if >=1.21.5 {
         /*RenderType renderType = RenderType.guiTextured(currentTextureId);
         *///?} else {
         
-        /*RenderSystem.setShaderTexture(0, currentTextureId);
+        RenderSystem.setShaderTexture(0, currentTextureId);
         //? if >=1.21.3 {
         RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         //?} else {
-        /^RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        ^///?}
+        /*RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         *///?}
+        //?}
         GlStateManager._enableDepthTest();
         if (this.seeThrough) GlStateManager._disableDepthTest();
         GlStateManager._disableCull();
 
         //? if >=1.21.5 {
-        renderType.draw(bufferBuilder.buildOrThrow());
-        //?} else {
-        /*BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
-        *///?}
+        /*renderType.draw(bufferBuilder.buildOrThrow());
+        *///?} else {
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+        //?}
         GlStateManager._enableCull();
         if (this.seeThrough) GlStateManager._enableDepthTest();
     }

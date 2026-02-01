@@ -14,10 +14,10 @@ import net.caffeinemc.mods.sodium.client.render.chunk.translucent_sorting.Transl
 import net.caffeinemc.mods.sodium.client.world.LevelSlice;
 import net.minecraft.client.renderer.chunk.VisGraph;
 //? if >=1.21.5 {
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-//?} else {
-/*import net.minecraft.client.resources.model.BakedModel;
- *///?}
+/*import net.minecraft.client.renderer.block.model.BlockStateModel;
+*///?} else {
+import net.minecraft.client.resources.model.BakedModel;
+ //?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,7 +46,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
         }
     }
     //? if >=1.21.5 {
-    @WrapOperation(
+    /*@WrapOperation(
             method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lnet/caffeinemc/mods/sodium/client/util/task/CancellationToken;)Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;",
             at = @At(
                     value = "INVOKE",
@@ -59,8 +59,8 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             original.call(instance, type, blockState, model, state);
         }
     }
-    //?} else {
-    /*@WrapOperation(
+    *///?} else {
+    @WrapOperation(
             method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lnet/caffeinemc/mods/sodium/client/util/task/CancellationToken;)Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;",
             at = @At(
                     value = "INVOKE",
@@ -73,7 +73,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             original.call(instance, type, blockState, model, state);
         }
     }
-    *///?}
+    //?}
 
     @WrapOperation(
             method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;" +

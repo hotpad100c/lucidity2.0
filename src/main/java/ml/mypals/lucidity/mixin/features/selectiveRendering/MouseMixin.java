@@ -22,7 +22,11 @@ public class MouseMixin {
     @Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
     private void injectOnMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
 
+        //? if >= 1.21.9 {
+        /*if (window == this.minecraft.getWindow().handle()) {
+        *///?} else {
         if (window == this.minecraft.getWindow().getWindow()) {
+        //?}
             if (this.minecraft.player != null) {
                 ItemStack mainHand = this.minecraft.player.getMainHandItem();
                 if (((mainHand.is(wand) || (this.minecraft.player.isSpectator())) && switchRenderMode.isDown())) {

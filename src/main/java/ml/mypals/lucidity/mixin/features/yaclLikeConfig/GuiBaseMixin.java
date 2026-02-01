@@ -7,20 +7,10 @@ import fi.dy.masa.malilib.gui.button.ButtonBase;
 import fi.dy.masa.malilib.gui.button.IButtonActionListener;
 import fi.dy.masa.malilib.gui.interfaces.IMessageConsumer;
 import fi.dy.masa.malilib.interfaces.IStringConsumer;
-import ml.mypals.lucidity.features.yacaLikeConfig.YaclLikeConfigTab;
-import net.minecraft.client.gui.GuiGraphics;
+import ml.mypals.lucidity.features.yaclLikeConfig.YaclLikeConfigTab;
 import net.minecraft.client.gui.screens.Screen;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.network.chat.Component;
-
-import java.util.List;
 
 import static ml.mypals.lucidity.config.LucidityConfigs.Other.YACL_STYLE;
 

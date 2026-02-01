@@ -147,7 +147,7 @@ public class GIFHandler {
                 identifiers.add(frameIdentifier);
 
                 Minecraft.getInstance().execute(() -> {
-                    textureManager.register(frameIdentifier, new DynamicTexture(/*? if >=1.21.5 {*/frameIdentifier::toLanguageKey,/*?}*/nativeImage));
+                    textureManager.register(frameIdentifier, new DynamicTexture(/*? if >=1.21.5 {*//*frameIdentifier::toLanguageKey,*//*?}*/nativeImage));
                 });
 
                 prevDisposal = disposalMethod;
