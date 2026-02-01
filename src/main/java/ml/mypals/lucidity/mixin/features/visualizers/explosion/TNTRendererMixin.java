@@ -8,9 +8,9 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
-*///?}
+//?}
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
@@ -40,17 +40,17 @@ public abstract class TNTRendererMixin extends EntityRenderer<PrimedTnt, TntRend
         super(context);
     }
     //? if >=1.21.9 {
-    /*@Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/TntRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+    @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/TntRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
             at = @At("TAIL")
     )
     public void render(TntRenderState tntRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
-    *///?} else {
-    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/TntRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    //?} else {
+    /*@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/TntRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("TAIL")
     )
     public void render(TntRenderState tntRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource,
                        int i, CallbackInfo ci) {
-    //?}
+    *///?}
 //?} else {
 /*public abstract class TNTRendererMixin extends EntityRenderer<PrimedTnt> {
     protected TNTRendererMixin(EntityRendererProvider.Context context) {
@@ -67,10 +67,10 @@ public abstract class TNTRendererMixin extends EntityRenderer<PrimedTnt, TntRend
 
             poseStack.translate(0, 1.1f, 0);
             //? if >=1.21.9 {
-            /*poseStack.mulPose(cameraRenderState.orientation);
-            *///?} else {
-            poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            //?}
+            poseStack.mulPose(cameraRenderState.orientation);
+            //?} else {
+            /*poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+            *///?}
             poseStack.scale(0.025F, -0.025F, 0.025F);
             //? if >=1.21.3 {
             float time = tntRenderState.fuseRemainingInTicks;
@@ -84,11 +84,11 @@ public abstract class TNTRendererMixin extends EntityRenderer<PrimedTnt, TntRend
             float f = (float)(-font.width(component)) / 2.0F;
             int k = (int)(Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
             //? if >=1.21.9 {
-            /*submitNodeCollector.submitNameTag(poseStack, new Vec3(0,1.1,0), 0, component, !tntRenderState.isDiscrete, tntRenderState.lightCoords, tntRenderState.distanceToCameraSq, cameraRenderState);
-            *///?} else {
-            font.drawInBatch(component, f, (float)0, -2130706433, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
-            font.drawInBatch(component, f, (float)0, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, LightTexture./*? if >=1.21.3 {*/lightCoordsWithEmission(i, 2)/*?} else {*//*block(i)*//*?}*/);
-            //?}
+            submitNodeCollector.submitNameTag(poseStack, new Vec3(0,1.1,0), 0, component, !tntRenderState.isDiscrete, tntRenderState.lightCoords, tntRenderState.distanceToCameraSq, cameraRenderState);
+            //?} else {
+            /*font.drawInBatch(component, f, (float)0, -2130706433, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
+            font.drawInBatch(component, f, (float)0, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, LightTexture./^? if >=1.21.3 {^/lightCoordsWithEmission(i, 2)/^?} else {^//^block(i)^//^?}^/);
+            *///?}
             poseStack.popPose();
         }
     }

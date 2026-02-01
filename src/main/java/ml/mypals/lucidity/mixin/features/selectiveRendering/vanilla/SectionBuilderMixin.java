@@ -27,8 +27,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 //? if >=1.21.5 {
-/*import net.minecraft.client.renderer.block.model.BlockModelPart;
-*///?}
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+//?}
 import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
@@ -54,22 +54,22 @@ public class SectionBuilderMixin {
     }
     //? if >=1.21.5 {
 
-    /*@WrapOperation(method = "compile", at = @At(value = "INVOKE",
+    @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLjava/util/List;)V"))
     public void onBuilBlock(
             BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, List<BlockModelPart> list, Operation<Void> original) {
         if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos)) {
             original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
         }
-        *///?} else {
-    @WrapOperation(method = "compile", at = @At(value = "INVOKE",
+        //?} else {
+    /*@WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"))
     public void onBuilBlock(
             BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, RandomSource randomSource, Operation<Void> original) {
      if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos)) {
             original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, randomSource);
         }
-    //?}
+    *///?}
 
     }
 

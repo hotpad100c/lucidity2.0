@@ -6,9 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.CreeperModel;
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?}
+//?}
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.*;
@@ -40,14 +40,14 @@ public abstract class CreeperRendererMixin extends MobRenderer<Creeper,/*? if >=
         super(context, entityModel, f);
     }
     //? if >=1.21.9 {
-    /*@Override
+    @Override
     public void submit(@NotNull CreeperRenderState creeperRenderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
         super.submit(creeperRenderState, poseStack, submitNodeCollector, cameraRenderState);
-    *///?} else if >=1.21.3 {
-    @Override
+    //?} else if >=1.21.3 {
+    /*@Override
     public void render(@NotNull CreeperRenderState creeperRenderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         super.render(creeperRenderState, poseStack, multiBufferSource, i);
-    //?} else {
+    *///?} else {
 
     /*@Override
     public void render(@NotNull Creeper creeperRenderState, float e, float g, @NotNull PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
@@ -64,10 +64,10 @@ public abstract class CreeperRendererMixin extends MobRenderer<Creeper,/*? if >=
             *///?}
 
             //? if >=1.21.9 {
-            /*poseStack.mulPose(cameraRenderState.orientation);
-            *///?} else {
-            poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            //?}
+            poseStack.mulPose(cameraRenderState.orientation);
+            //?} else {
+            /*poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+            *///?}
             poseStack.scale(0.025F, -0.025F, 0.025F);
 
             //? if >=1.21.3 {
@@ -84,11 +84,11 @@ public abstract class CreeperRendererMixin extends MobRenderer<Creeper,/*? if >=
                 int k = (int) (Minecraft.getInstance().options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
 
                 //? if >=1.21.9 {
-                /*submitNodeCollector.submitNameTag(poseStack, new Vec3(0,creeperRenderState.eyeHeight+0.5,0), 0, component, !creeperRenderState.isDiscrete, creeperRenderState.lightCoords, creeperRenderState.distanceToCameraSq, cameraRenderState);
-                *///?} else {
-                font.drawInBatch(component, f, (float) 0, -2130706433, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
-                font.drawInBatch(component, f, (float) 0, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, LightTexture./*? if >=1.21.3 {*/lightCoordsWithEmission(i, 2)/*?} else {*//*block(i)*//*?}*/);
-                //?}
+                submitNodeCollector.submitNameTag(poseStack, new Vec3(0,creeperRenderState.eyeHeight+0.5,0), 0, component, !creeperRenderState.isDiscrete, creeperRenderState.lightCoords, creeperRenderState.distanceToCameraSq, cameraRenderState);
+                //?} else {
+                /*font.drawInBatch(component, f, (float) 0, -2130706433, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
+                font.drawInBatch(component, f, (float) 0, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, LightTexture./^? if >=1.21.3 {^/lightCoordsWithEmission(i, 2)/^?} else {^//^block(i)^//^?}^/);
+                *///?}
             }
             poseStack.popPose();
         }

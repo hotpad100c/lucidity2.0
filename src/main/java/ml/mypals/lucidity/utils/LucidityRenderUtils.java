@@ -1,17 +1,17 @@
 package ml.mypals.lucidity.utils;
 //? if >=1.21.5 {
-/*import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.opengl.GlStateManager;
-*///?} else {
-import com.mojang.blaze3d.platform.GlStateManager;
+//?} else {
+/*import com.mojang.blaze3d.platform.GlStateManager;
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.CoreShaders;
 //?}
 import com.mojang.blaze3d.systems.RenderSystem;
-//?}
+*///?}
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.AABB;
@@ -24,12 +24,12 @@ public class LucidityRenderUtils {
 
         //? if >= 1.21.6 {
 
-        /*RenderType renderType = RenderType.translucentMovingBlock();
-        *///?} else if >=1.21.5 {
+        RenderType renderType = RenderType.translucentMovingBlock();
+        //?} else if >=1.21.5 {
         /*RenderType renderType = RenderType.translucent();
         *///?} else if >=1.21.3 {
-        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
-        //?} else {
+        /*RenderSystem.setShader(CoreShaders.POSITION_COLOR);
+        *///?} else {
         /*RenderSystem.setShader(GameRenderer::getPositionColorShader);
         *///?}
         Tesselator tessellator = Tesselator.getInstance();
@@ -42,10 +42,10 @@ public class LucidityRenderUtils {
             GlStateManager._polygonOffset(1,1);
 
             //? if >=1.21.5 {
-            /*renderType.draw(builtBuffer);
-            *///?} else {
-            BufferUploader.drawWithShader(builtBuffer);
-            //?}
+            renderType.draw(builtBuffer);
+            //?} else {
+            /*BufferUploader.drawWithShader(builtBuffer);
+            *///?}
             GlStateManager._disableBlend();
             builtBuffer.close();
         }catch (Exception ignored) {

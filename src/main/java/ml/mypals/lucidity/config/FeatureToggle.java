@@ -62,8 +62,8 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     private boolean enabled = false;
 
     //? if >=1.21.9 {
-    /*private boolean dirty = false;
-    *///?}
+    private boolean dirty = false;
+    //?}
 
 
     FeatureToggle(String name, boolean enabled, boolean singlePlayerOnly)
@@ -152,7 +152,7 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     }
 
     //? if >=1.21.9 {
-    /*@Override
+    @Override
     public boolean isDirty() {
         return dirty;
     }
@@ -175,7 +175,7 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
             this.onValueChanged();
         }
     }
-    *///?}
+    //?}
 
     @Override
     public void setValueFromJsonElement(JsonElement jsonElement) {
