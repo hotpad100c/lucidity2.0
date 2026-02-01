@@ -5,11 +5,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.FeatureToggle;
 import net.minecraft.client.Minecraft;
 //? if >=1.21.5 {
-import net.minecraft.client.renderer.MultiBufferSource;
+/*import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
-//?}
+*///?}
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.ShapeRenderer;
 //?}
@@ -52,7 +52,7 @@ public abstract class EntityRendererMixin {
         return null;
     }
     //? if >=1.21.5 {
-    @Unique
+    /*@Unique
     public ThreadLocal<Entity> targetEntity = ThreadLocal.withInitial(() -> null);
 
     @Inject(at = @At("HEAD"), method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/EntityRenderer;)V")
@@ -63,13 +63,13 @@ public abstract class EntityRendererMixin {
     private void renderHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState, MultiBufferSource multiBufferSource, CallbackInfo ci) {
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.lines());
         float f = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();
-    //?} else {
-    /*@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
+    *///?} else {
+    @Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity target, float f, float g, float h, float i, CallbackInfo ci) {
-    *///?}
+    //?}
         //? if >=1.21.5 {
-        Entity target = targetEntity.get();
-        //?}
+        /*Entity target = targetEntity.get();
+        *///?}
         if (target != null && FeatureToggle.BODY_YAW.getBooleanValue() && Minecraft.getInstance().getCameraEntity() != null && !target.is(Minecraft.getInstance().getCameraEntity())) {
 
             Entity serverEntity = getServerSideEntity(target);

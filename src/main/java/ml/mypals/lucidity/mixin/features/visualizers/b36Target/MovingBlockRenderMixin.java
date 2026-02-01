@@ -13,10 +13,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.PistonHeadRenderer;
 //? if >=1.21.5 {
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-//?} else {
-/*import net.minecraft.client.resources.model.BakedModel;
- *///?}
+/*import net.minecraft.client.renderer.block.model.BlockStateModel;
+*///?} else {
+import net.minecraft.client.resources.model.BakedModel;
+ //?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -43,21 +43,21 @@ public abstract class MovingBlockRenderMixin {
     @Shadow @Final private BlockRenderDispatcher blockRenderer;
 
     //? if >=1.21.5 {
-    @Inject(
+    /*@Inject(
             method = "render(Lnet/minecraft/world/level/block/piston/PistonMovingBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/world/phys/Vec3;)V",
             at = @At("TAIL")
     )private void renderPreviewBlock(
             PistonMovingBlockEntity piston, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, Vec3 vec3, CallbackInfo ci
     )
-    //?} else {
-    /*@Inject(
+    *///?} else {
+    @Inject(
             method = "render(Lnet/minecraft/world/level/block/piston/PistonMovingBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V",
             at = @At("TAIL")
     )private void renderPreviewBlock(
             PistonMovingBlockEntity piston, float f,
             PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci
     )
-    *///?}
+    //?}
      {
 
         if(!B36_TARGET_PREVIEW.getBooleanValue()) return;
@@ -92,18 +92,18 @@ public abstract class MovingBlockRenderMixin {
         if(renderAdditional){
             renderAdditional = false;
             //? if >=1.21.6 {
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
-            //?} else {
-            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
-             *///?}
+            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
+            *///?} else {
+            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+             //?}
             poseStack.scale(1.001f,1.001f,1.001f);
             //? if >=1.21.5 {
-            assert Minecraft.getInstance().level != null;
+            /*assert Minecraft.getInstance().level != null;
             this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(blockState).collectParts(Minecraft.getInstance().level.getRandom()), blockState, blockPos, poseStack, new TransparentVertexConsumer(consumer) , true, i);
 
-            //?} else {
-            /*this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(blockState), blockState, blockPos, poseStack, new TransparentVertexConsumer(consumer) , true, Minecraft.getInstance().level.getRandom(), blockState.getSeed(blockPos), i);
-            *///?}
+            *///?} else {
+            this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(blockState), blockState, blockPos, poseStack, new TransparentVertexConsumer(consumer) , true, Minecraft.getInstance().level.getRandom(), blockState.getSeed(blockPos), i);
+            //?}
         }else {
             original.call(blockPos, blockState, poseStack, multiBufferSource, level, bl, i);
         }

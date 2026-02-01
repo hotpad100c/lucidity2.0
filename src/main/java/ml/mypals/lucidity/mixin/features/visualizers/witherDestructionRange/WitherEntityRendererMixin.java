@@ -1,21 +1,21 @@
 package ml.mypals.lucidity.mixin.features.visualizers.witherDestructionRange;
 
 //? if >=1.21.5 {
-import com.mojang.blaze3d.opengl.GlStateManager;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
-*///?}
+/*import com.mojang.blaze3d.opengl.GlStateManager;
+*///?} else {
+import com.mojang.blaze3d.platform.GlStateManager;
+//?}
 import com.mojang.blaze3d.vertex.PoseStack;
-import fi.dy.masa.malilib.util.data.Color4f;
+import fi.dy.masa.malilib.util.Color4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.WitherBossModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
 //? if >=1.21.9 {
-import net.minecraft.client.renderer.SubmitNodeCollector;
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
-//?}
+*///?}
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 //? if >=1.21.3 {
@@ -42,14 +42,14 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
         super(context, entityModel, f);
     }
     //? if >=1.21.9 {
-    @Override
+    /*@Override
     public void submit(@NotNull WitherRenderState witherRenderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
         super.submit(witherRenderState, poseStack, submitNodeCollector, cameraRenderState);
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public void render(@NotNull WitherRenderState witherRenderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         super.render(witherRenderState, poseStack, multiBufferSource, i);
-    *///?}
+    //?}
 //?} else {
 /*public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, WitherBossModel<WitherBoss>> {
     public WitherEntityRendererMixin(EntityRendererProvider.Context context, WitherBossModel<WitherBoss> entityModel, float f) {
@@ -66,8 +66,8 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
             AABB destructionBox = getDestructionBox(witherRenderState);
             Color4f color = WITHER_DESTRUCTION_RANGE_COLOR.getColor();
             //? if >=1.21.9 {
-            MultiBufferSource multiBufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-            //?}
+            /*MultiBufferSource multiBufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+            *///?}
             renderBox(poseStack,multiBufferSource.getBuffer(RenderType.debugQuads()), destructionBox,color.r,color.g,color.b,color.a);
 
             poseStack.popPose();
