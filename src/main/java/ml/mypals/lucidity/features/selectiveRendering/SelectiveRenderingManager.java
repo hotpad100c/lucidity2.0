@@ -1,11 +1,14 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import fi.dy.masa.malilib.config.IConfigOptionListEntry;
 import ml.mypals.lucidity.Lucidity;
 import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterHelperManager;
 import ml.mypals.lucidity.utils.BlockMatchRule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,12 +31,19 @@ import java.util.function.Function;
 
 import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.*;
 import static ml.mypals.lucidity.utils.BlockMatchRule.parseRule;
+import static net.minecraft.client.renderer.RenderStateShard.RENDERTYPE_TRANSLUCENT_SHADER;
 
 public class SelectiveRenderingManager {
     public static List<BlockMatchRule> selectedBlockTypes = new ArrayList<>();
     public static List<Integer> selectedEntityTypes = new CopyOnWriteArrayList<>();
     public static List<Integer> selectedParticleTypes = new CopyOnWriteArrayList<>();
     public static List<AreaBox> selectedAreas = new CopyOnWriteArrayList<>();
+    public static RenderType TRANSPARENT_BLOCK_OVERRIDE_TYPE =
+            RenderType.create("lucidity_transparent_block",
+                    DefaultVertexFormat.BLOCK,
+                    VertexFormat.Mode.QUADS,
+                    786432, true,
+                    true, RenderType.translucentState(RENDERTYPE_TRANSLUCENT_SHADER));
 
     private static Thread lightUpdateTask;
 

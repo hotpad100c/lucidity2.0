@@ -1,5 +1,6 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla.light;
 
+import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;

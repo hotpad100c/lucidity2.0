@@ -1,5 +1,6 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.fabric.light;
 
+import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.fabricmc.fabric.impl.client.indigo.renderer.aocalc.AoCalculator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;

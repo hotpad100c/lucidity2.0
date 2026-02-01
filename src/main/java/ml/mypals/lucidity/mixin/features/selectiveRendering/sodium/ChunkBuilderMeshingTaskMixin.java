@@ -4,6 +4,7 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.sodium;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;
@@ -55,7 +56,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockRender(BlockRenderer instance, BlockStateModel type, BlockState blockState, BlockPos model, BlockPos state, Operation<Void> original){
-        if(shouldRenderBlock(blockState,model)){
+        if(shouldRenderBlock(blockState,model) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
             original.call(instance, type, blockState, model, state);
         }
     }
@@ -69,7 +70,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockRender(BlockRenderer instance, BakedModel type, BlockState blockState, BlockPos model, BlockPos state, Operation<Void> original){
-        if(shouldRenderBlock(blockState,model)){
+        if(shouldRenderBlock(blockState,model) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
             original.call(instance, type, blockState, model, state);
         }
     }
@@ -85,7 +86,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
     public void filterFluidRender(FluidRenderer instance, LevelSlice levelSlice, BlockState blockState,
                                   FluidState fluidState, BlockPos blockPos, BlockPos modelOffset,
                                   TranslucentGeometryCollector translucentGeometryCollector, ChunkBuildBuffers chunkBuildBuffers, Operation<Void> original){
-        if(shouldRenderBlock(blockState,blockPos)){
+        if(shouldRenderBlock(blockState,blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
             original.call(instance, levelSlice, blockState, fluidState, blockPos,modelOffset,translucentGeometryCollector,chunkBuildBuffers);
         }
     }
@@ -99,7 +100,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockStateRender(BuiltSectionInfo.Builder builder, BlockEntity blockEntity, boolean b , Operation<Void> original, @Local BlockState blockState){
-        if(shouldRenderBlock(blockState,blockEntity.getBlockPos())){
+        if(shouldRenderBlock(blockState,blockEntity.getBlockPos()) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
             original.call(builder,blockEntity,b);
         }
     }

@@ -42,6 +42,7 @@ public class HotkeyCallbacks {
         FeatureToggle.BLOCK_NO_RANDOM_OFFSET.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
         ImageRendererConfigs.IMAGES.setValueChangeCallback(configStringList -> ImageRenderManager.prepareImages());
         SelectiveRenderingConfigs.APPLY_TARGET_MODE.setValueChangeCallback((string)->scheduleChunkRebuild());
+        SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.setValueChangeCallback((value)->Minecraft.getInstance().levelRenderer.allChanged());
         SelectiveRenderingConfigs.SELECTED_AREAS.setValueChangeCallback((string)->resolveSelectedAreasFromString(string.getStrings()));
         SelectiveRenderingConfigs.SELECTED_BLOCKS.setValueChangeCallback((string)->resolveSelectedBlockStatesFromString(string.getStrings()));
         SelectiveRenderingConfigs.SELECTED_ENTITIES.setValueChangeCallback((string)->resolveSelectedEntityTypesFromString(string.getStrings()));

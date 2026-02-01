@@ -22,6 +22,8 @@ public class SelectiveRenderingConfigs {
     public static final ConfigStringList SELECTED_ENTITIES = new ConfigStringList("selected_entities", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
     public static final ConfigStringList SELECTED_PARTICLES = new ConfigStringList("selected_particles", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
 
+    public static final ConfigInteger HIDDEN_BLOCK_TRANSPARENCY = new ConfigInteger("hidden_transparency",0,0,255);
+
     public static final SelectiveRenderingModeList BLOCK_RENDERING_MODE = new SelectiveRenderingModeList("block_mode",OFF).apply(SELECTIVE_RENDERING_KEY);
     public static final SelectiveRenderingModeList ENTITY_RENDERING_MODE = new SelectiveRenderingModeList("entity_mode",OFF).apply(SELECTIVE_RENDERING_KEY);
     public static final SelectiveRenderingModeList PARTICLE_RENDERING_MODE = new SelectiveRenderingModeList("particle_mod",OFF).apply(SELECTIVE_RENDERING_KEY);
@@ -30,6 +32,7 @@ public class SelectiveRenderingConfigs {
     public static final List<ConfigBase<?>> VALUES = List.of(
             WAND,
             FORCE_LIGHT_UPDATE,
+            HIDDEN_BLOCK_TRANSPARENCY,
             SELECTED_AREAS,
             SELECTED_BLOCKS,
             SELECTED_ENTITIES,
@@ -39,6 +42,9 @@ public class SelectiveRenderingConfigs {
             PARTICLE_RENDERING_MODE,
             APPLY_TARGET_MODE
     );
+    public static boolean isBlockFullyHidden(){
+        return HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() <= 0;
+    }
 
     public static class SelectiveRenderingModeList extends ConfigOptionList {
         public SelectiveRenderingModeList(String name, SelectiveRenderingManager.SelectiveRenderingMode defaultValue) {

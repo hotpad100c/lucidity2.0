@@ -2,6 +2,7 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.fabric;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.fabricmc.fabric.impl.client.indigo.renderer.render.BlockRenderInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,17 +27,26 @@ public class BlockRenderInfoMixin {
 
     //? if >=1.21.3 {
     @WrapMethod(method = "shouldDrawSide")
-    boolean shouldDrawSide(Direction side, Operation<Boolean> original)
-    {
-        if(side == null) return original.call(side);
-        boolean shouldRender = shouldRenderBlock(this.blockState,this.blockPos);
+    boolean shouldDrawSide(Direction side, Operation<Boolean> original) {
+        if (side == null) return original.call(side);
         BlockPos neighborPos = this.searchPos.setWithOffset(this.blockPos, side);
         BlockState neighbor = this.blockView.getBlockState(neighborPos);
-        boolean shouldRenderNeighbor = shouldRenderBlock(neighbor,neighborPos);
-        if (shouldRender != shouldRenderNeighbor) {
-            return shouldRender;
+
+        boolean renderThis = shouldRenderBlock(this.blockState, this.blockPos);
+
+        boolean renderNeighbor = shouldRenderBlock(neighbor, neighborPos);
+
+        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
+            if (renderThis != renderNeighbor) {
+                return true;
+            }
+        }
+
+        if (renderThis != renderNeighbor) {
+            return renderThis;
         }
         return original.call(side);
     }
+
     //?}
 }

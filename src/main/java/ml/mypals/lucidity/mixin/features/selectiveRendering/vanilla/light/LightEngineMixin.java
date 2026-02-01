@@ -2,6 +2,7 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla.light;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
