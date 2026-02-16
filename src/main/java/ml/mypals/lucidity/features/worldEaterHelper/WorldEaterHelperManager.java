@@ -85,14 +85,14 @@ public class WorldEaterHelperManager {
                 test.set(pos.relative(direction));
                 BlockState relative = level.getBlockState(test);
                 if (!SelectiveRenderingManager.shouldRenderBlock(relative, test)
-                        || !relative.isSolidRender(/*? if <=1.21.1 {*//*level,test*//*?}*/)) {
+                        || !relative.isSolidRender(/*? if <=1.21.1 {*/level,test/*?}*/)) {
                     return true;
                 }
             }
             for (int i = y + 1; i <= yMax && checked < 20; ++i) {
                 test.set(x, i, z);
                 BlockState above = level.getBlockState(test);
-                if (SelectiveRenderingManager.shouldRenderBlock(above, test) && above.isSolidRender(/*? if <=1.21.1 {*//*level,test*//*?}*/)) {
+                if (SelectiveRenderingManager.shouldRenderBlock(above, test) && above.isSolidRender(/*? if <=1.21.1 {*/level,test/*?}*/)) {
                     return false;
                 }
                 checked++;

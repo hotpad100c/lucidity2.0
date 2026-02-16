@@ -11,6 +11,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
+//? if >=1.21.9 {
+/*import net.minecraft.data.AtlasIds;
+*///?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -72,7 +75,7 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
     public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
         //? if >=1.21.9 {
         /*final Function<ResourceLocation, TextureAtlasSprite> atlas = (resourceLocation)->{
-            return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS).getSprite(resourceLocation);
+            return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(resourceLocation);
         };
         *///?} else {
         final Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);

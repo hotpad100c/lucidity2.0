@@ -1,18 +1,14 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import com.mojang.blaze3d.vertex.MeshData;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.TriState;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
-import java.util.SequencedMap;
 
 public class ControllableTransparentBuffersWrapper extends MultiBufferSource.BufferSource{
     private final MultiBufferSource.BufferSource multiBufferSource;
@@ -24,7 +20,19 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
     public @NotNull VertexConsumer getBuffer(@NotNull RenderType renderType) {
         RenderType real = unwrapRenderType(renderType);
 
-        if (real instanceof RenderType.CompositeRenderType composite) {
+        //? if >=1.21.9 {
+        /*if(real instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper
+                && selectiveRenderingRenderTypeWrapper.base != null){
+            RenderType renderType1 = selectiveRenderingRenderTypeWrapper.base;
+            return getTransparentBuffer(renderType1);
+        }
+        return multiBufferSource.getBuffer(renderType);
+        *///?} else {
+        return getTransparentBuffer(real);
+        //?}
+    }
+    public @NotNull VertexConsumer getTransparentBuffer(@NotNull RenderType renderType) {
+        if ((renderType.format() == DefaultVertexFormat.NEW_ENTITY) && renderType instanceof RenderType.CompositeRenderType composite) {
             if (composite.state.textureState instanceof RenderStateShard.TextureStateShard tex
                     && tex.texture.isPresent()) {
 
@@ -34,11 +42,11 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
                         )
                 );
             }
+        }else {
+            return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(renderType));
         }
-        return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(RenderType.translucent()));
-    }
-    public void endLastBatch() {
-        multiBufferSource.endLastBatch();
+        return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(RenderType.translucentMovingBlock()));
+
     }
 
     public void endBatch() {
@@ -51,6 +59,13 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
 
     //IRIS support
     public static RenderType unwrapRenderType(RenderType rt) {
+
+        //? if >=1.21.9 {
+        /*if(rt instanceof SelectiveRenderingRenderTypeWrapper){
+            return rt;
+        }
+        *///?}
+
         try {
             Class<?> c = rt.getClass();
 
@@ -59,10 +74,13 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
                     if (RenderType.class.isAssignableFrom(f.getType())) {
                         f.setAccessible(true);
                         Object inner = f.get(rt);
+                        //? if >=1.21.9 {
+                        /*if(inner instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper){
+                            return selectiveRenderingRenderTypeWrapper;
+                        }
+                        *///?}
                         if (inner instanceof RenderType innerRt) {
                             rt = innerRt;
-                            c = rt.getClass();
-                            continue;
                         }
                     }
                 }

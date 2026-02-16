@@ -73,10 +73,10 @@ public class ExplosionSimulatorManager {
                     getExplosionRadius(null,pos),
                     Explosion.BlockInteraction.DESTROY
                     //? if <=1.21.1 {
-                    /*,null
                     ,null
                     ,null
-                    *///?}
+                    ,null
+                    //?}
             );
 
             entry.getValue().updateExplosionResult(monitoredExplosion.simulateExplode());
@@ -103,10 +103,10 @@ public class ExplosionSimulatorManager {
                     getExplosionRadius(entity,null),
                     Explosion.BlockInteraction.DESTROY
                     //? if <=1.21.1 {
-                    /*,null
                     ,null
                     ,null
-                    *///?}
+                    ,null
+                    //?}
             );
 
             entry.getValue().updateExplosionResult(monitoredExplosion.simulateExplode());
@@ -150,11 +150,11 @@ public class ExplosionSimulatorManager {
 
         for (BlockPos pos : BlockPos.betweenClosed(
                 /*? if >1.21.1 {*/
-                searchBox
-                /*?} else {*/
-                /*BlockPos.containing(searchBox.getMinPosition()),
+                /*searchBox
+                *//*?} else {*/
+                BlockPos.containing(searchBox.getMinPosition()),
                 BlockPos.containing(searchBox.getMaxPosition())
-                *//*?}*/
+                /*?}*/
         )){
             BlockState state = level.getBlockState(pos);
             Block block = state.getBlock();
@@ -197,7 +197,7 @@ public class ExplosionSimulatorManager {
     private static final ExplosionDamageCalculator WIND_CHARGE_CACULATOR = new ExplosionDamageCalculator(){
         @Override
         public @NotNull Optional<Float> getBlockExplosionResistance(@NotNull Explosion explosion, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull BlockState blockState, @NotNull FluidState fluidState) {
-            return blockState.is(BuiltInRegistries.BLOCK.get(BlockTags.BLOCKS_WIND_CHARGE_EXPLOSIONS/*? if <=1.21.1 {*//*.location()*//*?}*/)/*? if >1.21.1 {*/.get()/*?}*/) ? Optional.of(3600000.0F) : Optional.empty();
+            return blockState.is(BuiltInRegistries.BLOCK.get(BlockTags.BLOCKS_WIND_CHARGE_EXPLOSIONS/*? if <=1.21.1 {*/.location()/*?}*/)/*? if >1.21.1 {*//*.get()*//*?}*/) ? Optional.of(3600000.0F) : Optional.empty();
         }
 
         @Override
@@ -271,7 +271,7 @@ public class ExplosionSimulatorManager {
         float entityRad = switch (entity) {
             case EndCrystal endCrystal -> 6.0f;
 
-            case PrimedTnt tnt ->/*? if >1.21.1 {*/tnt.explosionPower/*?} else {*//*4.0f*//*?}*/;
+            case PrimedTnt tnt ->/*? if >1.21.1 {*//*tnt.explosionPower*//*?} else {*/4.0f/*?}*/;
 
             case WitherSkull witherSkull -> 1.0f;
 

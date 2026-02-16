@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.blockentity.TrialSpawnerRenderer;
 import net.minecraft.client.renderer.blockentity.VaultRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 //? if >=1.21.4 {
-import net.minecraft.client.renderer.entity.state.EntityRenderState;
-//?}
+/*import net.minecraft.client.renderer.entity.state.EntityRenderState;
+*///?}
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;
@@ -64,10 +64,10 @@ public class TrialSpawnerBlockEntityRendererMixin {
             ))
     public void render(TrialSpawnerBlockEntity trialSpawnerBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, Vec3 vec3, CallbackInfo ci, @Local Level level, @Local TrialSpawner trialSpawner,
                        //? if >=1.21.6 {
-                       @Local TrialSpawnerStateData trialSpawnerData
-                       //?} else {
-                       /^@Local TrialSpawnerData trialSpawnerData
-                       ^///?}
+                       /^@Local TrialSpawnerStateData trialSpawnerData
+                       ^///?} else {
+                       @Local TrialSpawnerData trialSpawnerData
+                       //?}
     ) {
 
     *///?} else {

@@ -31,19 +31,12 @@ import java.util.function.Function;
 
 import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.*;
 import static ml.mypals.lucidity.utils.BlockMatchRule.parseRule;
-import static net.minecraft.client.renderer.RenderStateShard.RENDERTYPE_TRANSLUCENT_SHADER;
 
 public class SelectiveRenderingManager {
     public static List<BlockMatchRule> selectedBlockTypes = new ArrayList<>();
     public static List<Integer> selectedEntityTypes = new CopyOnWriteArrayList<>();
     public static List<Integer> selectedParticleTypes = new CopyOnWriteArrayList<>();
     public static List<AreaBox> selectedAreas = new CopyOnWriteArrayList<>();
-    public static RenderType TRANSPARENT_BLOCK_OVERRIDE_TYPE =
-            RenderType.create("lucidity_transparent_block",
-                    DefaultVertexFormat.BLOCK,
-                    VertexFormat.Mode.QUADS,
-                    786432, true,
-                    true, RenderType.translucentState(RENDERTYPE_TRANSLUCENT_SHADER));
 
     private static Thread lightUpdateTask;
 
@@ -170,10 +163,10 @@ public class SelectiveRenderingManager {
                 }
                 ResourceLocation entityId = ResourceLocation.tryParse(entityString);
                 //? if >=1.21.3 {
-                EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.getValue(entityId);
-                //?} else {
-                /*EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.get(entityId);
-                *///?}
+                /*EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.getValue(entityId);
+                *///?} else {
+                EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.get(entityId);
+                //?}
                 selectedEntityTypes.add(BuiltInRegistries.ENTITY_TYPE.getId(targetEntity));
             }catch (Exception e) {
                 System.err.println("Failed to parse entity type: " + entityString);
@@ -190,10 +183,10 @@ public class SelectiveRenderingManager {
                 }
                 ResourceLocation particleId = ResourceLocation.tryParse(particleString);
                 //? if >=1.21.3 {
-                ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.getValue(particleId);
-                 //?} else {
-                /*ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.get(particleId);
-                *///?}
+                /*ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.getValue(particleId);
+                 *///?} else {
+                ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.get(particleId);
+                //?}
                 selectedParticleTypes.add(BuiltInRegistries.PARTICLE_TYPE.getId(targetParticle));
             }catch (Exception e) {
                 System.err.println("Failed to parse particle type: " + particleString);
@@ -208,10 +201,10 @@ public class SelectiveRenderingManager {
             }
             ResourceLocation id = ResourceLocation.tryParse(name);
             //? if >=1.21.3 {
-            wand = BuiltInRegistries.ITEM.getValue(id);
-             //?} else {
-            /*wand = BuiltInRegistries.ITEM.get(id);
-            *///?}
+            /*wand = BuiltInRegistries.ITEM.getValue(id);
+             *///?} else {
+            wand = BuiltInRegistries.ITEM.get(id);
+            //?}
         }catch (Exception e) {
             name = "minecraft:breeze_rod";
             System.err.println("Failed to parse wand item: " + name);
@@ -390,10 +383,10 @@ public class SelectiveRenderingManager {
 
         ClientLevel level = client.level;
         //? if >=1.21.3 {
-        int worldTop = level.getMaxY() - 1;
-        //?} else {
-        /*int worldTop = level.getMaxBuildHeight() - 1;
-        *///?}
+        /*int worldTop = level.getMaxY() - 1;
+        *///?} else {
+        int worldTop = level.getMaxBuildHeight() - 1;
+        //?}
         lightUpdateTask = new Thread(() -> {
 
             List<BlockPos> toUpdate = new ArrayList<>();

@@ -1,14 +1,16 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsumer;
-import net.minecraft.util.ARGB;
+
 import org.jetbrains.annotations.NotNull;
 
 import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY;
 
 public class ControllableTransparentVertexConsumer implements VertexConsumer {
     private final VertexConsumer base;
+    private int r = 255;
+    private int g = 255;
+    private int b = 255;
 
     public ControllableTransparentVertexConsumer(VertexConsumer base) {
         this.base = base;
@@ -16,35 +18,36 @@ public class ControllableTransparentVertexConsumer implements VertexConsumer {
 
     @Override
     public @NotNull VertexConsumer setColor(int i, int j, int k, int l) {
-        return base.setColor(i,j,k, HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue());
+        base.setColor(i,j,k, HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue());
+        return this;
     }
     @Override
-    public @NotNull VertexConsumer addVertex(float f, float g, float h) {
-        base.addVertex(f,g,h);
-        return this.setColor(255,255,255,255);
-    }
-    @Override
-    public @NotNull VertexConsumer setColor(int i) {
-        return this.setColor(ARGB.red(i), ARGB.green(i), ARGB.blue(i), 0);
+    public @NotNull VertexConsumer addVertex(float x, float y, float z) {
+        base.addVertex(x,y,z);
+        return this;
     }
 
     @Override
     public @NotNull VertexConsumer setUv(float f, float g) {
-        return base.setUv(f,g);
+        base.setUv(f,g);
+        return this;
     }
 
     @Override
     public @NotNull VertexConsumer setUv1(int i, int j) {
-        return base.setUv1(i,j);
+        base.setUv1(i,j);
+        return this;
     }
 
     @Override
     public @NotNull VertexConsumer setUv2(int i, int j) {
-        return base.setUv2(i,j);
+        base.setUv2(i,j);
+        return this;
     }
 
     @Override
     public @NotNull VertexConsumer setNormal(float f, float g, float h) {
-        return base.setNormal(f,g,h);
+        base.setNormal(f,g,h);
+        return this;
     }
 }

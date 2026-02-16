@@ -16,7 +16,6 @@ import net.caffeinemc.mods.sodium.client.render.chunk.vertex.builder.ChunkMeshBu
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
 import net.caffeinemc.mods.sodium.client.world.LevelSlice;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;

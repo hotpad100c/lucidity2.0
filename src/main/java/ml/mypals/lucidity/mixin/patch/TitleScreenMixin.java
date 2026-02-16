@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PanoramaRenderer.class)
 public class TitleScreenMixin {
     //? if <=1.21.1 {
-    /*@Mutable
+    @Mutable
     @Shadow @Final private Minecraft minecraft;
 
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
@@ -25,5 +25,5 @@ public class TitleScreenMixin {
             ci.cancel();//Idk why :(
         }
     }
-    *///?}
+    //?}
 }

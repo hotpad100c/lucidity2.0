@@ -19,8 +19,8 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 @Mixin(ModelBlockRenderer.class)
 public class BlockModelRendererMixin {
     //? if >=1.21.3 {
-    //? >=1.21.5 {
-    /*@WrapOperation(at = @At(value = "INVOKE",
+    /*//? >=1.21.5 {
+    /^@WrapOperation(at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/ModelBlockRenderer;shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;ZLnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;)Z"),
             method = {"tesselateWithAO(Lnet/minecraft/world/level/BlockAndTintGetter;Ljava/util/List;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZI)V",
                     "tesselateWithoutAO(Lnet/minecraft/world/level/BlockAndTintGetter;Ljava/util/List;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZI)V"})
@@ -33,7 +33,7 @@ public class BlockModelRendererMixin {
         }
         return original.call(blockAndTintGetter, state, b, side, blockPos);
     }
-    *///?} else {
+    ^///?} else {
     @WrapOperation(at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"),
             method = {"tesselateWithAO(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;JI)V",
@@ -64,5 +64,5 @@ public class BlockModelRendererMixin {
     }
 
     //?}
-    //?}
+    *///?}
 }

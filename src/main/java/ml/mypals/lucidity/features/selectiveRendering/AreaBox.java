@@ -52,7 +52,7 @@ public class AreaBox{
                     if(shape.getCustomData("color",null) == null){
                         shape.putCustomData("color", this.color);
                     }
-                    if(isInsideArea(WandActionsManager.pointingPos.getCenter(),this,false)){
+                    if(WandActionsManager.pointingPos != null && isInsideArea(WandActionsManager.pointingPos.getCenter(),this,false)){
                         shape.setBaseColor(HotkeyCallbacks.deleteArea.isDown()?DELETE_COLOR:DEFAULT_COLOR);
                     }else{
                         shape.setBaseColor(shape.getCustomData("color",DEFAULT_COLOR));

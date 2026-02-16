@@ -214,12 +214,12 @@ public class GIFHandler {
                 int b =  argb        & 0xFF;
 
                 //? if >=1.21.3 {
-                int color = (a << 24) | (r << 16) | (g << 8) | b;
+                /*int color = (a << 24) | (r << 16) | (g << 8) | b;
                 nativeImage.setPixel(x, y, color);
-                //?} else {
-                /*int color = (a << 24) | (b << 16) | (g << 8) | r;
+                *///?} else {
+                int color = (a << 24) | (b << 16) | (g << 8) | r;
                 nativeImage.setPixelRGBA(x, y, color);//Idk too...
-                *///?}
+                //?}
             }
         }
 

@@ -10,9 +10,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 //? if >=1.21.3 {
-import net.minecraft.client.renderer.entity.state.FallingBlockRenderState;
+/*import net.minecraft.client.renderer.entity.state.FallingBlockRenderState;
 import net.minecraft.world.level.block.FallingBlock;
-//?}
+*///?}
 //? if >=1.21.9 {
 /*import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -44,24 +44,24 @@ public class FallingBlockEntityRendererMixin {
     *///?} else if >=1.21.3 {
 
     
-    @Shadow @Final private BlockRenderDispatcher dispatcher;
+    /*@Shadow @Final private BlockRenderDispatcher dispatcher;
 
     @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/FallingBlockRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                     value = "TAIL"))
     public void render(FallingBlockRenderState fallingBlockRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
-    /*@Inject(method = "render(Lnet/minecraft/world/entity/item/FallingBlockEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    *///?} else {
+    @Inject(method = "render(Lnet/minecraft/world/entity/item/FallingBlockEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                     value = "TAIL"))
     public void render(FallingBlockEntity fallingBlockEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    *///?}
+    //?}
 
         if(Minecraft.getInstance().level == null || !FALLING_BLOCK_PREVIEW.getBooleanValue()) return;
         //? if >=1.21.3 {
-        //? if >=1.21.9 {
-        /*BlockState blockState = fallingBlockRenderState.movingBlockRenderState.blockState;
-        *///?} else {
+        /*//? if >=1.21.9 {
+        /^BlockState blockState = fallingBlockRenderState.movingBlockRenderState.blockState;
+        ^///?} else {
         BlockState blockState = fallingBlockRenderState.blockState;
         //?}
         BlockPos predictLandingPos = predictLandingPos(
@@ -70,28 +70,28 @@ public class FallingBlockEntityRendererMixin {
                 fallingBlockRenderState.y,
                 fallingBlockRenderState.z,
                 blockState);
-        //?} else {
-        /*BlockState blockState = fallingBlockEntity.getBlockState();
+        *///?} else {
+        BlockState blockState = fallingBlockEntity.getBlockState();
         BlockPos predictLandingPos = predictLandingPos(
                 Minecraft.getInstance().level,
                 fallingBlockEntity.getX(),
                 fallingBlockEntity.getY(),
                 fallingBlockEntity.getZ(),
                 blockState);
-        *///?}
+        //?}
         if (predictLandingPos != null) {
             poseStack.pushPose();
 
             //? if >=1.21.3 {
-            double offsetX = predictLandingPos.getX() - fallingBlockRenderState.x;
+            /*double offsetX = predictLandingPos.getX() - fallingBlockRenderState.x;
             double offsetY = predictLandingPos.getY() - fallingBlockRenderState.y;
             double offsetZ = predictLandingPos.getZ() - fallingBlockRenderState.z;
-            //?} else {
-            /*double offsetX = predictLandingPos.getX() - fallingBlockEntity.getX();
+            *///?} else {
+            double offsetX = predictLandingPos.getX() - fallingBlockEntity.getX();
             double offsetY = predictLandingPos.getY() - fallingBlockEntity.getY();
             double offsetZ = predictLandingPos.getZ() - fallingBlockEntity.getZ();
 
-            *///?}
+            //?}
             poseStack.translate(offsetX, offsetY, offsetZ);
             poseStack.scale(1.001f, 1.001f, 1.001f);
 

@@ -52,6 +52,7 @@ dependencies {
     //modCompileOnly(files("pca-protocol-${property("deps.pca_version")}"))
 }
 val accesswidener = when {
+    stonecutter.eval(minecraft, ">=1.21.9") -> "1.21.9.accesswidener"
     stonecutter.eval(minecraft, ">=1.21.6") -> "1.21.6.accesswidener"
     stonecutter.eval(minecraft, ">=1.21.5") -> "1.21.5.accesswidener"
     stonecutter.eval(minecraft, ">=1.21.3") -> "1.21.4.accesswidener"

@@ -19,8 +19,8 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 //? if >=1.21.3 {
-import net.minecraft.client.renderer.entity.state.WitherRenderState;
-//?} else {
+/*import net.minecraft.client.renderer.entity.state.WitherRenderState;
+*///?} else {
 //?}
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -36,29 +36,29 @@ import static ml.mypals.lucidity.utils.LucidityRenderUtils.renderBox;
 
 @Mixin(WitherBossRenderer.class)
 //? if >=1.21.3 {
-public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, WitherRenderState, WitherBossModel> {
+/*public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, WitherRenderState, WitherBossModel> {
     @Shadow protected abstract void scale(@NotNull WitherRenderState witherRenderState, @NotNull PoseStack poseStack);
     public WitherEntityRendererMixin(EntityRendererProvider.Context context, WitherBossModel entityModel, float f) {
         super(context, entityModel, f);
     }
     //? if >=1.21.9 {
-    /*@Override
+    /^@Override
     public void submit(@NotNull WitherRenderState witherRenderState, @NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, @NotNull CameraRenderState cameraRenderState) {
         super.submit(witherRenderState, poseStack, submitNodeCollector, cameraRenderState);
-    *///?} else {
+    ^///?} else {
     @Override
     public void render(@NotNull WitherRenderState witherRenderState, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         super.render(witherRenderState, poseStack, multiBufferSource, i);
     //?}
-//?} else {
-/*public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, WitherBossModel<WitherBoss>> {
+*///?} else {
+public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, WitherBossModel<WitherBoss>> {
     public WitherEntityRendererMixin(EntityRendererProvider.Context context, WitherBossModel<WitherBoss> entityModel, float f) {
         super(context, entityModel, f);
     }
     @Override
     public void render(@NotNull WitherBoss witherRenderState,float e,float g, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i) {
         super.render(witherRenderState,e,g, poseStack, multiBufferSource, i);
-*///?}
+//?}
 
         if (WITHER_DESTRUCTION_VISUALIZE.getBooleanValue()) {
 
@@ -74,7 +74,7 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
         }
     }
     //? if >=1.21.3 {
-    @Unique
+    /*@Unique
     private static @NotNull AABB getDestructionBox(@NotNull WitherRenderState witherRenderState) {
         float bbw = witherRenderState.boundingBoxWidth;
         float bbh = witherRenderState.boundingBoxHeight;
@@ -84,8 +84,8 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
         double worldX = witherRenderState.x;
         double worldY = witherRenderState.y;
         double worldZ = witherRenderState.z;
-    //?} else {
-    /*@Unique
+    *///?} else {
+    @Unique
     private static @NotNull AABB getDestructionBox(@NotNull WitherBoss witherRenderState) {
         float bbw = witherRenderState.getBbWidth();
         float bbh = witherRenderState.getBbHeight();
@@ -95,7 +95,7 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
         double worldX = witherRenderState.getX();
         double worldY = witherRenderState.getY();
         double worldZ = witherRenderState.getZ();
-    *///?}
+    //?}
 
         int blockX = Mth.floor(worldX);
         int blockY = Mth.floor(worldY);

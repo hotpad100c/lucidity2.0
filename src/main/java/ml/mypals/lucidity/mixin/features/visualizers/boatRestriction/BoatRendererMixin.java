@@ -5,13 +5,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 //? if >=1.21.3 {
 
-import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
+/*import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
 import net.minecraft.world.entity.vehicle.AbstractBoat;
-//?} else {
-/*import net.minecraft.world.entity.vehicle.Boat;
+*///?} else {
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.client.renderer.entity.BoatRenderer;
-*///?}
+//?}
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.util.Mth;
@@ -29,18 +29,18 @@ import java.util.List;
 import static ml.mypals.lucidity.config.FeatureToggle.BOAT_VIEW_RESTRICTION;
 
 //? if >=1.21.3 {
-@Mixin(AbstractBoatRenderer.class)
+/*@Mixin(AbstractBoatRenderer.class)
 public abstract class BoatRendererMixin extends EntityRenderer<AbstractBoat, BoatRenderState> {
-//?} else {
-/*@Mixin(BoatRenderer.class)
+*///?} else {
+@Mixin(BoatRenderer.class)
 public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
-*///?}
+//?}
     protected BoatRendererMixin(EntityRendererProvider.Context context) {
         super(context);
     }
 
     //? if >=1.21.3 {
-    @Inject(
+    /*@Inject(
             method = "render(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(
                     value = "INVOKE",
@@ -48,8 +48,8 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
             )
     )
     public void render(BoatRenderState boatRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
-        /*@Inject(
+    *///?} else {
+        @Inject(
                 method = "Lnet/minecraft/client/renderer/entity/BoatRenderer;render(Lnet/minecraft/world/entity/vehicle/Boat;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                 at = @At(
                         value = "INVOKE",
@@ -58,7 +58,7 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
         )
         public void render(Boat boat, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
 
-    *///?}
+    //?}
         if(BOAT_VIEW_RESTRICTION.getBooleanValue()){
             Vec3 center = Vec3.ZERO;
             float leftYaw =  -90 - 105.0F;
@@ -114,12 +114,12 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
         double distanceInv = (double)1.0F / Math.sqrt(dx * dx + dy * dy + dz * dz);
         Vec3 normal = new Vec3(dx * distanceInv, dy * distanceInv, dz * distanceInv);
         //? if >=1.21.3 {
-        consumer.addVertex(pose.last(), start.toVector3f()).setNormal(pose.last(), normal.toVector3f()).setColor(color.getRGB());
+        /*consumer.addVertex(pose.last(), start.toVector3f()).setNormal(pose.last(), normal.toVector3f()).setColor(color.getRGB());
         consumer.addVertex(pose.last(), end.toVector3f()).setNormal(pose.last(), normal.toVector3f()).setColor(color.getRGB());
-        //?} else {
-        /*consumer.addVertex(pose.last(), start.toVector3f()).setNormal(pose.last(), (float) normal.x(), (float) normal.y(), (float) normal.y()).setColor(color.getRGB());
+        *///?} else {
+        consumer.addVertex(pose.last(), start.toVector3f()).setNormal(pose.last(), (float) normal.x(), (float) normal.y(), (float) normal.y()).setColor(color.getRGB());
         consumer.addVertex(pose.last(), end.toVector3f()).setNormal(pose.last(),  (float) normal.x(), (float) normal.y(), (float) normal.y()).setColor(color.getRGB());
-        *///?}
+        //?}
         }
     @Unique
     private void addCurve(Color color,PoseStack pose, BufferBuilder consumer, List<Vec3> points ) {
@@ -144,10 +144,10 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
             }
             Vec3 pos = points.get(i);
             //? if >=1.21.3 {
-            consumer.addVertex(pose.last(), pos.toVector3f()).setNormal(pose.last(), normal.toVector3f()).setColor(color.getRGB());
-            //?} else {
-            /*consumer.addVertex(pose.last(), pos.toVector3f()).setNormal(pose.last(), (float) normal.x(), (float) normal.y(), (float) normal.y()).setColor(color.getRGB());
-            *///?}
+            /*consumer.addVertex(pose.last(), pos.toVector3f()).setNormal(pose.last(), normal.toVector3f()).setColor(color.getRGB());
+            *///?} else {
+            consumer.addVertex(pose.last(), pos.toVector3f()).setNormal(pose.last(), (float) normal.x(), (float) normal.y(), (float) normal.y()).setColor(color.getRGB());
+            //?}
         }
     }
     

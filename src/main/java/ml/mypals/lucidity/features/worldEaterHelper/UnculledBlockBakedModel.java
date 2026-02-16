@@ -58,7 +58,7 @@ public class UnculledBlockBakedModel extends SimpleBakedModel {
 
     public final ArrayList<BakedQuad> allFaces = new ArrayList<>();
     public UnculledBlockBakedModel(BakedModel base, BlockState state, RandomSource random) {
-        super(new ArrayList<>(),new HashMap<>(),false,base.isGui3d(), base.usesBlockLight(), base.getParticleIcon(),base.getTransforms()/*? if <=1.21.1 {*//*,base.getOverrides()*//*?}*/);
+        super(new ArrayList<>(),new HashMap<>(),false,base.isGui3d(), base.usesBlockLight(), base.getParticleIcon(),base.getTransforms()/*? if <=1.21.1 {*/,base.getOverrides()/*?}*/);
         allFaces.addAll(base.getQuads(state, null, random));
         for (Direction direction : Direction.values()) {
             allFaces.addAll(base.getQuads(state, direction, random));

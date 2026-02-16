@@ -1,0 +1,15 @@
+package ml.mypals.lucidity.mixin.features.selectiveRendering;
+
+import net.minecraft.client.particle.Particle;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+@Mixin(Particle.class)
+public interface ParticlePosAccessor {
+    @Accessor
+    double getX();
+    @Accessor
+    double getY();
+    @Accessor
+    double getZ();
+}

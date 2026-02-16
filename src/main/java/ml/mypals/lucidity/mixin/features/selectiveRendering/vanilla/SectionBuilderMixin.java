@@ -42,6 +42,8 @@ import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+import java.util.List;
+
 @Mixin(SectionCompiler.class)
 public class SectionBuilderMixin {
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
@@ -61,6 +63,7 @@ public class SectionBuilderMixin {
         if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
             original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
         }
+
     *///?} else {
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"))

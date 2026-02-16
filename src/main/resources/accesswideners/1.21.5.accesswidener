@@ -14,3 +14,12 @@ accessible field net/minecraft/world/entity/monster/Creeper explosionRadius I
 # accessible method net/minecraft/client/renderer/block/ModelBlockRenderer renderModelFaceFlat (Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;IIZLcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Ljava/util/List;Ljava/util/BitSet;)V
 accessible class net/minecraft/client/renderer/block/ModelBlockRenderer$AmbientOcclusionRenderStorage
 accessible method net/minecraft/world/level/block/RespawnAnchorBlock isWaterThatWouldFlow (Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Level;)Z
+
+accessible field net/minecraft/client/renderer/RenderType bufferSize I
+accessible field net/minecraft/client/renderer/RenderType affectsCrumbling Z
+accessible field net/minecraft/client/renderer/RenderType sortOnUpload Z
+accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType state Lnet/minecraft/client/renderer/RenderType$CompositeState;
+accessible field net/minecraft/client/renderer/MultiBufferSource$BufferSource fixedBuffers Ljava/util/SequencedMap;
+accessible field net/minecraft/client/renderer/MultiBufferSource$BufferSource sharedBuffer Lcom/mojang/blaze3d/vertex/ByteBufferBuilder;
+accessible field net/minecraft/client/renderer/RenderType$CompositeState textureState Lnet/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard;
+accessible field net/minecraft/client/renderer/RenderStateShard$TextureStateShard texture Ljava/util/Optional;

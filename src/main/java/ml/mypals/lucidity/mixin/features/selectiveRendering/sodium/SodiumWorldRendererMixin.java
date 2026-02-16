@@ -24,6 +24,7 @@ import java.util.SortedSet;
 
 @Mixin(value = SodiumWorldRenderer.class,remap = false)
 public class SodiumWorldRendererMixin {
+    //? if <1.21.9 {
     @WrapMethod(method = "renderBlockEntity")
     private static void renderBlockEntity(PoseStack matrices, RenderBuffers bufferBuilders, Long2ObjectMap<SortedSet<BlockDestructionProgress>> blockBreakingProgressions, float tickDelta, MultiBufferSource.BufferSource immediate, double x, double y, double z, BlockEntityRenderDispatcher dispatcher, BlockEntity entity, LocalPlayer player, LocalBooleanRef isGlowing, Operation<Void> original) {
         BlockPos pos = entity.getBlockPos();
@@ -35,4 +36,5 @@ public class SodiumWorldRendererMixin {
             original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, immediate, x, y, z, dispatcher, entity, player, isGlowing);
         }
     }
+    //?}
 }

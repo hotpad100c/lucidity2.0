@@ -197,8 +197,8 @@ public class ExtrudedBlockBakedModel implements BakedModel {
                 quad.getSprite(),
                 false
                 //? if >=1.21.3 {
-                , LightTexture.FULL_BRIGHT
-                //?}
+                /*, LightTexture.FULL_BRIGHT
+                *///?}
         );
     }
 
@@ -229,22 +229,22 @@ public class ExtrudedBlockBakedModel implements BakedModel {
     }
 
     //? if <=1.21.1 {
-    /*@Override
+    @Override
     public @NotNull ItemOverrides getOverrides() {
         return ItemOverrides.EMPTY;
     }
-    *///?}
+    //?}
 
     //? if >=1.21.4 {
-    @Override
+    /*@Override
     public void emitBlockQuads(QuadEmitter emitter, BlockAndTintGetter blockView, BlockState state, BlockPos pos, Supplier<RandomSource> randomSupplier, Predicate<@Nullable Direction> cullTest) {
         VanillaModelEncoder.emitBlockQuads(emitter, (BakedModel)this, state, randomSupplier, cullTest);
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     public boolean isCustomRenderer() {
         return true;
     }
-    *///?}
+    //?}
     //?}
 }

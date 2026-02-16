@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 //? if >=1.21.3 {
-import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
-//?}
+/*import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
+*///?}
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,25 +22,25 @@ import static ml.mypals.lucidity.utils.LucidityRenderUtils.renderBox;
 @Mixin(ItemEntityRenderer.class)
 public class ItemEntityRendererMixin {
     //? if >=1.21.3 {
-    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    /*@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
     at = @At("TAIL"))
 
     public void render(ItemEntityRenderState itemEntityRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
-    /*@Inject(method = "Lnet/minecraft/client/renderer/entity/ItemEntityRenderer;render(Lnet/minecraft/world/entity/item/ItemEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    *///?} else {
+    @Inject(method = "Lnet/minecraft/client/renderer/entity/ItemEntityRenderer;render(Lnet/minecraft/world/entity/item/ItemEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("TAIL"))
 
     public void render(ItemEntity itemEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    *///?}
+    //?}
         if (ITEM_MERG_RANGE_VISUALIZE.getBooleanValue()) {
             poseStack.pushPose();
             //? if >=1.21.3 {
-            float bbw = itemEntityRenderState.boundingBoxWidth;
+            /*float bbw = itemEntityRenderState.boundingBoxWidth;
             float bbh = itemEntityRenderState.boundingBoxHeight;
-            //?} else {
-            /*float bbw = itemEntity.getBbWidth();
+            *///?} else {
+            float bbw = itemEntity.getBbWidth();
             float bbh = itemEntity.getBbHeight();
-            *///?}
+            //?}
             Color4f color = ITEM_MERG_RANGE_COLOR.getColor();
             AABB aabb = new AABB(
                     -bbw / 2, 0, -bbw / 2,

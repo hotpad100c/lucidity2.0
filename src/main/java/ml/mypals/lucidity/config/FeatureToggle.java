@@ -24,7 +24,7 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     BOAT_VIEW_RESTRICTION("boat_restriction", false,false),
     BODY_YAW("body_yaw",false,true),
     FLUID_TRANSPARENCY_OVERRIDE("fluid_transparency_override",false),
-    /*? if >=1.21.4 {*/CREAKING_HEART_INDICATOR("creaking_heart_indicator",false),/*?}*/
+    /*? if >=1.21.4 {*//*CREAKING_HEART_INDICATOR("creaking_heart_indicator",false),*//*?}*/
     ITEM_MERG_RANGE_VISUALIZE("item_merg_range_visualize",false),
     ENDER_DRAGON_WAYPOINTS_VISUALIZE("ender_dragon_waypoints_visualize",false,true),
     ENDER_DRAGON_DESTRUCTION_VISUALIZE("ender_dragon_destruction_visualize",false,true),
