@@ -18,11 +18,11 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 //? if >=1.21.6 {
 
 //?} else if >= 1.21.4 {
-/*import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-*///?} else {
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-//?}
+//?} else {
+/*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+*///?}
 //? if >=1.21.6 {
 /*import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
@@ -65,7 +65,7 @@ public class Lucidity implements ModInitializer {
                     WandTooltipRenderer.renderWandTooltip(guiGraphics);
                 });
         *///?} else if >= 1.21.4 {
-        /*HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
+        HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
             wrapper.addLayer(new IdentifiedLayer() {
                 @Override
                 public ResourceLocation id() {
@@ -78,11 +78,11 @@ public class Lucidity implements ModInitializer {
                 }
             });
         });
-        *///?} else {
-        HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> {
+        //?} else {
+        /*HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> {
             WandTooltipRenderer.renderWandTooltip(guiGraphics);
         });
-        //?}
+        *///?}
         FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(container -> {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     ResourceLocation.fromNamespaceAndPath(MOD_ID, "lavahighlight"),

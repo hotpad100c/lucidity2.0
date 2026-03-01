@@ -36,7 +36,11 @@
     "features.imageRendeing.TextureManagerMixin",
     "features.invisibleAlphaOverride.LivingEntityRendererMixin",
     "features.selectiveRendering.MouseMixin",
-    "features.selectiveRendering.ParticlePosAccessor",
+    "features.selectiveRendering.accessor.BufferSourceAccessor",
+    "features.selectiveRendering.accessor.CompositeStateAccessor",
+    "features.selectiveRendering.accessor.EmptyTextureStateShardAccessor",
+    "features.selectiveRendering.accessor.ParticlePosAccessor",
+    "features.selectiveRendering.accessor.RenderStateAccessor",
     "features.selectiveRendering.fabric.AbstractTerrainRenderContextMixin",
     "features.selectiveRendering.fabric.BlockRenderInfoMixin",
     "features.selectiveRendering.vanilla.BlockEntityRenderDispatcherMixin",
@@ -75,7 +79,7 @@
     "features.yaclLikeConfig.GuiBaseMixin",
     "features.yaclLikeConfig.GuiConfigBaseMixin",
     "features.zalgoDeobf.TextRendererMixin",
-    "patch.TitleScreenMixin",
+    "patch.TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 0

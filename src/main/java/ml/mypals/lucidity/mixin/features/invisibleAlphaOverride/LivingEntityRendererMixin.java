@@ -18,12 +18,12 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 *///?}
 //? if >=1.21.3 {
-/*import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
-*///?}
+//?}
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -54,31 +54,31 @@ public abstract class LivingEntityRendererMixin {
             @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState){
 
     *///?} else if >=1.21.3 {
-    /*@Shadow @Nullable protected abstract RenderType getRenderType(LivingEntityRenderState livingEntityRenderState, boolean bl, boolean bl2, boolean bl3);
+    @Shadow @Nullable protected abstract RenderType getRenderType(LivingEntityRenderState livingEntityRenderState, boolean bl, boolean bl2, boolean bl3);
 
     @Shadow protected abstract boolean isBodyVisible(LivingEntityRenderState livingEntityRenderState);
 
     @WrapOperation(method = "render(Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
     at = @At(target = "renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V",value = "INVOKE"))
     private void renderToBuffer(EntityModel<?> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k, Operation<Void> original, @Local(argsOnly = true) LivingEntityRenderState livingEntityRenderState, @Local(argsOnly = true) MultiBufferSource multiBufferSource){
-    *///?} else {
+    //?} else {
 
-    @Shadow protected abstract boolean isBodyVisible(LivingEntity par1);
+    /*@Shadow protected abstract boolean isBodyVisible(LivingEntity par1);
 
     @Shadow protected abstract RenderType getRenderType(LivingEntity par1, boolean par2, boolean par3, boolean par4);
 
     @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(target = "renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V",value = "INVOKE"))
     private void renderToBuffer(EntityModel instance, PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k, Operation<Void> original,@Local(argsOnly = true) LivingEntity livingEntity, @Local(argsOnly = true) MultiBufferSource multiBufferSource){
-    //?}
+    *///?}
         if(FeatureToggle.INVISIBLE_ENTITY_OVERRIDE.getBooleanValue()){
             //? if >=1.21.3 {
-            /*boolean bodyVisible = this.isBodyVisible(livingEntityRenderState);
+            boolean bodyVisible = this.isBodyVisible(livingEntityRenderState);
             boolean visibleToPlayer = bodyVisible && !livingEntityRenderState.isInvisibleToPlayer;
-            *///?} else {
-            boolean bodyVisible = this.isBodyVisible(livingEntity);
+            //?} else {
+            /*boolean bodyVisible = this.isBodyVisible(livingEntity);
             boolean visibleToPlayer = bodyVisible && !livingEntity.isInvisibleTo(Minecraft.getInstance().player);
-            //?}
+            *///?}
             if(visibleToPlayer) {
                 //? if >=1.21.9 {
                 /*original.call(instance, model, o, poseStack, renderType, lightCoords, overlay, color, textureAtlasSprite, outlineColor, crumblingOverlay);
@@ -90,10 +90,10 @@ public abstract class LivingEntityRendererMixin {
             //? if >=1.21.9 {
 
             //?} else if >=1.21.3 {
-            /*RenderType renderType = this.getRenderType(livingEntityRenderState, false, true, livingEntityRenderState.appearsGlowing);
-            *///?} else {
-            RenderType renderType = this.getRenderType(livingEntity, false, true, livingEntity.hasGlowingTag());
-            //?}
+            RenderType renderType = this.getRenderType(livingEntityRenderState, false, true, livingEntityRenderState.appearsGlowing);
+            //?} else {
+            /*RenderType renderType = this.getRenderType(livingEntity, false, true, livingEntity.hasGlowingTag());
+            *///?}
             float alphaF = LucidityConfigs.Generic.INVISIBLE_ENTITY_ALPHA.getFloatValue();
             int alpha = (int)(alphaF * 255.0f) & 0xFF;
             //? if >=1.21.9 {

@@ -4,6 +4,7 @@ import fi.dy.masa.malilib.config.IConfigOptionListEntry;
 import ml.mypals.ryansrenderingkit.builders.shapeBuilders.ShapeGenerator;
 import ml.mypals.lucidity.Lucidity;
 import ml.mypals.ryansrenderingkit.shape.Shape;
+import ml.mypals.ryansrenderingkit.shape.box.BoxFaceShape;
 import ml.mypals.ryansrenderingkit.shape.box.BoxWireframeShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
@@ -42,6 +43,7 @@ public class WandActionsManager {
 
     public static BlockPos pos1;
     public static BlockPos pos2;
+    public static BoxFaceShape pointing;
     public static BoxWireframeShape infoBox;
     public static int SELECT_COOLDOWN = 5;
     public static int selectCoolDown = SELECT_COOLDOWN;
@@ -311,77 +313,98 @@ public class WandActionsManager {
                     selectCoolDown = SELECT_COOLDOWN;
                 }
             }
-            tickInfoBox();
         }
+        tickInfoBox();
     }
-    public static void tickInfoBox(){
-        if(infoBox != null) {
-            if(Minecraft.getInstance().level == null){
-                infoBox.discard();
-                infoBox = null;
-                return;
-            }
-            infoBox.enabled = Minecraft.getInstance().player.getMainHandItem().is(wand);
-            selectedAreas.forEach(areaBox -> {
-                if(areaBox.boxShape == null){return;}
-                areaBox.boxShape.enabled = infoBox.enabled;
-            });
-        }else {
-            infoBox = ShapeGenerator.generateBoxWireframe()
-                    .color(Color.WHITE)
-                    .edgeWidth(2f)
+    public static void tickInfoBox() {
+
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.level == null || mc.player == null) {
+            infoBox.discard();
+            pointing.discard();
+            return;
+        }
+
+        boolean holdingWand = mc.player.getMainHandItem().is(wand);
+
+        updatePointing(mc, holdingWand);
+        updateInfoBox(mc, holdingWand);
+    }
+    private static void updatePointing(Minecraft mc, boolean holdingWand) {
+
+        if (pointing == null) {
+            pointing = ShapeGenerator.generateBoxFace()
+                    .color(new Color(255, 255, 255, 90))
                     .seeThrough(true)
                     .transform(boxTransformer -> {
-                        Minecraft mc = Minecraft.getInstance();
-
-                        if (mc.level == null || mc.player == null) {
-                            return;
-                        }
-
                         BlockPos lookAt = getPlayerLookedBlock(mc.player, mc.level).getBlockPos();
 
-                        BlockPos a;
-                        BlockPos b;
-
-                        if (pos1 != null && pos2 != null) {
-                            a = pos1;
-                            b = pos2;
-                        } else if (pos1 != null) {
-                            a = pos1;
-                            b = lookAt;
-                        } else if (pos2 != null) {
-                            a = pos2;
-                            b = lookAt;
-                        } else {
-                            a = lookAt;
-                            b = lookAt;
-                        }
-
-                        BoxWireframeShape shape = (BoxWireframeShape) boxTransformer.getShape();
-                        infoBox.enabled = Minecraft.getInstance().player.getMainHandItem().is(wand);
-
-                        int minX = Math.min(a.getX(), b.getX());
-                        int minY = Math.min(a.getY(), b.getY());
-                        int minZ = Math.min(a.getZ(), b.getZ());
-
-                        int maxX = Math.max(a.getX(), b.getX());
-                        int maxY = Math.max(a.getY(), b.getY());
-                        int maxZ = Math.max(a.getZ(), b.getZ());
-
-                        if(pos1 == null && pos2 == null){
-                            shape.forceSetDimensions(new Vec3(1,1,1));
-                            shape.setWorldPosition(lookAt.getCenter());
-                        }else {
-                            shape.setMin(new Vec3(minX, minY, minZ));
-                            shape.setMax(new Vec3(maxX + 1, maxY + 1, maxZ + 1));
-                        }
+                        BoxFaceShape shape = (BoxFaceShape) boxTransformer.getShape();
+                        shape.forceSetDimensions(new Vec3(1,1,1));
+                        shape.setWorldPosition(lookAt.getCenter());
                     })
-
                     .build(Shape.RenderingType.BATCH);
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"selective_rendering_info_box"),infoBox);
+            ShapeManagers.addShape(
+                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box_solid"),
+                    pointing
+            );
         }
-    }
 
+        pointing.enabled = holdingWand && (pos1 != null && pos2 != null);
+    }
+    private static void updateInfoBox(Minecraft mc, boolean holdingWand) {
+
+        if (infoBox == null) {
+            createInfoBox(mc);
+        }
+
+        infoBox.enabled = holdingWand;
+
+        if(holdingWand){
+            for (AreaBox areaBox : selectedAreas) {
+                areaBox.setShapeEnabled(true);
+            }
+        }
+
+    }
+    private static void createInfoBox(Minecraft mc) {
+
+        infoBox = ShapeGenerator.generateBoxWireframe()
+                .color(Color.WHITE)
+                .edgeWidth(2f)
+                .seeThrough(true)
+                .transform(boxTransformer -> {
+
+                    BlockPos lookAt = getPlayerLookedBlock(mc.player, mc.level).getBlockPos();
+                    BlockPos a = pos1 != null ? pos1 : lookAt;
+                    BlockPos b = pos2 != null ? pos2 : lookAt;
+
+                    BoxWireframeShape shape = (BoxWireframeShape) boxTransformer.getShape();
+
+                    if (pos1 == null && pos2 == null) {
+                        shape.forceSetDimensions(new Vec3(1,1,1));
+                        shape.setWorldPosition(lookAt.getCenter());
+                        return;
+                    }
+
+                    int minX = Math.min(a.getX(), b.getX());
+                    int minY = Math.min(a.getY(), b.getY());
+                    int minZ = Math.min(a.getZ(), b.getZ());
+
+                    int maxX = Math.max(a.getX(), b.getX());
+                    int maxY = Math.max(a.getY(), b.getY());
+                    int maxZ = Math.max(a.getZ(), b.getZ());
+
+                    shape.setMin(new Vec3(minX, minY, minZ));
+                    shape.setMax(new Vec3(maxX + 1, maxY + 1, maxZ + 1));
+                })
+                .build(Shape.RenderingType.BATCH);
+        ShapeManagers.addShape(
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box"),
+                infoBox
+        );
+    }
     public static BlockHitResult getPlayerLookedBlock(Player player, Level world) {
         Entity camera = Minecraft.getInstance().getCameraEntity();
         assert camera != null;

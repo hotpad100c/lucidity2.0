@@ -22,15 +22,23 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentVertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SectionBufferBuilderPack;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 //? if >=1.21.5 {
 /*import net.minecraft.client.renderer.block.model.BlockModelPart;
 *///?}
+//? if >=1.21.6 {
+/*import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+*/
+//?}
 import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
@@ -40,12 +48,21 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
+import java.util.Map;
 
 @Mixin(SectionCompiler.class)
-public class SectionBuilderMixin {
+public abstract class SectionBuilderMixin {
+    //? if <=1.21.5 {
+    @Shadow protected abstract BufferBuilder getOrBeginLayer(Map<RenderType, BufferBuilder> map, SectionBufferBuilderPack sectionBufferBuilderPack, RenderType renderType);
+
+    //?} else {
+    /*@Shadow protected abstract BufferBuilder getOrBeginLayer(Map<ChunkSectionLayer, BufferBuilder> par1, SectionBufferBuilderPack par2, ChunkSectionLayer par3);
+    *///?}
+
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/chunk/VisGraph;setOpaque(Lnet/minecraft/core/BlockPos;)V"))
     public void onMarkClosed(
@@ -78,9 +95,25 @@ public class SectionBuilderMixin {
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderLiquid(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/material/FluidState;)V"))
     public void onBuilFluid(
-            BlockRenderDispatcher instance, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, VertexConsumer vertexConsumer, BlockState blockState, FluidState fluidState, Operation<Void> original) {
+            BlockRenderDispatcher instance,
+            BlockPos blockPos, BlockAndTintGetter blockAndTintGetter,
+            VertexConsumer vertexConsumer,
+            BlockState blockState,
+            FluidState fluidState,
+            Operation<Void> original,
+            //? if <=1.21.5 {
+            @Local Map<RenderType, BufferBuilder> map ,
+            //?} else {
+            /*@Local Map<ChunkSectionLayer, BufferBuilder> map,
+            *///?}
+            @Local(argsOnly = true) SectionBufferBuilderPack sectionBufferBuilderPack) {
         if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            VertexConsumer vertexConsumer1 = SelectiveRenderingConfigs.isBlockFullyHidden()?vertexConsumer:new ControllableTransparentVertexConsumer(vertexConsumer);
+            VertexConsumer vertexConsumer1 = SelectiveRenderingConfigs.isBlockFullyHidden() ? vertexConsumer:
+                    //? if <=1.21.5 {
+                    new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, RenderType.translucent()));
+                    //?} else {
+                    /*new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT));
+                    *///?}
             original.call(instance, blockPos, blockAndTintGetter, vertexConsumer1, blockState, fluidState);
         }
     }

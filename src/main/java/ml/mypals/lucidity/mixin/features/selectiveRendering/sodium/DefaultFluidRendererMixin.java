@@ -95,11 +95,9 @@ public class DefaultFluidRendererMixin {
             )
     )
     private void wrapVertex(ChunkMeshBufferBuilder instance, ChunkVertexEncoder.Vertex[] vertices, Material material, Operation<Void> original) {
-        int finalAlpha = -1;
+        int finalAlpha = alpha;
 
-        if (alpha > -1) {
-            finalAlpha = alpha;
-        } else if (FLUID_TRANSPARENCY_OVERRIDE.getBooleanValue()) {
+        if (FLUID_TRANSPARENCY_OVERRIDE.getBooleanValue()) {
             finalAlpha = (int)(FLUID_TRANSPARENCY.getFloatValue() * 255.0F);
         }
 

@@ -5,7 +5,10 @@ package ml.mypals.lucidity.features.selectiveRendering;
 import ml.mypals.ryansrenderingkit.builders.shapeBuilders.ShapeGenerator;
 import ml.mypals.lucidity.hotkeys.HotkeyCallbacks;
 import ml.mypals.ryansrenderingkit.shape.Shape;
+import ml.mypals.ryansrenderingkit.shape.basics.BoxLikeShape;
 import ml.mypals.ryansrenderingkit.shape.box.BoxFaceShape;
+import ml.mypals.ryansrenderingkit.shape.box.BoxWireframeShape;
+import ml.mypals.ryansrenderingkit.shape.box.WireframedBoxShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -25,6 +28,7 @@ public class AreaBox{
     public Color color;
     public float alpha = 0.2f;
     public boolean seeThrough = false;
+    public BoxWireframeShape boxFrame = null;
     public BoxFaceShape boxShape = null;
     public AreaBox(BlockPos a, BlockPos b,Color color,boolean seeThrough){
         this(a,b,color,0.2f,seeThrough);
@@ -46,29 +50,55 @@ public class AreaBox{
         this.boxShape = ShapeGenerator.generateBoxFace().
                 aabb(minPos.getCenter().subtract(0.5,0.5,0.5), maxPos.getCenter().add(0.5,0.5,0.5))
                 .color(color)
-                .transform(boxTransformer -> {
-                    Shape shape = (Shape) boxTransformer.getShape();
-                    shape.enabled = Minecraft.getInstance().player.getMainHandItem().is(wand);
-                    if(shape.getCustomData("color",null) == null){
-                        shape.putCustomData("color", this.color);
-                    }
-                    if(WandActionsManager.pointingPos != null && isInsideArea(WandActionsManager.pointingPos.getCenter(),this,false)){
-                        shape.setBaseColor(HotkeyCallbacks.deleteArea.isDown()?DELETE_COLOR:DEFAULT_COLOR);
-                    }else{
-                        shape.setBaseColor(shape.getCustomData("color",DEFAULT_COLOR));
-                    }
-                })
+                .transform(this::updateBox)
+                .seeThrough(true)
+                .build(Shape.RenderingType.BATCH);
+        this.boxFrame = ShapeGenerator.generateBoxWireframe().
+                aabb(minPos.getCenter().subtract(0.5,0.5,0.5), maxPos.getCenter().add(0.5,0.5,0.5))
+                .color(new Color(color.getRed(),color.getGreen(),color.getBlue(),255))
+                .edgeWidth(3f)
+                .transform(this::updateBox)
                 .seeThrough(true)
                 .build(Shape.RenderingType.BATCH);
     }
-    public BoxFaceShape submit(){
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"area_box"+minPos.hashCode()+maxPos.hashCode()),this.boxShape);
-        return this.boxShape;
+    public void updateBox(BoxLikeShape.BoxTransformer boxTransformer){
+
+        Shape shape = (Shape) boxTransformer.getShape();
+
+
+        assert Minecraft.getInstance().player != null;
+        boolean holdingWand = Minecraft.getInstance().player.getMainHandItem().is(wand);
+        if (!holdingWand) shape.disable();
+
+        if(shape.getCustomData("color",null) == null){
+            shape.putCustomData("color", this.color);
+        }
+        if(WandActionsManager.pointingPos != null && isInsideArea(WandActionsManager.pointingPos.getCenter(),this,false)){
+            shape.setBaseColor(HotkeyCallbacks.deleteArea.isDown()?DELETE_COLOR:DEFAULT_COLOR);
+        }else{
+            shape.setBaseColor(shape.getCustomData("color",DEFAULT_COLOR));
+        }
+    }
+    public void setShapeEnabled(boolean b){
+        if(boxShape != null) {
+            boxShape.enabled = b;
+        }
+        if(boxFrame != null) {
+            boxFrame.enabled = b;
+        }
+    }
+    public void submit(){
+        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"area_box_"+minPos.hashCode()+maxPos.hashCode()),this.boxShape);
+        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"area_box_frame_"+minPos.hashCode()+maxPos.hashCode()),this.boxFrame);
     }
     public void destroy() {
         if (boxShape != null) {
             boxShape.discard();
             boxShape = null;
+        }
+        if (boxFrame != null) {
+            boxFrame.discard();
+            boxFrame = null;
         }
     }
     public String asString(){

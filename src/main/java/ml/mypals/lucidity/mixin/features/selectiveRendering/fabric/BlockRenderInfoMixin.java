@@ -26,7 +26,7 @@ public class BlockRenderInfoMixin {
     @Shadow @Final private BlockPos.MutableBlockPos searchPos;
 
     //? if >=1.21.3 {
-    /*@WrapMethod(method = "shouldDrawSide")
+    @WrapMethod(method = "shouldDrawSide")
     boolean shouldDrawSide(Direction side, Operation<Boolean> original) {
         if (side == null) return original.call(side);
         BlockPos neighborPos = this.searchPos.setWithOffset(this.blockPos, side);
@@ -48,5 +48,5 @@ public class BlockRenderInfoMixin {
         return original.call(side);
     }
 
-    *///?}
+    //?}
 }

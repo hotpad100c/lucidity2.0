@@ -145,12 +145,12 @@ public abstract class NaturalSpawnerMixin {
             Level level = mob.level();
 
             //? if >=1.21.3 {
-            /*BlockPos minPos = new BlockPos(chunkPos.getMinBlockX(),level.getMinY(),chunkPos.getMinBlockZ());
+            BlockPos minPos = new BlockPos(chunkPos.getMinBlockX(),level.getMinY(),chunkPos.getMinBlockZ());
             int levelMinY = level.getMinY();
-            *///?} else {
-            BlockPos minPos = new BlockPos(chunkPos.getMinBlockX(),level.getMaxBuildHeight(),chunkPos.getMinBlockZ());
+            //?} else {
+            /*BlockPos minPos = new BlockPos(chunkPos.getMinBlockX(),level.getMaxBuildHeight(),chunkPos.getMinBlockZ());
             int levelMinY = level.getMinBuildHeight();
-            //?}
+            *///?}
             int chunkMinZ = chunkPos.getMinBlockZ();
 
             BlockPos p2 = new BlockPos(trace.initial.getX(), levelMinY, chunkMinZ);

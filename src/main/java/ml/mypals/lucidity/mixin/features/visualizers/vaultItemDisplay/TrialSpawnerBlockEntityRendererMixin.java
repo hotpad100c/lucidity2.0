@@ -14,8 +14,8 @@ import net.minecraft.client.renderer.blockentity.TrialSpawnerRenderer;
 import net.minecraft.client.renderer.blockentity.VaultRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 //? if >=1.21.4 {
-/*import net.minecraft.client.renderer.entity.state.EntityRenderState;
-*///?}
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+//?}
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.TrialSpawnerBlockEntity;

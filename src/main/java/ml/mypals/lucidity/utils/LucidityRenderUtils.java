@@ -8,8 +8,8 @@ import com.mojang.blaze3d.opengl.GlStateManager;
 *///?} else {
 import com.mojang.blaze3d.platform.GlStateManager;
 //? if >=1.21.3 {
-/*import net.minecraft.client.renderer.CoreShaders;
-*///?}
+import net.minecraft.client.renderer.CoreShaders;
+//?}
 import com.mojang.blaze3d.systems.RenderSystem;
 //?}
 import com.mojang.blaze3d.vertex.*;
@@ -28,10 +28,10 @@ public class LucidityRenderUtils {
         *///?} else if >=1.21.5 {
         /*RenderType renderType = RenderType.translucent();
         *///?} else if >=1.21.3 {
-        /*RenderSystem.setShader(CoreShaders.POSITION_COLOR);
-        *///?} else {
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        //?}
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
+        //?} else {
+        /*RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        *///?}
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder vertexConsumer = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         renderBox(poseStack, vertexConsumer, aABB.minX, aABB.minY, aABB.minZ, aABB.maxX, aABB.maxY, aABB.maxZ, f, g, h, i, f, g, h);

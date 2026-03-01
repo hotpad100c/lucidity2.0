@@ -46,14 +46,14 @@ public class FallingBlockPredictor {
             BlockPos currentPos = BlockPos.containing(x, y, z);
 
             //? if >=1.21.3 {
-            /*if (tick > 100 && (currentPos.getY() <= level.getMinY() || currentPos.getY() > level.getMaxY())) {
+            if (tick > 100 && (currentPos.getY() <= level.getMinY() || currentPos.getY() > level.getMaxY())) {
                 return null;
             }
-            *///?} else {
-            if (tick > 100 && (currentPos.getY() <= level.getMinBuildHeight() || currentPos.getY() > level.getMaxBuildHeight())) {
+            //?} else {
+            /*if (tick > 100 && (currentPos.getY() <= level.getMinBuildHeight() || currentPos.getY() > level.getMaxBuildHeight())) {
                 return null;
             }
-            //?}
+            *///?}
 
             BlockState stateAtPos = level.getBlockState(currentPos.below());
             boolean touchingWater = isConcretePowder && level.getFluidState(currentPos).is(FluidTags.WATER);

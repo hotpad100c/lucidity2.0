@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
 *///?}
 //? if >=1.21.3 {
-/*import net.minecraft.client.renderer.ShapeRenderer;
-*///?}
+import net.minecraft.client.renderer.ShapeRenderer;
+//?}
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.server.IntegratedServer;
@@ -76,11 +76,11 @@ public abstract class EntityRendererMixin {
 
             Entity entity = serverEntity != null ? serverEntity : target;
 
-            /*? if >=1.21.3 {*//*ShapeRenderer.*//*?} else {*/EntityRenderDispatcher./*?}*/renderVector(poseStack, vertexConsumer,
+            /*? if >=1.21.3 {*/ShapeRenderer./*?} else {*//*EntityRenderDispatcher.*//*?}*/renderVector(poseStack, vertexConsumer,
                     new Vector3f(0.0F, entity.getBbHeight()/2, 0.0F),
                     Vec3.directionFromRotation(0.0F, getPreciseEntityRotation(entity,f)).scale(2.5F), YROT_COLOR.getIntegerValue());
             if(entity instanceof LivingEntity livingEntity){
-                /*? if >=1.21.3 {*//*ShapeRenderer.*//*?} else {*/EntityRenderDispatcher./*?}*/renderVector(poseStack, vertexConsumer,
+                /*? if >=1.21.3 {*/ShapeRenderer./*?} else {*//*EntityRenderDispatcher.*//*?}*/renderVector(poseStack, vertexConsumer,
                         new Vector3f(0.0F, entity.getBbHeight()/2, 0.0F),
                         Vec3.directionFromRotation(0.0F, getPreciseEntityBodyRotation(livingEntity,f)).scale(3.0F), BODY_ROT_COLOR.getIntegerValue());
             }
@@ -92,6 +92,6 @@ public abstract class EntityRendererMixin {
     }
     @Unique
     private static float getPreciseEntityRotation(Entity entity,float f) {
-        return entity.getYRot(/*? if >=1.21.3 {*//*f*//*?}*/);
+        return entity.getYRot(/*? if >=1.21.3 {*/f/*?}*/);
     }
 }

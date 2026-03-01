@@ -128,10 +128,10 @@ public class WandTooltipRenderer {
                 //? if >= 1.21.6 {
                 /*context.blit(RenderPipelines.GUI_TEXTURED, item.icon, x, y, 0, 0, 16, 16, 16, 16);
                 *///?} else if >=1.21.3 {
-                /*context.blit(RenderType::guiTextured, item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                *///?} else {
-                context.blit(item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                //?}
+                context.blit(RenderType::guiTextured, item.icon, x, y, 0, 0, 16, 16, 16, 16);
+                //?} else {
+                /*context.blit(item.icon, x, y, 0, 0, 16, 16, 16, 16);
+                *///?}
                 GlStateManager._disableBlend();
             }
 
@@ -164,10 +164,10 @@ public class WandTooltipRenderer {
         //? if >= 1.21.6 {
         /*context.blit(RenderPipelines.GUI_TEXTURED,ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
-        context.blit(ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?}
+        context.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        //?} else {
+        /*context.blit(ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        *///?}
         GlStateManager._disableBlend();
         context.drawString(client.font, Component.translatable(wandApplyToMode.getTranslationKey()), x+iconWidth+2, y+(iconWidth/2), 0xFFFFFFE0, true);
 
@@ -190,10 +190,10 @@ public class WandTooltipRenderer {
         //? if >= 1.21.6 {
         /*context.blit(RenderPipelines.GUI_TEXTURED, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
-        context.blit( secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?}
+        context.blit(RenderType::guiTextured, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        //?} else {
+        /*context.blit( secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        *///?}
         GlStateManager._disableBlend();
         context.drawString(client.font, Component.translatable(translationKey), x+iconWidth, y + iconWidth, 0xFFFFFFE0, true);
 

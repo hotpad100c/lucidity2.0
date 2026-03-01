@@ -1,5 +1,7 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.sodium.light;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.caffeinemc.mods.sodium.client.model.light.data.LightDataAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -13,18 +15,18 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 
 @Mixin(value = LightDataAccess.class,remap = false)
 public class LightDataAccessMixin {
-    @Redirect(
+    @WrapOperation(
             method = "compute",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/level/BlockAndTintGetter;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"
             )
     )
-    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos) {
+    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos, Operation<BlockState> original) {
         BlockState state = world.getBlockState(pos);
         if (!shouldRenderBlock(state, pos)) {
             return Blocks.AIR.defaultBlockState();
         }
-        return state;
+        return original.call(world, pos);
     }
 }

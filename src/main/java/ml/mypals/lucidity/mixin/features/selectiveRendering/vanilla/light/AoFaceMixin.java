@@ -1,5 +1,7 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla.light;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.core.BlockPos;
@@ -18,7 +20,7 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 @Mixin(ModelBlockRenderer.AmbientOcclusionFace.class)
 //?}
 public class AoFaceMixin{
-    @Redirect(
+    @WrapOperation(
             //? if >=1.21.5 {
             /*method = "calculate(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Z)V",
             *///?} else {
@@ -29,11 +31,11 @@ public class AoFaceMixin{
                     target = "Lnet/minecraft/world/level/BlockAndTintGetter;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"
             )
     )
-    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos) {
+    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos, Operation<BlockState> original) {
         BlockState state = world.getBlockState(pos);
         if (!shouldRenderBlock(state, pos)) {
             return Blocks.AIR.defaultBlockState();
         }
-        return state;
+        return original.call(world, pos);
     }
 }

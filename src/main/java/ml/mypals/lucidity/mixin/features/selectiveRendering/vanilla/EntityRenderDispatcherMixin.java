@@ -44,7 +44,7 @@ public class EntityRenderDispatcherMixin {
     }
     *///?} else if >=1.21.3 {
     
-    /*@WrapMethod(method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
+    @WrapMethod(method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
     private void renderEntity(Entity entity, double x, double y, double z, float delta, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderEntity(entity.getType(),entity.position())
                 && !SelectiveRenderingConfigs.isBlockFullyHidden()){
@@ -53,8 +53,8 @@ public class EntityRenderDispatcherMixin {
             original.call(entity, x, y, z, delta, poseStack, multiBufferSource, i);
         }
     }
-    *///?} else {
-    @WrapMethod(method = "render")
+    //?} else {
+    /*@WrapMethod(method = "render")
     private void renderEntity(Entity entity, double x, double e, double f, float g, float h, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderEntity(entity.getType(),entity.position())
                 && !SelectiveRenderingConfigs.isBlockFullyHidden()){
@@ -63,5 +63,5 @@ public class EntityRenderDispatcherMixin {
             original.call(entity, x, e, f, g, h, poseStack, multiBufferSource, i);
         }
     }
-    //?}
+    *///?}
 }

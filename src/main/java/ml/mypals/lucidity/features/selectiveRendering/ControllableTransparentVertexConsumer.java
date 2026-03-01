@@ -8,9 +8,6 @@ import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.HIDDEN_BLOCK_T
 
 public class ControllableTransparentVertexConsumer implements VertexConsumer {
     private final VertexConsumer base;
-    private int r = 255;
-    private int g = 255;
-    private int b = 255;
 
     public ControllableTransparentVertexConsumer(VertexConsumer base) {
         this.base = base;

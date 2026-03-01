@@ -250,10 +250,10 @@ public class MediaShape extends Shape implements EmptyMesh {
         
         RenderSystem.setShaderTexture(0, currentTextureId);
         //? if >=1.21.3 {
-        /*RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        *///?} else {
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        //?}
+        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
+        //?} else {
+        /*RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        *///?}
         //?}
         GlStateManager._enableDepthTest();
         if (this.seeThrough) GlStateManager._disableDepthTest();

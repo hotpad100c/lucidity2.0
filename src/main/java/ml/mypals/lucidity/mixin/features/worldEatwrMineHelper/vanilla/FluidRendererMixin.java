@@ -92,7 +92,7 @@ public abstract class FluidRendererMixin {
         original.call(blockAndTintGetter, blockPos, transformedConsumer, blockState, fluidState);
     }
     //? if >=1.21.3 {
-    /*@WrapMethod(method = "shouldRenderFace(Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/material/FluidState;)Z")
+    @WrapMethod(method = "shouldRenderFace(Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/material/FluidState;)Z")
     private static boolean redirectShouldRenderFace(
             FluidState fluidState,
             BlockState state,
@@ -112,8 +112,8 @@ public abstract class FluidRendererMixin {
     ) {
         return !isRenderingTransformed.get() && original.call(side, f, neighborState);
     }
-    *///?} else {
-    @WrapMethod(method = "shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/material/FluidState;)Z")
+    //?} else {
+    /*@WrapMethod(method = "shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/material/FluidState;)Z")
     private static boolean redirectShouldRenderFace(
             BlockAndTintGetter blockAndTintGetter, BlockPos blockPos, FluidState fluidState, BlockState blockState, Direction direction, FluidState fluidState2, Operation<Boolean> original
     ) {
@@ -126,5 +126,5 @@ public abstract class FluidRendererMixin {
     ) {
         return !isRenderingTransformed.get() && original.call(blockGetter, direction, f, blockPos, blockState);
     }
-    //?}
+    *///?}
 }

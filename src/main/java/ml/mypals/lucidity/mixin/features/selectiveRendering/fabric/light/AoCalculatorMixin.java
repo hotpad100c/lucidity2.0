@@ -1,5 +1,7 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.fabric.light;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.fabricmc.fabric.impl.client.indigo.renderer.aocalc.AoCalculator;
 import net.minecraft.core.BlockPos;
@@ -15,18 +17,18 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 @SuppressWarnings("UnstableApiUsage")
 @Mixin(value = AoCalculator.class,remap = false)
 public class AoCalculatorMixin {
-    @Redirect(
+    @WrapOperation(
             method = "computeFace(Lnet/fabricmc/fabric/impl/client/indigo/renderer/aocalc/AoFaceData;Lnet/minecraft/core/Direction;ZZ)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/level/BlockAndTintGetter;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"
             )
     )
-    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos) {
+    private BlockState redirectGetBlockState(BlockAndTintGetter world, BlockPos pos, Operation<BlockState> original) {
         BlockState state = world.getBlockState(pos);
         if (!shouldRenderBlock(state, pos)) {
             return Blocks.AIR.defaultBlockState();
         }
-        return state;
+        return original.call(world, pos);
     }
 }

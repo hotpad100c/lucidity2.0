@@ -7,8 +7,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.FeatureToggle;
 import net.minecraft.client.Minecraft;
 //? if >=1.21.3 {
-/*import net.minecraft.client.renderer.ShapeRenderer;
-*///?}
+import net.minecraft.client.renderer.ShapeRenderer;
+//?}
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 //? if >=1.21.5 {
@@ -60,10 +60,10 @@ public abstract class EntityRendererMixin {
                 //? if >=1.21.9 {
                 /*ShapeRenderer.renderLineBox(poseStack.last(), vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
                 *///?} else if >=1.21.3 {
-                /*ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                *///?} else {
-                LevelRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                //?}
+                ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                //?} else {
+                /*LevelRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                *///?}
             }
         }
     }

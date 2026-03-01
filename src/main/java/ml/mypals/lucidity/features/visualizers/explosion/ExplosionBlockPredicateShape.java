@@ -152,10 +152,10 @@ public class ExplosionBlockPredicateShape extends Shape {
         for (Direction direction:Direction.values()){
             BlockPos relativePos = pos.relative(direction);
             //? if >=1.21.3 {
-            /*if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level.getBlockState(relativePos),direction)){
-            *///?} else {
-            if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level,pos,direction,relativePos)){
-            //?}
+            if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level.getBlockState(relativePos),direction)){
+            //?} else {
+            /*if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level,pos,direction,relativePos)){
+            *///?}
                 for(BakedQuad quad : blockModel.getQuads(blockState,direction,level.getRandom())){
                     vertices.addAll(parseQuadToTriangles(quad,pos));
                 }

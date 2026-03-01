@@ -44,7 +44,7 @@ public class FluidRendererMixin {
 
     //? if >= 1.21.3 {
     
-    /*@WrapOperation(
+    @WrapOperation(
             method = "tesselate",
             at = @At(
                     value = "INVOKE",
@@ -100,8 +100,8 @@ public class FluidRendererMixin {
         }
         return original.call(side, f, neighborState);
     }
-    *///?} else {
-    @WrapOperation(
+    //?} else {
+    /*@WrapOperation(
             method = "tesselate",
             at = @At(
                     value = "INVOKE",
@@ -151,5 +151,5 @@ public class FluidRendererMixin {
         }
         return original.call(blockGetter, side, f, pos, neighborState);
     }
-    //?}
+    *///?}
 }

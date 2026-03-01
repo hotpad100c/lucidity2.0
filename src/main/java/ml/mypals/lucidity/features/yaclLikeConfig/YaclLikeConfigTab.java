@@ -30,7 +30,7 @@ public class YaclLikeConfigTab extends ButtonGeneric {
             boolean yaclStyle = YACL_STYLE.getBooleanValue();
             this.renderDefaultBackground = !yaclStyle;
             if(yaclStyle) {
-                drawContext.blitSprite(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/
+                drawContext.blitSprite(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/
                         SPRITES.get(!this.enabled, this.hovered), this.getX(),
                         this.getY() - 2, this.width, this.height);
                 if (!this.enabled) {

@@ -31,7 +31,7 @@ public class SodiumWorldRendererMixin {
         BlockState state = entity.getBlockState();
         if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)
                 && !SelectiveRenderingConfigs.isBlockFullyHidden()){
-            original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, new ControllableTransparentBuffersWrapper(immediate), x, y, z, dispatcher, entity, player, isGlowing);
+            original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, new ControllableTransparentBuffersWrapper(bufferBuilders.bufferSource()), x, y, z, dispatcher, entity, player, isGlowing);
         }else {
             original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, immediate, x, y, z, dispatcher, entity, player, isGlowing);
         }

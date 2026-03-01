@@ -15,12 +15,12 @@ import static ml.mypals.lucidity.config.FeatureToggle.BLOCK_NO_RANDOM_OFFSET;
 public class BlockStateMixin {
     @WrapMethod(method = "getOffset")
     //? if >=1.21.3 {
-    /*public Vec3 getOffset(BlockPos blockPos, Operation<Vec3> original) {
+    public Vec3 getOffset(BlockPos blockPos, Operation<Vec3> original) {
         return Minecraft.getInstance() != null && BLOCK_NO_RANDOM_OFFSET.getBooleanValue()?Vec3.ZERO:original.call(blockPos);
     }
-    *///?} else {
-    public Vec3 getOffset(BlockGetter blockGetter, BlockPos blockPos, Operation<Vec3> original) {
+    //?} else {
+    /*public Vec3 getOffset(BlockGetter blockGetter, BlockPos blockPos, Operation<Vec3> original) {
         return BLOCK_NO_RANDOM_OFFSET.getBooleanValue() ?Vec3.ZERO:original.call(blockGetter,blockPos);
     }
-    //?}
+    *///?}
 }

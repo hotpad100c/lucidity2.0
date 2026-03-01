@@ -16,9 +16,6 @@
     ],
     "modmenu": [
       "ml.mypals.lucidity.config.modmenu.LucidityModMenuImpl"
-    ],
-    "fabric-datagen": [
-      "ml.mypals.lucidity.datagen.LucidityDatagen"
     ]
   },
   "mixins": [
