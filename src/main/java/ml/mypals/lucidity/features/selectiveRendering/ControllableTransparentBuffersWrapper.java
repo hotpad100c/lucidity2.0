@@ -28,15 +28,15 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
         RenderType real = unwrapRenderType(renderType);
 
         //? if >=1.21.9 {
-        /*if(real instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper
+        if(real instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper
                 && selectiveRenderingRenderTypeWrapper.base != null){
             RenderType renderType1 = selectiveRenderingRenderTypeWrapper.base;
             return getTransparentBuffer(renderType1);
         }
         return multiBufferSource.getBuffer(renderType);
-        *///?} else {
-        return getTransparentBuffer(real);
-        //?}
+        //?} else {
+        /*return getTransparentBuffer(real);
+        *///?}
     }
     public @NotNull VertexConsumer getTransparentBuffer(@NotNull RenderType renderType) {
         if ((renderType.format() == DefaultVertexFormat.NEW_ENTITY) && renderType instanceof RenderType.CompositeRenderType composite) {
@@ -72,10 +72,10 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
     public static RenderType unwrapRenderType(RenderType rt) {
 
         //? if >=1.21.9 {
-        /*if(rt instanceof SelectiveRenderingRenderTypeWrapper){
+        if(rt instanceof SelectiveRenderingRenderTypeWrapper){
             return rt;
         }
-        *///?}
+        //?}
 
         try {
             Class<?> c = rt.getClass();
@@ -86,10 +86,10 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
                         f.setAccessible(true);
                         Object inner = f.get(rt);
                         //? if >=1.21.9 {
-                        /*if(inner instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper){
+                        if(inner instanceof SelectiveRenderingRenderTypeWrapper selectiveRenderingRenderTypeWrapper){
                             return selectiveRenderingRenderTypeWrapper;
                         }
-                        *///?}
+                        //?}
                         if (inner instanceof RenderType innerRt) {
                             rt = innerRt;
                         }

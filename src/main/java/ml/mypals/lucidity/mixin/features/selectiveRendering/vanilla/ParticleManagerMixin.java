@@ -1,24 +1,26 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla;
-
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.systems.RenderSystem;
+//? if <1.21.9 {
+/*import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentBuffersWrapper;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentVertexConsumer;
+import net.minecraft.client.Camera;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.core.particles.ParticleType;
+*///?}
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.features.selectiveRendering.accessor.ParticleAccessor;
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.ParticlePosAccessor;
-import net.minecraft.client.Camera;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,20 +41,29 @@ public abstract class ParticleManagerMixin {
     @Shadow @Final private Map<ParticleRenderType, Queue<Particle>> particles;
 
     //? if >=1.21.4 && <=1.21.6 {
-    @Shadow
+    /*@Shadow
     protected static void renderCustomParticles(Camera camera, float f, MultiBufferSource.BufferSource bufferSource, Queue<Particle> queue) {
     }
 
     @Shadow
     protected static void renderParticleType(Camera camera, float f, MultiBufferSource.BufferSource bufferSource, ParticleRenderType particleRenderType, Queue<Particle> queue) {
     }
-    //?}
+    *///?}
 
     @Shadow @Final private static List<ParticleRenderType> RENDER_ORDER;
 
 
     @WrapOperation(method = "createParticle",at = @At(target = "Lnet/minecraft/client/particle/ParticleEngine;add(Lnet/minecraft/client/particle/Particle;)V",value = "INVOKE"))
     private void preRenderParticle(ParticleEngine instance, Particle particle, Operation<Void> original, @Local(argsOnly = true) ParticleOptions particleOptions) {
+
+        //? if >=1.21.9 {
+        ParticlePosAccessor particlePosAccessor = (ParticlePosAccessor)particle;
+        if(!SelectiveRenderingManager.shouldRenderParticle(particleOptions.getType(),new Vec3(particlePosAccessor.getX(),particlePosAccessor.getY(),particlePosAccessor.getZ())))
+        {
+            return;
+        }
+        //?}
+
         ((ParticleAccessor)particle).lucidity$setParticleType(particleOptions.getType());
         original.call(instance, particle);
     }
@@ -74,7 +85,7 @@ public abstract class ParticleManagerMixin {
     }
 
     *///?} else if <=1.21.6 {
-    @WrapMethod(method = "render")
+    /*@WrapMethod(method = "render")
     public void render(Camera camera, float f, MultiBufferSource.BufferSource bufferSource, Operation<Void> original) {
 
         if(SelectiveRenderingConfigs.PARTICLE_RENDERING_MODE.getOptionListValue() == OFF){
@@ -122,5 +133,5 @@ public abstract class ParticleManagerMixin {
             original.call(instance, poseStack, multiBufferSource, camera, v);
         }
     }
-    //?}
+    *///?}
 }

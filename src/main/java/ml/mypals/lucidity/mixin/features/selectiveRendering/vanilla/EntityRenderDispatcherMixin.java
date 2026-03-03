@@ -10,10 +10,10 @@ import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingSubmitNodeStorage;
 import net.minecraft.client.renderer.MultiBufferSource;
 //? if >=1.21.9 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
-*///?}
+//?}
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.Entity;
@@ -33,7 +33,7 @@ public class EntityRenderDispatcherMixin {
     }
     //? if >=1.21.9 {
 
-    /*@WrapMethod(method = "submit")
+    @WrapMethod(method = "submit")
     private void renderEntity(EntityRenderState entityRenderState, CameraRenderState cameraRenderState, double d, double e, double f, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderEntity(entityRenderState.entityType,new Vec3(entityRenderState.x,entityRenderState.y,entityRenderState.z))
                 && !SelectiveRenderingConfigs.isBlockFullyHidden()){
@@ -42,9 +42,9 @@ public class EntityRenderDispatcherMixin {
             original.call(entityRenderState, cameraRenderState, d, e, f, poseStack, submitNodeCollector);
         }
     }
-    *///?} else if >=1.21.3 {
+    //?} else if >=1.21.3 {
     
-    @WrapMethod(method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
+    /*@WrapMethod(method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
     private void renderEntity(Entity entity, double x, double y, double z, float delta, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderEntity(entity.getType(),entity.position())
                 && !SelectiveRenderingConfigs.isBlockFullyHidden()){
@@ -53,7 +53,7 @@ public class EntityRenderDispatcherMixin {
             original.call(entity, x, y, z, delta, poseStack, multiBufferSource, i);
         }
     }
-    //?} else {
+    *///?} else {
     /*@WrapMethod(method = "render")
     private void renderEntity(Entity entity, double x, double e, double f, float g, float h, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderEntity(entity.getType(),entity.position())

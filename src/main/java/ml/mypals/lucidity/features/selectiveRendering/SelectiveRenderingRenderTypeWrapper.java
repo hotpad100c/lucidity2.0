@@ -1,11 +1,11 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
 //? if <1.21.9 {
-public class SelectiveRenderingRenderTypeWrapper{
+/*public class SelectiveRenderingRenderTypeWrapper{
 
 }
-//?} else {
-/*import com.mojang.blaze3d.pipeline.RenderPipeline;
+*///?} else {
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
@@ -37,4 +37,4 @@ public class SelectiveRenderingRenderTypeWrapper extends RenderType {
         return base.pipeline();
     }
 }
-*///?}
+//?}

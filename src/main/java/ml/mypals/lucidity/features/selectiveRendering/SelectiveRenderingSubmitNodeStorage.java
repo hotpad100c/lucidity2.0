@@ -2,11 +2,11 @@ package ml.mypals.lucidity.features.selectiveRendering;
 
 //? if <1.21.9 {
 
-public class SelectiveRenderingSubmitNodeStorage {
+/*public class SelectiveRenderingSubmitNodeStorage {
 
 }
-//?} else {
-/*import com.mojang.blaze3d.vertex.PoseStack;
+*///?} else {
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
@@ -106,5 +106,5 @@ public class SelectiveRenderingSubmitNodeStorage extends SubmitNodeStorage imple
         return ((SubmitNodeStorage)base).order(i);
     }
 }
-*///?}
+//?}
 

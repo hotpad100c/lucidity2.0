@@ -116,13 +116,13 @@ public class MicrotimingKeyWorldTracker {
             if (content.contains("#")) {
                 HoverEvent hoverEvent = component1.getStyle().getHoverEvent();
                 //? if >=1.21.5 {
-                /*if (hoverEvent != null && hoverEvent.action() == HoverEvent.Action.SHOW_TEXT) {
+                if (hoverEvent != null && hoverEvent.action() == HoverEvent.Action.SHOW_TEXT) {
                     HoverEvent.ShowText showText = (HoverEvent.ShowText)hoverEvent;
                     String tooltip = showText.value().getString();
-                *///?} else {
-                if (hoverEvent != null && hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT) != null) {
+                //?} else {
+                /*if (hoverEvent != null && hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT) != null) {
                     String tooltip = hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT).getString();
-                //?}
+                *///?}
                     Vec3 vec3 = parseMarkerPos(tooltip);
                     DyeColor dyeColor = parseMarkerColor(tooltip);
                     int indent = parseMarkerIndent(tooltip);

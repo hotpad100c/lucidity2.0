@@ -9,11 +9,11 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 //? if >=1.21.5 {
-/*import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-*///?} else {
-import net.minecraft.client.resources.model.BakedModel;
-//?}
+//?} else {
+/*import net.minecraft.client.resources.model.BakedModel;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -93,10 +93,10 @@ public class ExplosionBlockPredicateShape extends Shape {
     }
     public static List<Vec3> parseQuadToTriangles(BakedQuad quad,BlockPos pos) {
         //? if >=1.21.5 {
-        /*int[] vertices = quad.vertices();
-        *///?} else {
-        int[] vertices = quad.getVertices();
-        //?}
+        int[] vertices = quad.vertices();
+        //?} else {
+        /*int[] vertices = quad.getVertices();
+        *///?}
         Vec3 v0 = extractVertexPosition(vertices, 0).add(pos.getX(),pos.getY(),pos.getZ());
         Vec3 v1 = extractVertexPosition(vertices, 1).add(pos.getX(),pos.getY(),pos.getZ());
         Vec3 v2 = extractVertexPosition(vertices, 2).add(pos.getX(),pos.getY(),pos.getZ());
@@ -131,7 +131,7 @@ public class ExplosionBlockPredicateShape extends Shape {
         assert Minecraft.getInstance().level != null;
         Level level = Minecraft.getInstance().level;
         //? if >=1.21.5 {
-        /*BlockStateModel blockModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
+        BlockStateModel blockModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
         for(BlockModelPart blockModelPart : blockModel.collectParts(level.getRandom()))
         {
             for (Direction direction:Direction.values()){
@@ -147,15 +147,15 @@ public class ExplosionBlockPredicateShape extends Shape {
             }
         }
 
-        *///?} else {
-        BakedModel blockModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
+        //?} else {
+        /*BakedModel blockModel = Minecraft.getInstance().getBlockRenderer().getBlockModel(blockState);
         for (Direction direction:Direction.values()){
             BlockPos relativePos = pos.relative(direction);
             //? if >=1.21.3 {
             if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level.getBlockState(relativePos),direction)){
             //?} else {
-            /*if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level,pos,direction,relativePos)){
-            *///?}
+            /^if(!affects.containsKey(relativePos) || Block.shouldRenderFace(blockState,level,pos,direction,relativePos)){
+            ^///?}
                 for(BakedQuad quad : blockModel.getQuads(blockState,direction,level.getRandom())){
                     vertices.addAll(parseQuadToTriangles(quad,pos));
                 }
@@ -164,7 +164,7 @@ public class ExplosionBlockPredicateShape extends Shape {
         for(BakedQuad quad : blockModel.getQuads(blockState,null,level.getRandom())){
             vertices.addAll(parseQuadToTriangles(quad,pos));
         }
-        //?}
+        *///?}
 
         return vertices;
     }

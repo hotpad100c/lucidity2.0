@@ -12,11 +12,11 @@ import fi.dy.masa.malilib.gui.widgets.WidgetListConfigOptions;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 //? if >=1.21.6 {
-/*import net.minecraft.client.renderer.RenderPipelines;
-*///?}
+import net.minecraft.client.renderer.RenderPipelines;
+//?}
 //? if >=1.21.9 {
-/*import net.minecraft.client.input.MouseButtonEvent;
-*///?}
+import net.minecraft.client.input.MouseButtonEvent;
+//?}
 import net.minecraft.client.renderer.RenderType;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
@@ -64,22 +64,22 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                 this.renderBackground(drawContext, mouseX, mouseY,partialTicks);
                 this.drawTitle(drawContext, mouseX, mouseY, partialTicks);
                 //? if >=1.21.6 {
-                /*this.drawWidgets(drawContext, mouseX, mouseY);
+                this.drawWidgets(drawContext, mouseX, mouseY);
                 this.drawTextFields(drawContext, mouseX, mouseY);
                 this.drawButtons(drawContext, mouseX, mouseY, partialTicks);
-                *///?} else {
-                this.drawWidgets(mouseX, mouseY, drawContext);
+                //?} else {
+                /*this.drawWidgets(mouseX, mouseY, drawContext);
                 this.drawTextFields(mouseX, mouseY, drawContext);
                 this.drawButtons(mouseX, mouseY, partialTicks, drawContext);
-                //?}
+                *///?}
                 this.drawContents(drawContext, mouseX, mouseY, partialTicks);
                 //? if >=1.21.6 {
-                /*this.drawHoveredWidget(drawContext, mouseX, mouseY);
+                this.drawHoveredWidget(drawContext, mouseX, mouseY);
                 this.drawButtonHoverTexts(drawContext, mouseX, mouseY, partialTicks);
-                *///?} else {
-                this.drawHoveredWidget(mouseX, mouseY, drawContext);
+                //?} else {
+                /*this.drawHoveredWidget(mouseX, mouseY, drawContext);
                 this.drawButtonHoverTexts(mouseX, mouseY, partialTicks, drawContext);
-                //?}
+                *///?}
                 this.drawGuiMessages(drawContext);
                 return false;
             });
@@ -113,11 +113,11 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                 this.renderPanorama(guiGraphics, partialTicks);
             }
             //? if <1.21.6 {
-            this.renderBlurredBackground(/*? if <=1.21.1 {*//*partialTicks*//*?}*/);
-             //?}
+            /*this.renderBlurredBackground(/^? if <=1.21.1 {^//^partialTicks^//^?}^/);
+             *///?}
             this.renderMenuBackground(guiGraphics);
-            guiGraphics.blit(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
-            guiGraphics.blit(/*? if >= 1.21.6 {*/ /*RenderPipelines.GUI_TEXTURED,*//*?} else if >=1.21.3 {*/RenderType::guiTextured, /*?}*/Screen.FOOTER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
+            guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
+            guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.FOOTER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
 
         }else{
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
@@ -125,16 +125,16 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     }
     @Override
     //? if >=1.21.6 {
-    /*public void drawButtons( GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
-    *///?} else {
-    public void drawButtons(int mouseX, int mouseY, float partialTicks, GuiGraphics drawContext) {
-    //?}
+    public void drawButtons( GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
+    //?} else {
+    /*public void drawButtons(int mouseX, int mouseY, float partialTicks, GuiGraphics drawContext) {
+    *///?}
         if(!YACL_STYLE.getBooleanValue()) {
             //? if >=1.21.6 {
-            /*super.drawButtons(drawContext,mouseX,mouseY,partialTicks);
-            *///?} else {
-            super.drawButtons(mouseX,mouseY,partialTicks,drawContext);
-            //?}
+            super.drawButtons(drawContext,mouseX,mouseY,partialTicks);
+            //?} else {
+            /*super.drawButtons(mouseX,mouseY,partialTicks,drawContext);
+            *///?}
             return;
         }
         int screenWidth = this.getScreenWidth();
@@ -155,10 +155,10 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
 
             if (xOffset + button.getWidth() > 0 && xOffset < screenWidth) {
                 //? if >=1.21.6 {
-                /*button.render(drawContext,mouseX,mouseY,button.isMouseOver());
-                *///?} else {
-                button.render(mouseX, mouseY, button.isMouseOver(), drawContext);
-                 //?}
+                button.render(drawContext,mouseX,mouseY,button.isMouseOver());
+                //?} else {
+                /*button.render(mouseX, mouseY, button.isMouseOver(), drawContext);
+                 *///?}
 
             }
 
@@ -172,10 +172,10 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     }
     @Override
     //? if >=1.21.9 {
-    /*public boolean onMouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-    *///?} else {
-    public boolean onMouseScrolled(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
-    //?}
+    public boolean onMouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+    //?} else {
+    /*public boolean onMouseScrolled(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
+    *///?}
         if(!YACL_STYLE.getBooleanValue()) return super.onMouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount);
         if (mouseY <= 50) {
             this.lucidity$setScrollOffset(this.lucidity$scrollOffset - (int)(verticalAmount * 15) - (int)(horizontalAmount * 15));
@@ -188,14 +188,14 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
 
     @WrapMethod(method = "onMouseClicked")
     //? if >=1.21.9 {
-    /*private boolean lucidity$onMouseClickedScrollableTabs(MouseButtonEvent click, boolean doubleClick, Operation<Boolean> original) {
+    private boolean lucidity$onMouseClickedScrollableTabs(MouseButtonEvent click, boolean doubleClick, Operation<Boolean> original) {
         if (!YACL_STYLE.getBooleanValue()) return original.call(click, doubleClick);
         double mouseY = click.y();
         double mouseX = click.x();
-    *///?} else {
-    private boolean lucidity$onMouseClickedScrollableTabs(int mouseX, int mouseY, int mouseButton, Operation<Boolean> original) {
+    //?} else {
+    /*private boolean lucidity$onMouseClickedScrollableTabs(int mouseX, int mouseY, int mouseButton, Operation<Boolean> original) {
         if (!YACL_STYLE.getBooleanValue()) return original.call(mouseX, mouseY, mouseButton);
-    //?}
+    *///?}
 
 
         return lucidity$offsetAndRun((ignored)->{
@@ -209,10 +209,10 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                     button.setPosition(xOffset, BUTTON_TOP_Y);
 
                     //? if >=1.21.9 {
-                    /*if (button.onMouseClicked(click,doubleClick)) {
-                    *///?} else {
-                    if (button.onMouseClicked(mouseX, mouseY, mouseButton)) {
-                    //?}
+                    if (button.onMouseClicked(click,doubleClick)) {
+                    //?} else {
+                    /*if (button.onMouseClicked(mouseX, mouseY, mouseButton)) {
+                    *///?}
                         button.setPosition(originalX, originalY);
                         return true;
                     }
@@ -224,10 +224,10 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                 return false;
             }
             //? if >=1.21.9 {
-            /*return original.call(click,doubleClick);
-            *///?} else {
-            return original.call(mouseX, mouseY, mouseButton);
-            //?}
+            return original.call(click,doubleClick);
+            //?} else {
+            /*return original.call(mouseX, mouseY, mouseButton);
+            *///?}
         });
     }
     @Unique

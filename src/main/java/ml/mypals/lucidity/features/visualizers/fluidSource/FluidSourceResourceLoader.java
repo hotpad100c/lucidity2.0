@@ -12,8 +12,8 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.BlockPos;
 //? if >=1.21.9 {
-/*import net.minecraft.data.AtlasIds;
-*///?}
+import net.minecraft.data.AtlasIds;
+//?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -74,27 +74,27 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
     @Override
     public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
         //? if >=1.21.9 {
-        /*final Function<ResourceLocation, TextureAtlasSprite> atlas = (resourceLocation)->{
+        final Function<ResourceLocation, TextureAtlasSprite> atlas = (resourceLocation)->{
             return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(resourceLocation);
         };
-        *///?} else {
-        final Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
-        //?}
+        //?} else {
+        /*final Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
+        *///?}
         lavaSourceStillSprite = atlas.apply(STILL_LAVA_SPRITE_ID);
         lavaSourceFlowSprite = atlas.apply(FLOWING_LAVA_SPRITE_ID);
         lavaSourceSpites[0] = lavaSourceStillSprite;
         lavaSourceSpites[1] = lavaSourceFlowSprite;
         //? if >=1.21.5 {
-        /*defaultLavaSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.LAVA.defaultBlockState()).particleIcon();
-        *///?} else {
-        defaultLavaSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.LAVA.defaultBlockState()).getParticleIcon();
-        //?}
+        defaultLavaSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.LAVA.defaultBlockState()).particleIcon();
+        //?} else {
+        /*defaultLavaSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.LAVA.defaultBlockState()).getParticleIcon();
+        *///?}
 
         //? if >=1.21.9 {
-        /*defaultLavaSourceFlowSprite = sprite(ModelBakery.LAVA_FLOW);
-        *///?} else {
-        defaultLavaSourceFlowSprite = ModelBakery.LAVA_FLOW.sprite();
-         //?}
+        defaultLavaSourceFlowSprite = sprite(ModelBakery.LAVA_FLOW);
+        //?} else {
+        /*defaultLavaSourceFlowSprite = ModelBakery.LAVA_FLOW.sprite();
+         *///?}
 
 
         defaultLavaSourceSpites[0] = defaultLavaSourceStillSprite;
@@ -112,10 +112,10 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
         FluidRenderHandlerRegistry.INSTANCE.register(Fluids.FLOWING_LAVA, lavaSourceRenderHandler);
 
         //? if >=1.21.9 {
-        /*defaultWaterOverlaySprite = sprite(ModelBakery.WATER_OVERLAY);
-        *///?} else {
-        defaultWaterOverlaySprite = ModelBakery.WATER_OVERLAY.sprite();
-         //?}
+        defaultWaterOverlaySprite = sprite(ModelBakery.WATER_OVERLAY);
+        //?} else {
+        /*defaultWaterOverlaySprite = ModelBakery.WATER_OVERLAY.sprite();
+         *///?}
 
 
         waterSourceStillSprite = atlas.apply(STILL_WATER_SPRITE_ID);
@@ -135,15 +135,15 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
         bubbleWaterSpitesUp[2] = defaultWaterOverlaySprite;
 
         //? if >=1.21.5 {
-        /*defaultWaterSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).particleIcon();
-        *///?} else {
-        defaultWaterSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).getParticleIcon();
-        //?}
+        defaultWaterSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).particleIcon();
+        //?} else {
+        /*defaultWaterSourceStillSprite = Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).getParticleIcon();
+        *///?}
         //? if >=1.21.9 {
-        /*defaultWaterSourceFlowSprite = sprite(ModelBakery.WATER_FLOW);
-        *///?} else {
-        defaultWaterSourceFlowSprite = ModelBakery.WATER_FLOW.sprite();
-        //?}
+        defaultWaterSourceFlowSprite = sprite(ModelBakery.WATER_FLOW);
+        //?} else {
+        /*defaultWaterSourceFlowSprite = ModelBakery.WATER_FLOW.sprite();
+        *///?}
 
         defaultWaterSourceSpites[0] = defaultWaterSourceStillSprite;
         defaultWaterSourceSpites[1] = defaultWaterSourceFlowSprite;
@@ -176,8 +176,8 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
     }
     //? if >=1.21.9 {
 
-    /*public TextureAtlasSprite sprite(Material material) {
+    public TextureAtlasSprite sprite(Material material) {
         return (TextureAtlasSprite)Minecraft.getInstance().getAtlasManager().get(material);
     }
-    *///?}
+    //?}
 }

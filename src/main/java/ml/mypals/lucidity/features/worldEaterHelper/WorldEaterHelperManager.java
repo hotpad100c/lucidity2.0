@@ -4,10 +4,10 @@ import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.utils.BlockMatchRule;
 import net.minecraft.client.Minecraft;
 //? if >=1.21.5 {
-/*import net.minecraft.client.renderer.block.model.BlockStateModel;
-*///?} else {
-import net.minecraft.client.resources.model.BakedModel;
-//?}
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+//?} else {
+/*import net.minecraft.client.resources.model.BakedModel;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -28,13 +28,13 @@ public class WorldEaterHelperManager {
     private static final CopyOnWriteArrayList<BlockMatchRule> RULES = new CopyOnWriteArrayList<>();
 
 //? if >=1.21.5 {
-    /*private static final Map<BlockStateModel, ExtrudedBlockBakedModel> CACHE = new IdentityHashMap<>();
+    private static final Map<BlockStateModel, ExtrudedBlockBakedModel> CACHE = new IdentityHashMap<>();
     public static BlockStateModel getExtruded(BlockStateModel base) {
 
-*///?} else {
-    private static final Map<BakedModel, ExtrudedBlockBakedModel> CACHE = new IdentityHashMap<>();
+//?} else {
+    /*private static final Map<BakedModel, ExtrudedBlockBakedModel> CACHE = new IdentityHashMap<>();
     public static BakedModel getExtruded(BakedModel base) {
-//?}
+*///?}
         return CACHE.computeIfAbsent(
                 base,
                 b -> new ExtrudedBlockBakedModel(b, WORLD_EATER_MINE_HELPER_HEIGHT.getFloatValue())

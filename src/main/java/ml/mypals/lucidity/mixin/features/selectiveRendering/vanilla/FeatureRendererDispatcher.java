@@ -1,22 +1,26 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla;
 
+import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingSubmitNodeStorage;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 //? if >=1.21.9 {
-/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentBuffersWrapper;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.OutlineBufferSource;
-import net.minecraft.client.renderer.SubmitNodeCollection;
 import net.minecraft.client.renderer.feature.*;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 
 @Mixin(value = FeatureRenderDispatcher.class)
 public class FeatureRendererDispatcher {
 
-    /^ modelFeatureRenderer ^/
+    /* modelFeatureRenderer */
+
+    @Shadow @Final private SubmitNodeStorage submitNodeStorage;
 
     @WrapOperation(
             method = "renderAllFeatures",
@@ -28,10 +32,10 @@ public class FeatureRendererDispatcher {
     private void wrapModel(
             ModelFeatureRenderer instance, SubmitNodeCollection submitNodeCollection, MultiBufferSource.BufferSource bufferSource, OutlineBufferSource outlineBufferSource, MultiBufferSource.BufferSource bufferSource2, Operation<Void> original
     ) {
-       original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), outlineBufferSource, new ControllableTransparentBuffersWrapper(bufferSource2));
+        original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), outlineBufferSource, new ControllableTransparentBuffersWrapper(bufferSource2));
     }
 
-    /^ modelPartFeatureRenderer ^/
+    /* modelPartFeatureRenderer */
 
     @WrapOperation(
             method = "renderAllFeatures",
@@ -46,10 +50,7 @@ public class FeatureRendererDispatcher {
         original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), outlineBufferSource, new ControllableTransparentBuffersWrapper(bufferSource2));
     }
 
-
-
-
-    /^ itemFeatureRenderer ^/
+    /* itemFeatureRenderer */
 
     @WrapOperation(
             method = "renderAllFeatures",
@@ -64,7 +65,7 @@ public class FeatureRendererDispatcher {
         original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), outlineBufferSource);
     }
 
-    /^ customFeatureRenderer ^/
+    /* customFeatureRenderer */
 
     @WrapOperation(
             method = "renderAllFeatures",
@@ -78,12 +79,25 @@ public class FeatureRendererDispatcher {
             SubmitNodeCollection submitNodeCollection,
             MultiBufferSource.BufferSource bufferSource,
             Operation<Void> original
-    ) {
+    ){
         original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource));
     }
+
+    @WrapOperation(
+            method = "renderAllFeatures",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/feature/BlockFeatureRenderer;render(Lnet/minecraft/client/renderer/SubmitNodeCollection;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;Lnet/minecraft/client/renderer/OutlineBufferSource;)V"
+            )
+    )
+    private void wrapBlock(
+            BlockFeatureRenderer instance, SubmitNodeCollection submitNodeCollection, MultiBufferSource.BufferSource bufferSource, BlockRenderDispatcher blockRenderDispatcher, OutlineBufferSource outlineBufferSource, Operation<Void> original
+    ) {
+        original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), blockRenderDispatcher, outlineBufferSource);
+    }
 }
-*///?} else {
-@Mixin(Minecraft.class)
+//?} else {
+/*@Mixin(Minecraft.class)
 public class FeatureRendererDispatcher {
 }
-//?}
+*///?}
