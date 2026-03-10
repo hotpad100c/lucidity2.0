@@ -221,7 +221,6 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                     xOffset += button.getWidth();
                 }
 
-                return false;
             }
             //? if >=1.21.9 {
             return original.call(click,doubleClick);

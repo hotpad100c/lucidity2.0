@@ -13,12 +13,12 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 //? if >=1.21.5 {
 
-/*import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
-*///?}
+//?}
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class EntityRendererMixin {
 
     //? if >=1.21.5 {
-    /*@Unique
+    @Unique
     public ThreadLocal<Entity> targetEntity = ThreadLocal.withInitial(() -> null);
 
     @Inject(at = @At("HEAD"), method = "render(Lnet/minecraft/world/entity/Entity;DDDFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/EntityRenderer;)V")
@@ -44,13 +44,13 @@ public abstract class EntityRendererMixin {
     @Inject(at = @At("HEAD"), method = "renderHitboxes(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lnet/minecraft/client/renderer/entity/state/HitboxesRenderState;Lnet/minecraft/client/renderer/MultiBufferSource;)V")
     private void renderHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState, MultiBufferSource multiBufferSource, CallbackInfo ci) {
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.lines());
-    *///?} else {
-    @Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
+    //?} else {
+    /*@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity target, float f, float g, float h, float i, CallbackInfo ci) {
-    //?}
+    *///?}
         //? if >=1.21.5 {
-        /*Entity target = targetEntity.get();
-        *///?}
+        Entity target = targetEntity.get();
+        //?}
         if (target != null && FeatureToggle.EXTENDED_HITBOX.getBooleanValue()) {
             Entity serverEntity = getServerSideEntity(target);
             Entity entity = serverEntity != null ? serverEntity : target;
@@ -58,10 +58,10 @@ public abstract class EntityRendererMixin {
                 float targetingMargin = projectile.getPickRadius();
                 AABB aABB = entity.getBoundingBox().inflate(targetingMargin).move(-entity.getX(), -entity.getY(), -entity.getZ());
                 //? if >=1.21.9 {
-                /*ShapeRenderer.renderLineBox(poseStack.last(), vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                *///?} else if >=1.21.3 {
-                ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                //?} else {
+                ShapeRenderer.renderLineBox(poseStack.last(), vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                //?} else if >=1.21.3 {
+                /*ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                *///?} else {
                 /*LevelRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
                 *///?}
             }

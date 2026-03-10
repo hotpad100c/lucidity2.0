@@ -22,7 +22,7 @@ public class SelectiveRenderingConfigs {
     public static final ConfigStringList SELECTED_ENTITIES = new ConfigStringList("selected_entities", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
     public static final ConfigStringList SELECTED_PARTICLES = new ConfigStringList("selected_particles", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
 
-    public static final ConfigInteger HIDDEN_BLOCK_TRANSPARENCY = new ConfigInteger("hidden_transparency",0,0,255);
+    public static final ConfigInteger HIDDEN_BLOCK_TRANSPARENCY = new ConfigInteger("hidden_transparency",0,0,255).apply(SELECTIVE_RENDERING_KEY);
 
     public static final SelectiveRenderingModeList BLOCK_RENDERING_MODE = new SelectiveRenderingModeList("block_mode",OFF).apply(SELECTIVE_RENDERING_KEY);
     public static final SelectiveRenderingModeList ENTITY_RENDERING_MODE = new SelectiveRenderingModeList("entity_mode",OFF).apply(SELECTIVE_RENDERING_KEY);

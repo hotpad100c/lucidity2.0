@@ -11,13 +11,13 @@ import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentVertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 //? if <1.21.5 {
 /*import net.minecraft.client.resources.model.BakedModel;
-*///?}
+*///?} else {
 import net.minecraft.client.renderer.block.model.BlockModelPart;
+//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
