@@ -33,6 +33,7 @@
     "renderingKit.VertexBuilderGetterMixin"
   ],
   "client": [
+    "features.enhancedMalilib.GuiConfigBaseMixin",
     "features.fallingBlockPreview.FallingBlockEntityRendererMixin",
     "features.imageRendeing.TextureManagerMixin",
     "features.invisibleAlphaOverride.LivingEntityRendererMixin",

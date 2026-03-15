@@ -1,10 +1,20 @@
 package ml.mypals.lucidity.config;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.*;
+import fi.dy.masa.malilib.MaLiLib;
+import fi.dy.masa.malilib.config.ConfigManager;
+import fi.dy.masa.malilib.config.ConfigType;
+import fi.dy.masa.malilib.config.IConfigBoolean;
 import fi.dy.masa.malilib.config.options.*;
+import fi.dy.masa.malilib.gui.button.ButtonGeneric;
+import fi.dy.masa.malilib.gui.button.ConfigButtonBoolean;
+import fi.dy.masa.malilib.util.StringUtils;
 import ml.mypals.lucidity.LucidityModInfo;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.features.selectiveRendering.WandActionsManager;
+import ml.mypals.lucidity.gui.LucidityGuiConfigs;
+import net.minecraft.client.Minecraft;
 
 import java.util.List;
 
@@ -16,11 +26,17 @@ public class SelectiveRenderingConfigs {
     public static final ConfigString WAND = new ConfigString("wand","minecraft:breeze_rod").apply(SELECTIVE_RENDERING_KEY);
     public static final ConfigBoolean FORCE_LIGHT_UPDATE= new ConfigBoolean("force_light_update", true).apply(SELECTIVE_RENDERING_KEY);
 
-    public static final ConfigStringList SELECTED_AREAS = new ConfigStringList("selected_areas", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ExportableConfigStringList SELECTED_AREAS = new LucidityGuiConfigs.ExportableConfigStringList("selected_areas", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ConfigImportExportButtons EXPORT_SELECTED_AREAS = new LucidityGuiConfigs.ConfigImportExportButtons(SELECTED_AREAS).apply(SELECTIVE_RENDERING_KEY);
 
-    public static final ConfigStringList SELECTED_BLOCKS = new ConfigStringList("selected_blocks", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
-    public static final ConfigStringList SELECTED_ENTITIES = new ConfigStringList("selected_entities", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
-    public static final ConfigStringList SELECTED_PARTICLES = new ConfigStringList("selected_particles", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ExportableConfigStringList SELECTED_BLOCKS = new LucidityGuiConfigs.ExportableConfigStringList("selected_blocks", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ConfigImportExportButtons EXPORT_SELECTED_BLOCKS = new LucidityGuiConfigs.ConfigImportExportButtons(SELECTED_BLOCKS).apply(SELECTIVE_RENDERING_KEY);
+
+    public static final LucidityGuiConfigs.ExportableConfigStringList SELECTED_ENTITIES = new LucidityGuiConfigs.ExportableConfigStringList("selected_entities", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ConfigImportExportButtons EXPORT_SELECTED_ENTITIES = new LucidityGuiConfigs.ConfigImportExportButtons(SELECTED_ENTITIES).apply(SELECTIVE_RENDERING_KEY);
+
+    public static final LucidityGuiConfigs.ExportableConfigStringList SELECTED_PARTICLES = new LucidityGuiConfigs.ExportableConfigStringList("selected_particles", ImmutableList.<String>builder().build()).apply(SELECTIVE_RENDERING_KEY);
+    public static final LucidityGuiConfigs.ConfigImportExportButtons EXPORT_SELECTED_PARTICLES = new LucidityGuiConfigs.ConfigImportExportButtons(SELECTED_PARTICLES).apply(SELECTIVE_RENDERING_KEY);
 
     public static final ConfigInteger HIDDEN_BLOCK_TRANSPARENCY = new ConfigInteger("hidden_transparency",0,0,255).apply(SELECTIVE_RENDERING_KEY);
 
@@ -34,9 +50,13 @@ public class SelectiveRenderingConfigs {
             FORCE_LIGHT_UPDATE,
             HIDDEN_BLOCK_TRANSPARENCY,
             SELECTED_AREAS,
+            EXPORT_SELECTED_AREAS,
             SELECTED_BLOCKS,
+            EXPORT_SELECTED_BLOCKS,
             SELECTED_ENTITIES,
+            EXPORT_SELECTED_ENTITIES,
             SELECTED_PARTICLES,
+            EXPORT_SELECTED_PARTICLES,
             BLOCK_RENDERING_MODE,
             ENTITY_RENDERING_MODE,
             PARTICLE_RENDERING_MODE,
@@ -83,4 +103,5 @@ public class SelectiveRenderingConfigs {
             return (WandActionsManager.WandApplyToMode ) super.getDefaultOptionListValue();
         }
     }
+
 }

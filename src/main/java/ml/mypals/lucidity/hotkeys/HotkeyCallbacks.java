@@ -2,6 +2,7 @@ package ml.mypals.lucidity.hotkeys;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import fi.dy.masa.malilib.gui.GuiBase;
+import fi.dy.masa.malilib.gui.Message;
 import fi.dy.masa.malilib.hotkeys.IHotkeyCallback;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import fi.dy.masa.malilib.hotkeys.KeyAction;
@@ -15,6 +16,8 @@ import ml.mypals.lucidity.gui.LucidityGuiConfigs;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import static ml.mypals.lucidity.LucidityModInfo.MOD_ID;
@@ -33,6 +36,7 @@ public class HotkeyCallbacks {
     public static void init ()
     {
         Callbacks callback = new Callbacks();
+        LucidityConfigs.Other.EXPORTABLE_LIST.setValueChangeCallback(bl ->{Screen screen = Minecraft.getInstance().screen;if (screen instanceof GuiBase guiBase) {guiBase.initGui();}});
         LucidityConfigs.Generic.OPEN_CONFIG_GUI.getKeybind().setCallback(callback);
         LucidityConfigs.Generic.WORLD_EATER_MINE_HELPER_TARGETS.setValueChangeCallback(configStringList -> WorldEaterHelperManager.refresh());
         LucidityConfigs.Generic.WORLD_EATER_MINE_HELPER_HEIGHT.setValueChangeCallback(configFloat -> WorldEaterHelperManager.refresh());

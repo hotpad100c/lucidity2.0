@@ -84,6 +84,9 @@ public class WandTooltipRenderer {
             if (pos2 == null) {
                 addTooltip.accept("lucidity.info.wand.selectP2", new Color(255, 255, 255, 200), "textures/gui/mouse_right.png");
             }
+            if (pos1 != null || pos2 != null) {
+                addTooltip.accept("lucidity.info.wand.clearSelection", new Color(255, 255, 255, 200), "textures/gui/hotkey.png");
+            }
             if (pos1 != null && pos2 != null) {
                 if (!addArea.isDown()) {
                     addKeyTooltip.accept(addArea, new Color(255, 255, 255, 200),"textures/gui/hotkey.png");

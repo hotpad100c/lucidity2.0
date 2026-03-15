@@ -1,14 +1,11 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import fi.dy.masa.malilib.config.IConfigOptionListEntry;
 import ml.mypals.lucidity.Lucidity;
-import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterHelperManager;
 import ml.mypals.lucidity.utils.BlockMatchRule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,8 +14,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.piston.MovingPistonBlock;
+import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -273,7 +272,26 @@ public class SelectiveRenderingManager {
         return Minecraft.getInstance().level != null && shouldRenderBlock(Minecraft.getInstance().level.getBlockState(pos), pos);
     }
     public static boolean shouldRenderBlock(BlockState block, BlockPos pos) {
-        return shouldRender(
+
+        boolean render = true;
+        if(block.getBlock() instanceof MovingPistonBlock && Minecraft.getInstance().level != null){
+            BlockEntity entity = Minecraft.getInstance().level.getBlockEntity(pos);
+            if(entity instanceof PistonMovingBlockEntity piston){
+                BlockState content = piston.getMovedState();
+
+                BlockPos dist = entity.getBlockPos().relative(piston.getMovementDirection().getOpposite()).immutable();
+                render = shouldRender(
+                        BLOCK_RENDERING_MODE.getOptionListValue(),
+                        content,
+                        new Vec3(dist.getX(), dist.getY(), dist.getZ()),
+                        blockType -> BuiltInRegistries.BLOCK.getId(content.getBlock()),
+                        null,
+                        selectedBlockTypes
+                );
+
+            }
+        }
+        render = render && shouldRender(
                 BLOCK_RENDERING_MODE.getOptionListValue(),
                 block,
                 new Vec3(pos.getX(), pos.getY(), pos.getZ()),
@@ -281,9 +299,11 @@ public class SelectiveRenderingManager {
                 null,
                 selectedBlockTypes
         );
+        return render;
     }
 
     public static boolean shouldRenderEntity(EntityType<?> entity, Vec3 pos) {
+
         return shouldRender(
                 ENTITY_RENDERING_MODE.getOptionListValue(),
                 entity,
@@ -348,7 +368,7 @@ public class SelectiveRenderingManager {
     }
     public static boolean isSelectedTypeAndState(BlockState state, List<BlockMatchRule> selectedTypes) {
         for (BlockMatchRule rule : selectedTypes) {
-            return rule.matches(state);
+            if(rule.matches(state)) return true;
         }
         return false;
     }

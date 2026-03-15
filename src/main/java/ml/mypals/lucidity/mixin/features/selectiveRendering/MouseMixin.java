@@ -29,7 +29,7 @@ public class MouseMixin {
         *///?}
             if (this.minecraft.player != null) {
                 ItemStack mainHand = this.minecraft.player.getMainHandItem();
-                if (((mainHand.is(wand) || (this.minecraft.player.isSpectator())) && switchRenderMode.isDown())) {
+                if (mainHand.is(wand) && switchRenderMode.isDown()) {
                     double sensitivity = this.minecraft.options.mouseWheelSensitivity().get();
                     double scrollAmount = (this.minecraft.options.discreteMouseScroll().get() ?
                             Math.signum(vertical) : vertical) * sensitivity;

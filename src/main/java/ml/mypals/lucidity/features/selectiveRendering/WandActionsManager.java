@@ -256,7 +256,6 @@ public class WandActionsManager {
         boolean shouldSelect = client.player.getMainHandItem().getItem() == wand;
         deleteMode = false;
         selectCoolDown = selectCoolDown <= 0? 0 : selectCoolDown-1;
-        //getMouseScroll();
         if(selectCoolDown <= 0 && shouldSelect && client.player != null){
             InteractionHand mainHand = client.player.getUsedItemHand();
             if (deleteArea.isDown()) {

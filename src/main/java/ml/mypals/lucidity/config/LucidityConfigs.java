@@ -13,6 +13,7 @@ import fi.dy.masa.malilib.util.FileUtils;
 import fi.dy.masa.malilib.util.JsonUtils;
 import ml.mypals.lucidity.Lucidity;
 import ml.mypals.lucidity.LucidityModInfo;
+import ml.mypals.lucidity.gui.LucidityGuiConfigs;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +28,7 @@ public class LucidityConfigs implements IConfigHandler
     public static class Generic {
         public static final ConfigHotkey OPEN_CONFIG_GUI= new ConfigHotkey(
                 "open_config",
-                "X + V",
+                "X,V",
                 KeybindSettings.RELEASE_EXCLUSIVE
         ).apply(GENERIC_KEY);
         public static final ConfigInteger SCULK_DETECT_RANGE= new ConfigInteger(
@@ -43,7 +44,7 @@ public class LucidityConfigs implements IConfigHandler
                 1.0f
         ).apply(GENERIC_KEY);
 
-        public static final ConfigStringList WORLD_EATER_MINE_HELPER_TARGETS = new ConfigStringList(
+        public static final LucidityGuiConfigs.ExportableConfigStringList WORLD_EATER_MINE_HELPER_TARGETS = new LucidityGuiConfigs.ExportableConfigStringList(
                 "world_eater_helper_target",
                 ImmutableList.of(
                         "#c:clusters",
@@ -56,6 +57,7 @@ public class LucidityConfigs implements IConfigHandler
                         "minecraft:kelp"
                 )
         ).apply(GENERIC_KEY);
+        public static final LucidityGuiConfigs.ConfigImportExportButtons EXPORT_WORLD_EATER_MINE_HELPER_TARGETS = new LucidityGuiConfigs.ConfigImportExportButtons(WORLD_EATER_MINE_HELPER_TARGETS).apply(GENERIC_KEY);
         public static final ConfigFloat WORLD_EATER_MINE_HELPER_HEIGHT = new ConfigFloat(
                 "world_eater_helper_render_height",
                 7f,
@@ -76,6 +78,7 @@ public class LucidityConfigs implements IConfigHandler
                 SCULK_DETECT_RANGE,
                 FLUID_TRANSPARENCY,
                 WORLD_EATER_MINE_HELPER_TARGETS,
+                EXPORT_WORLD_EATER_MINE_HELPER_TARGETS,
                 WORLD_EATER_MINE_HELPER_HEIGHT,
                 INVISIBLE_ENTITY_ALPHA
         );
@@ -90,8 +93,17 @@ public class LucidityConfigs implements IConfigHandler
                 "yacl_like_config",
                 false
         ).apply(OTHER);
+        public static final ConfigBoolean EXPORTABLE_LIST = new ConfigBoolean(
+                "exportable_list",
+                false
+        ).apply(OTHER);
+        public static final ConfigStringList IST = new ConfigStringList(
+                "exportable_list_111",ImmutableList.of("1","2","333")
+        ).apply(OTHER);
         public static final ImmutableList<IConfigBase> OPTIONS = ImmutableList.of(
-                YACL_STYLE
+                YACL_STYLE,
+                EXPORTABLE_LIST,
+                IST
         );
     }
     @Override
