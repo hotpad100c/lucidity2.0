@@ -6,7 +6,7 @@ import ml.mypals.ryansrenderingkit.shape.box.BoxShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -160,9 +160,9 @@ public class NetherPosCaculatorManager {
             }
         }
         public void submit(){
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"indicator_overworld_"+overworldPos.hashCode()),
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"indicator_overworld_"+overworldPos.hashCode()),
                     overworldPosInd);
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"indicator_nether_"+netherpos.hashCode()),
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"indicator_nether_"+netherpos.hashCode()),
                     netherPosInd);
         }
         public static float scaleByDistance(

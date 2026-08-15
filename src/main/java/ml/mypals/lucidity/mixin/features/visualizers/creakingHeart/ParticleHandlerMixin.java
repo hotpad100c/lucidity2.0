@@ -14,7 +14,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.TrailParticleOption;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,7 +47,7 @@ public class ParticleHandlerMixin {
             Vec3 targetPos = trailParticleOption.target();
             BlockPos pos = BlockPos.containing(targetPos);
             ShapeManagers.addShape(
-                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "creaking_heart_pos_"+pos.hashCode()),
+                    Identifier.fromNamespaceAndPath(MOD_ID, "creaking_heart_pos_"+pos.hashCode()),
                     ShapeGenerator.generateBoxFace()
                             .aabb(pos.getCenter().subtract(0.5),pos.getCenter().add(0.5))
                             .color(0)

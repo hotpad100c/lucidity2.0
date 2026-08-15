@@ -7,14 +7,14 @@ import net.minecraft.client.gui.components.WidgetSprites;
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 
 import java.awt.*;
 import static ml.mypals.lucidity.config.LucidityConfigs.Other.YACL_STYLE;
 
 public class YaclLikeConfigTab extends ButtonGeneric {
-    public static final WidgetSprites SPRITES = new WidgetSprites(ResourceLocation.withDefaultNamespace("widget/tab_selected"), ResourceLocation.withDefaultNamespace("widget/tab"), ResourceLocation.withDefaultNamespace("widget/tab_selected_highlighted"), ResourceLocation.withDefaultNamespace("widget/tab_highlighted"));
+    public static final WidgetSprites SPRITES = new WidgetSprites(Identifier.withDefaultNamespace("widget/tab_selected"), Identifier.withDefaultNamespace("widget/tab"), Identifier.withDefaultNamespace("widget/tab_selected_highlighted"), Identifier.withDefaultNamespace("widget/tab_highlighted"));
 
     public YaclLikeConfigTab(int x, int y, int width, int height, String text, String... hoverStrings) {
         super(x, y, width, height, text, hoverStrings);

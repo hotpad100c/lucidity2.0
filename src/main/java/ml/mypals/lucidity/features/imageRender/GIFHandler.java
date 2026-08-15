@@ -5,7 +5,7 @@ import ml.mypals.lucidity.Lucidity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -30,17 +30,17 @@ import static ml.mypals.lucidity.features.imageRender.ImageRenderManager.TEMP_TE
 
 public class GIFHandler {
     public static class GifFrameData {
-        public List<ResourceLocation> identifiers; // Identifier -> ResourceLocation
+        public List<Identifier> identifiers; // Identifier -> Identifier
         public List<Integer> delays;
 
-        public GifFrameData(List<ResourceLocation> identifiers, List<Integer> delays) {
+        public GifFrameData(List<Identifier> identifiers, List<Integer> delays) {
             this.identifiers = identifiers;
             this.delays = delays;
         }
     }
 
     public static GifFrameData createGifTextures(String source, String baseName) {
-        List<ResourceLocation> identifiers = new ArrayList<>();
+        List<Identifier> identifiers = new ArrayList<>();
         List<Integer> delays = new ArrayList<>();
         TextureManager textureManager = Minecraft.getInstance().getTextureManager(); // MinecraftClient -> Minecraft
 
@@ -143,7 +143,7 @@ public class GIFHandler {
                 gFrame.dispose();
 
                 NativeImage nativeImage = convertBufferedImageToNativeImage(canvas);
-                ResourceLocation frameIdentifier = ResourceLocation.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH + baseName + "_frame_" + i);
+                Identifier frameIdentifier = Identifier.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH + baseName + "_frame_" + i);
                 identifiers.add(frameIdentifier);
 
                 Minecraft.getInstance().execute(() -> {

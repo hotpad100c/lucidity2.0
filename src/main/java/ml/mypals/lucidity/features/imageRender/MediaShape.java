@@ -14,13 +14,13 @@ import ml.mypals.ryansrenderingkit.builders.vertexBuilders.VertexBuilder;
 import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shape.basics.tags.EmptyMesh;
 import ml.mypals.ryansrenderingkit.transform.shapeTransformers.DefaultTransformer;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 //? if >=1.21.5 {
@@ -53,7 +53,7 @@ public class MediaShape extends Shape implements EmptyMesh {
 
     //? >=1.21.5 {
     public static final RenderPipeline MEDIA_SHAPE_TEXTURE;
-    private static final Function<ResourceLocation, RenderType> MEDIA_SHAPE_RENDER_TYPE;
+    private static final Function<Identifier, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
         MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
         MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*? if <1.21.6 {*//*, TriState.DEFAULT*//*?}*/, false)).createCompositeState(false)));
@@ -63,13 +63,13 @@ public class MediaShape extends Shape implements EmptyMesh {
 
     private MediaData mediaData;
 
-    private ResourceLocation currentTextureId;
+    private Identifier currentTextureId;
 
     private int currentFrame = 0;
     private long lastFrameTime = 0;
 
-    public static final ResourceLocation LOST = ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/lost-file.png");
-    public static final ResourceLocation LOADING = ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/loading.png");
+    public static final Identifier LOST = Identifier.fromNamespaceAndPath(MOD_ID, "textures/lost-file.png");
+    public static final Identifier LOADING = Identifier.fromNamespaceAndPath(MOD_ID, "textures/loading.png");
 
     public MediaShape(Color color, Vec3 center, boolean seeThrough, MediaData mediaData) {
         super(RenderingType.IMMEDIATE,
@@ -369,7 +369,7 @@ public class MediaShape extends Shape implements EmptyMesh {
         return mediaData;
     }
 
-    public ResourceLocation getCurrentTextureId() {
+    public Identifier getCurrentTextureId() {
         return currentTextureId;
     }
 
@@ -389,7 +389,7 @@ public class MediaShape extends Shape implements EmptyMesh {
         public int index;
         public String path;
         public String name;
-        public ResourceLocation[] textureIDs;
+        public Identifier[] textureIDs;
         public Vec3 pos;
         public Quaternionf rotation;
         public Vec3 scale;
@@ -400,7 +400,7 @@ public class MediaShape extends Shape implements EmptyMesh {
         private boolean selected;
 
         public MediaData(int index, String path, String name,
-                         @Nullable ResourceLocation[] textureIDs,
+                         @Nullable Identifier[] textureIDs,
                          double[] pos, double[] rotation, double[] scale,
                          @NotNull MediaTypeDetector.MediaType type, boolean ready) {
             this.index = index;
@@ -478,7 +478,7 @@ public class MediaShape extends Shape implements EmptyMesh {
             return ready;
         }
 
-        public ResourceLocation[] getTextureIDs() {
+        public Identifier[] getTextureIDs() {
             return textureIDs;
         }
 

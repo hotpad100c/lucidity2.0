@@ -13,8 +13,8 @@ import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRend
 import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.builder.ChunkMeshBufferBuilder;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
-import net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl;
-import net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext;
+import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
+import net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;

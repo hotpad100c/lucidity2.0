@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.entity.state.TntRenderState;
 //?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;

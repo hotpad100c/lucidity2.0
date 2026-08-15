@@ -12,7 +12,7 @@ import ml.mypals.ryansrenderingkit.shape.box.WireframedBoxShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.awt.*;
 
@@ -88,8 +88,8 @@ public class AreaBox{
         }
     }
     public void submit(){
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"area_box_"+minPos.hashCode()+maxPos.hashCode()),this.boxShape);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"area_box_frame_"+minPos.hashCode()+maxPos.hashCode()),this.boxFrame);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"area_box_"+minPos.hashCode()+maxPos.hashCode()),this.boxShape);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"area_box_frame_"+minPos.hashCode()+maxPos.hashCode()),this.boxFrame);
     }
     public void destroy() {
         if (boxShape != null) {

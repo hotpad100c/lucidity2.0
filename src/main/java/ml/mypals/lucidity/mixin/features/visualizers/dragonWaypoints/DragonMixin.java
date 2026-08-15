@@ -7,10 +7,10 @@ import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shape.box.BoxFaceShape;
 import ml.mypals.ryansrenderingkit.shape.line.StripLineShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.enderdragon.phases.DragonHoldingPatternPhase;
 import net.minecraft.world.entity.boss.enderdragon.phases.DragonPhaseInstance;
@@ -70,7 +70,7 @@ public abstract class DragonMixin extends Mob implements Enemy {
                                 }
                             })
                             .build(Shape.RenderingType.BATCH);
-                    ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"dragon_"+this.getUUID().toString().toLowerCase()+"_target"),curentTarget);
+                    ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"dragon_"+this.getUUID().toString().toLowerCase()+"_target"),curentTarget);
                 }
                 curentTarget.setWorldPosition(target);
                 Vector3f r = LucidityMiscHelpers.rotate(this.level().getGameTime()).toVector3f();
@@ -98,7 +98,7 @@ public abstract class DragonMixin extends Mob implements Enemy {
                                 }
                             })
                             .build(Shape.RenderingType.BATCH);
-                    ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"dragon_"+this.getUUID().toString().toLowerCase()+"_path"),pathIndicator);
+                    ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"dragon_"+this.getUUID().toString().toLowerCase()+"_path"),pathIndicator);
                 }
                 pathIndicator.setVertexes(points);
                 Color color = path.isDone()?

@@ -29,7 +29,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentVertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.SectionBufferBuilderPack;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 //? if >=1.21.5 {

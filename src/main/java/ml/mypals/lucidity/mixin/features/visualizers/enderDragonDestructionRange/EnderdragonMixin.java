@@ -4,11 +4,11 @@ import ml.mypals.ryansrenderingkit.builders.shapeBuilders.ShapeGenerator;
 import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shape.box.BoxFaceShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
@@ -72,7 +72,7 @@ public abstract class EnderdragonMixin extends Mob implements Enemy {
                         })
                         .build(Shape.RenderingType.BATCH);
                 ShapeManagers.addShape(
-                        ResourceLocation.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_body_"
+                        Identifier.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_body_"
                                 + this.body.getStringUUID().toLowerCase()),
                         bodyDestructionBox
                 );
@@ -89,7 +89,7 @@ public abstract class EnderdragonMixin extends Mob implements Enemy {
                         })
                         .build(Shape.RenderingType.BATCH);
                 ShapeManagers.addShape(
-                        ResourceLocation.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_neck_"
+                        Identifier.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_neck_"
                                 + this.neck.getStringUUID().toLowerCase()),
                         neckDestructionBox
                 );
@@ -106,7 +106,7 @@ public abstract class EnderdragonMixin extends Mob implements Enemy {
                         })
                         .build(Shape.RenderingType.BATCH);
                 ShapeManagers.addShape(
-                        ResourceLocation.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_head_"
+                        Identifier.fromNamespaceAndPath(MOD_ID, "enderdragon_destruction_box_head_"
                                 + this.head.getStringUUID().toLowerCase()),
                         headDestructionBox
                 );

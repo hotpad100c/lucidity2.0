@@ -2,7 +2,7 @@ package ml.mypals.lucidity.utils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,7 +59,7 @@ public record BlockMatchRule(
 
             tag = TagKey.create(
                     Registries.BLOCK,
-                    Objects.requireNonNull(ResourceLocation.tryParse(tagId))
+                    Objects.requireNonNull(Identifier.tryParse(tagId))
             );
         }
         else {
@@ -67,7 +67,7 @@ public record BlockMatchRule(
                 targetPart = "minecraft:" + targetPart;
             }
 
-            ResourceLocation id = ResourceLocation.tryParse(targetPart);
+            Identifier id = Identifier.tryParse(targetPart);
             //? if >=1.21.3 {
             block = BuiltInRegistries.BLOCK.getValue(id);
             //?} else {

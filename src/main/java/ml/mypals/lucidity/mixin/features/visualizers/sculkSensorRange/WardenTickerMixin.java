@@ -5,7 +5,7 @@ import ml.mypals.lucidity.features.visualizers.sculk.SculkVisualizerManager;
 import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shape.round.SphereShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.warden.Warden;
@@ -56,7 +56,7 @@ public abstract class WardenTickerMixin extends Monster implements VibrationSyst
                     false
             );
             SculkVisualizerManager.getVisualizers().add(shape);
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,this.getUUID().toString().toLowerCase()), shape);
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,this.getUUID().toString().toLowerCase()), shape);
         }
     }
 }

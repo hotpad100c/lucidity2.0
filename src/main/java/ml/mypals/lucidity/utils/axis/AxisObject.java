@@ -6,7 +6,7 @@ import ml.mypals.ryansrenderingkit.shape.model.ObjModelShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import ml.mypals.ryansrenderingkit.transform.shapeTransformers.DefaultTransformer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
@@ -20,9 +20,9 @@ import static ml.mypals.lucidity.features.netherPosCaculator.NetherPosCaculatorM
 
 public class AxisObject {
 
-    private static final ResourceLocation MOVE_AXIS_MODEL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "models/obj/move.obj");
-    private static final ResourceLocation ROTATION_AXIS_MODEL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "models/obj/rotation.obj");
-    private static final ResourceLocation SCALE_AXIS_MODEL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "models/obj/scale.obj");
+    private static final Identifier MOVE_AXIS_MODEL = Identifier.fromNamespaceAndPath(MOD_ID, "models/obj/move.obj");
+    private static final Identifier ROTATION_AXIS_MODEL = Identifier.fromNamespaceAndPath(MOD_ID, "models/obj/rotation.obj");
+    private static final Identifier SCALE_AXIS_MODEL = Identifier.fromNamespaceAndPath(MOD_ID, "models/obj/scale.obj");
 
     private static final Color COLOR_X = new Color(255, 50, 50, 220);
     private static final Color COLOR_Y = new Color(50, 255, 50, 220);
@@ -90,17 +90,17 @@ public class AxisObject {
     }
 
     public void submit() {
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_move_x"), mxAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_move_y"), myAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_move_z"), mzAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_move_x"), mxAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_move_y"), myAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_move_z"), mzAxis);
 
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_rot_x"), rxAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_rot_y"), ryAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_rot_z"), rzAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_rot_x"), rxAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_rot_y"), ryAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_rot_z"), rzAxis);
 
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_scale_x"), sxAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_scale_y"), syAxis);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, name + "_scale_z"), szAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_scale_x"), sxAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_scale_y"), syAxis);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID, name + "_scale_z"), szAxis);
     }
 
     public void destroy() {

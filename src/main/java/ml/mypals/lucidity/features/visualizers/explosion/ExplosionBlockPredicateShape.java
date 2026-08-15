@@ -4,7 +4,7 @@ import ml.mypals.lucidity.utils.LucidityColorHelper;
 import ml.mypals.ryansrenderingkit.builders.vertexBuilders.VertexBuilder;
 import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
-import net.caffeinemc.mods.sodium.client.render.frapi.helper.ColorHelper;
+import net.caffeinemc.mods.sodium.client.render.helper.ColorHelper;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.block.model.BlockStateModel;
 *///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,7 +45,7 @@ public class ExplosionBlockPredicateShape extends Shape {
 
 
     public void submitSubShape(){
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(this.id.getNamespace(), this.id.getPath() + "_rays"),subRayShape);
+        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(this.id.getNamespace(), this.id.getPath() + "_rays"),subRayShape);
     }
 
     public void updateExplosionResult(MonitoredExplosion.ExplosionResult explosionResult){

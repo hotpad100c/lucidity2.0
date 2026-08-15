@@ -3,7 +3,7 @@ package ml.mypals.lucidity.mixin.features.visualizers.itemMergRange;
 import com.mojang.blaze3d.vertex.*;
 import fi.dy.masa.malilib.util.data.Color4f;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;

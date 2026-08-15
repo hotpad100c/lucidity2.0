@@ -7,7 +7,7 @@ import ml.mypals.ryansrenderingkit.shape.box.BoxFaceShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -114,7 +114,7 @@ public class DragonWaypointManager {
                         .aabb(pos,pos.add(1,1,1))
                         .color(color)
                         .build(Shape.RenderingType.BATCH);
-                ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"ender_dragon_node_"+i),nodeIndicators[i]);
+                ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"ender_dragon_node_"+i),nodeIndicators[i]);
             }
         }
     }

@@ -3,7 +3,7 @@ package ml.mypals.lucidity.mixin.features.imageRendeing;
 import ml.mypals.lucidity.features.imageRender.ITextureManager;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,16 +15,16 @@ import java.util.*;
 public abstract class TextureManagerMixin implements ITextureManager {
     @Shadow
     @Final
-    private  Map<ResourceLocation, AbstractTexture> byPath;
+    private  Map<Identifier, AbstractTexture> byPath;
 
     @Shadow @Final private static Logger LOGGER;
 
-    @Shadow public abstract void release(ResourceLocation resourceLocation);
+    @Shadow public abstract void release(Identifier resourceLocation);
 
     @Override
-    public void lucidity$destroyAll(ResourceLocation identifier) {
+    public void lucidity$destroyAll(Identifier identifier) {
         String targetPath = identifier.getPath();
-        List<ResourceLocation> needsToRemove = new ArrayList<>();
+        List<Identifier> needsToRemove = new ArrayList<>();
         this.byPath.forEach(((identifier1, abstractTexture) -> {
             String path = identifier1.getPath();
             boolean bl = path.startsWith(targetPath);

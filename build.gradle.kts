@@ -172,3 +172,8 @@ publishing {
     }
 }
  */
+
+// 移植期间临时放开 javac 的错误上限，便于一次看到全部问题
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xmaxerrs", "2000"))
+}

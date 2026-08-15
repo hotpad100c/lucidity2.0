@@ -1,7 +1,7 @@
 package ml.mypals.lucidity.utils;
 //? if >=1.21.5 {
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.opengl.GlStateManager;

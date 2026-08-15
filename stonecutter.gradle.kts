@@ -24,4 +24,42 @@ stonecutter parameters {
         direction = eval(current.version, ">=1.21.5")
         replace("fi.dy.masa.malilib.util.Color4f", "fi.dy.masa.malilib.util.data.Color4f")
     }
+
+    // 1.21.11 做了一次大规模包重组，见 https://docs.neoforged.net/primer/docs/1.21.11/
+    // 这里只放"纯改名/搬包"的部分；真正的 API 变更（RenderStateShard -> RenderSetup、
+    // HitboxesRenderState 移除、sodium 遮挡剔除重构等）用 //? if >=1.21.11 的条件块单独处理。
+    // 每个 replacements.string{} 只承载一对替换，所以这里用循环批量声明
+    listOf(
+        // ResourceLocation 整体改名为 Identifier；包路径没变，裸标识符替换同时修好 import 和用法
+        "ResourceLocation" to "Identifier",
+
+        // net.minecraft 顶层工具类下沉
+        "net.minecraft.Util" to "net.minecraft.util.Util",
+
+        // RenderType 搬进 rendertype 子包（注意：原来挂在 RenderType 上的静态类型
+        // 已经拆到 RenderTypes，那部分不是搬包，得逐处改）
+        "net.minecraft.client.renderer.RenderType" to "net.minecraft.client.renderer.rendertype.RenderType",
+
+        // 客户端模型按类型分了子包
+        "net.minecraft.client.model.CreeperModel" to "net.minecraft.client.model.monster.creeper.CreeperModel",
+        "net.minecraft.client.model.WitherBossModel" to "net.minecraft.client.model.monster.wither.WitherBossModel",
+
+        // 实体按类型分了子包
+        "net.minecraft.world.entity.boss.EnderDragonPart" to "net.minecraft.world.entity.boss.enderdragon.EnderDragonPart",
+        "net.minecraft.world.entity.projectile.windcharge." to "net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.",
+        "net.minecraft.world.entity.projectile.LargeFireball" to "net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball",
+        "net.minecraft.world.entity.projectile.WitherSkull" to "net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull",
+        "net.minecraft.world.entity.vehicle.AbstractBoat" to "net.minecraft.world.entity.vehicle.boat.AbstractBoat",
+        "net.minecraft.world.entity.vehicle.MinecartTNT" to "net.minecraft.world.entity.vehicle.minecart.MinecartTNT",
+
+        // sodium 0.8 把 frapi 子树摊平了
+        "net.caffeinemc.mods.sodium.client.render.frapi.helper." to "net.caffeinemc.mods.sodium.client.render.helper.",
+        "net.caffeinemc.mods.sodium.client.render.frapi.mesh." to "net.caffeinemc.mods.sodium.client.render.model.",
+        "net.caffeinemc.mods.sodium.client.render.frapi.render." to "net.caffeinemc.mods.sodium.client.render.model."
+    ).forEach { (old, new) ->
+        replacements.string {
+            direction = eval(current.version, ">=1.21.11")
+            replace(old, new)
+        }
+    }
 }

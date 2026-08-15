@@ -2,12 +2,12 @@ package ml.mypals.lucidity.mixin.features.visualizers.boatRestriction;
 
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 //? if >=1.21.3 {
 
 import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
 import net.minecraft.client.renderer.entity.state.BoatRenderState;
-import net.minecraft.world.entity.vehicle.AbstractBoat;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 //?} else {
 /*import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.client.renderer.entity.BoatRenderer;

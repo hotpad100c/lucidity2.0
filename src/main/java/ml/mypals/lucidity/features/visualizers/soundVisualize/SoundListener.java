@@ -10,7 +10,7 @@ import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEventListener;
 import net.minecraft.client.sounds.WeighedSoundEvents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +47,7 @@ public class SoundListener implements SoundEventListener {
                     .color(LucidityColorHelper.c4f2C(SOUND_COLOR.getColor()))
                     .edgeWidth(3)
                     .build(Shape.RenderingType.BATCH);
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"block_event_"+soundInstance.hashCode()),
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"block_event_"+soundInstance.hashCode()),
                     boxShape);
             TextShape textShape = ShapeGenerator.generateText()
                     .texts(weighedSoundEvents.getSubtitle() != null?weighedSoundEvents.getSubtitle().getString():"N/A")
@@ -70,7 +70,7 @@ public class SoundListener implements SoundEventListener {
                         }
                     }))
                     .build();
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"block_event_text_"+soundInstance.hashCode()),
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"block_event_text_"+soundInstance.hashCode()),
                     textShape);
         }
     }

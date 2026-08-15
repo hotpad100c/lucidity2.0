@@ -20,7 +20,7 @@ import net.fabricmc.fabric.impl.client.indigo.renderer.render.*;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 
 //?}
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import net.fabricmc.fabric.impl.client.indigo.renderer.mesh.MutableQuadViewImpl;
 import net.fabricmc.fabric.impl.client.indigo.renderer.render.BlockRenderInfo;

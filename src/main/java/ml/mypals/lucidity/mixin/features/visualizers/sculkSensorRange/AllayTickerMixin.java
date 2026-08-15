@@ -5,7 +5,7 @@ import ml.mypals.lucidity.features.visualizers.sculk.SculkVisualizerManager;
 import ml.mypals.ryansrenderingkit.shape.Shape;
 import ml.mypals.ryansrenderingkit.shape.round.SphereShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.animal.allay.Allay;
@@ -59,7 +59,7 @@ public abstract class AllayTickerMixin extends PathfinderMob implements Inventor
                     false
             );
             SculkVisualizerManager.getVisualizers().add(shape);
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,this.getUUID().toString().toLowerCase()), shape);
+            ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,this.getUUID().toString().toLowerCase()), shape);
         }
     }
 }

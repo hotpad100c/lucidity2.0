@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.GameRenderer;
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import org.apache.commons.lang3.function.TriConsumer;
 import org.jetbrains.annotations.Nullable;
@@ -38,14 +38,14 @@ public class WandTooltipRenderer {
         int color;
 
         @Nullable
-        ResourceLocation icon;
-        public ToolTipItem(String text, Color color, @Nullable ResourceLocation icon) {
+        Identifier icon;
+        public ToolTipItem(String text, Color color, @Nullable Identifier icon) {
             this.text = text;
             this.color = (color.getAlpha() << 24) | (color.getRed() << 16) | (color.getGreen() << 8) | color.getBlue();
             this.icon = icon;
         }
     }
-    public static void addTooltip(String text, Color color, ResourceLocation icon) {
+    public static void addTooltip(String text, Color color, Identifier icon) {
         hudItems.add(new ToolTipItem(text, color, icon));
     }
 
@@ -53,7 +53,7 @@ public class WandTooltipRenderer {
         hudItems.clear();
 
         TriConsumer<String,Color,String> addTooltip = (key, color, icon) ->
-                WandTooltipRenderer.addTooltip(Component.translatable(key).getString(), color, ResourceLocation.fromNamespaceAndPath(MOD_ID, icon));
+                WandTooltipRenderer.addTooltip(Component.translatable(key).getString(), color, Identifier.fromNamespaceAndPath(MOD_ID, icon));
 
         TriConsumer<KeyMapping,Color ,String> addKeyTooltip = (key, color, icon) ->
                 addTooltip.accept(Component.translatable(key.getName()).getString() + "(" + key.getTranslatedKeyMessage().getString() + ")", color, icon);
@@ -165,28 +165,28 @@ public class WandTooltipRenderer {
         int y = screenHeight - 60;
         GlStateManager._enableBlend();
         //? if >= 1.21.6 {
-        context.blit(RenderPipelines.GUI_TEXTURED,ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        context.blit(RenderPipelines.GUI_TEXTURED,Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         //?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        /*context.blit(RenderType::guiTextured, Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?} else {
-        /*context.blit(ResourceLocation.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
+        /*context.blit(Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
         *///?}
         GlStateManager._disableBlend();
         context.drawString(client.font, Component.translatable(wandApplyToMode.getTranslationKey()), x+iconWidth+2, y+(iconWidth/2), 0xFFFFFFE0, true);
 
         String translationKey = "-";
-        ResourceLocation secondIcon = switch (wandApplyToMode) {
+        Identifier secondIcon = switch (wandApplyToMode) {
             case WandActionsManager.WandApplyToMode.APPLY_TO_BLOCKS -> {
                 translationKey = BLOCK_RENDERING_MODE.getOptionListValue().getTranslationKey();
-                yield ResourceLocation.fromNamespaceAndPath(MOD_ID, BLOCK_RENDERING_MODE.getDefaultOptionListValue().getIcon());
+                yield Identifier.fromNamespaceAndPath(MOD_ID, BLOCK_RENDERING_MODE.getDefaultOptionListValue().getIcon());
             }
             case WandActionsManager.WandApplyToMode.APPLY_TO_ENTITIES -> {
                 translationKey = ENTITY_RENDERING_MODE.getOptionListValue().getTranslationKey();
-                yield ResourceLocation.fromNamespaceAndPath(MOD_ID, ENTITY_RENDERING_MODE.getDefaultOptionListValue().getIcon());
+                yield Identifier.fromNamespaceAndPath(MOD_ID, ENTITY_RENDERING_MODE.getDefaultOptionListValue().getIcon());
             }
             case WandActionsManager.WandApplyToMode.APPLY_TO_PARTICLES -> {
                 translationKey = PARTICLE_RENDERING_MODE.getOptionListValue().getTranslationKey();
-                yield ResourceLocation.fromNamespaceAndPath(MOD_ID, ENTITY_RENDERING_MODE.getDefaultOptionListValue().getIcon());
+                yield Identifier.fromNamespaceAndPath(MOD_ID, ENTITY_RENDERING_MODE.getDefaultOptionListValue().getIcon());
             }
         };
         GlStateManager._enableBlend();

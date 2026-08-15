@@ -8,7 +8,7 @@ import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.EmptyTextur
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.RenderStateAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 
 import org.jetbrains.annotations.NotNull;
 

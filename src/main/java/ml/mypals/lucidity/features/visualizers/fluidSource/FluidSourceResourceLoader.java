@@ -14,7 +14,7 @@ import net.minecraft.core.BlockPos;
 //? if >=1.21.9 {
 import net.minecraft.data.AtlasIds;
 //?}
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -41,14 +41,14 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
     public static final TextureAtlasSprite[] bubbleWaterSpitesDown = new TextureAtlasSprite[3];
 
     public static final TextureAtlasSprite[] defaultWaterSourceSpites = new TextureAtlasSprite[3];
-    private static final ResourceLocation LISTENER_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"reload_listener");
-    private static final ResourceLocation FLOWING_LAVA_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/lava_flow");
-    private static final ResourceLocation STILL_LAVA_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/lava_still");
-    private static final ResourceLocation FLOWING_WATER_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/water_flow");
-    private static final ResourceLocation STILL_WATER_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/water_still");
+    private static final Identifier LISTENER_ID = Identifier.fromNamespaceAndPath(MOD_ID,"reload_listener");
+    private static final Identifier FLOWING_LAVA_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/lava_flow");
+    private static final Identifier STILL_LAVA_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/lava_still");
+    private static final Identifier FLOWING_WATER_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/water_flow");
+    private static final Identifier STILL_WATER_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/water_still");
 
-    private static final ResourceLocation UP_BUBBLE_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/bubble_up");
-    private static final ResourceLocation DOWN_BUBBLE_SPRITE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID,"block/bubble_down");
+    private static final Identifier UP_BUBBLE_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/bubble_up");
+    private static final Identifier DOWN_BUBBLE_SPRITE_ID = Identifier.fromNamespaceAndPath(MOD_ID,"block/bubble_down");
     public static TextureAtlasSprite lavaSourceFlowSprite;
     public static TextureAtlasSprite lavaSourceStillSprite;
     public static TextureAtlasSprite defaultLavaSourceFlowSprite;
@@ -67,18 +67,18 @@ public class FluidSourceResourceLoader implements SimpleSynchronousResourceReloa
     }
 
     @Override
-    public ResourceLocation getFabricId() {
+    public Identifier getFabricId() {
         return LISTENER_ID;
     }
 
     @Override
     public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
         //? if >=1.21.9 {
-        final Function<ResourceLocation, TextureAtlasSprite> atlas = (resourceLocation)->{
+        final Function<Identifier, TextureAtlasSprite> atlas = (resourceLocation)->{
             return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(resourceLocation);
         };
         //?} else {
-        /*final Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
+        /*final Function<Identifier, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
         *///?}
         lavaSourceStillSprite = atlas.apply(STILL_LAVA_SPRITE_ID);
         lavaSourceFlowSprite = atlas.apply(FLOWING_LAVA_SPRITE_ID);

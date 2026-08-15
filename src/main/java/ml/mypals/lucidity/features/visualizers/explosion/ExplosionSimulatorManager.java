@@ -7,7 +7,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
@@ -15,12 +15,12 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.entity.projectile.WitherSkull;
-import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
-import net.minecraft.world.entity.projectile.windcharge.BreezeWindCharge;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull;
+import net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.AbstractWindCharge;
+import net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.BreezeWindCharge;
+import net.minecraft.world.entity.projectile.hurtingprojectile.windcharge.WindCharge;
+import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -138,7 +138,7 @@ public class ExplosionSimulatorManager {
                 entityExplosions.computeIfAbsent(entity,
                 e -> {
                     ExplosionBlockPredicateShape explosionBlockPredicateShape= new ExplosionBlockPredicateShape(Shape.RenderingType.BATCH);
-                    ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"entity_explosion_markers"+entity.getStringUUID().toLowerCase()),explosionBlockPredicateShape);
+                    ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"entity_explosion_markers"+entity.getStringUUID().toLowerCase()),explosionBlockPredicateShape);
                     explosionBlockPredicateShape.submitSubShape();
                     return explosionBlockPredicateShape;
                 });
@@ -175,7 +175,7 @@ public class ExplosionSimulatorManager {
                 blockExplosions.computeIfAbsent(key,
                     k -> {
                     ExplosionBlockPredicateShape explosionBlockPredicateShape= new ExplosionBlockPredicateShape(Shape.RenderingType.BATCH);
-                        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"block_explosion_markers"+pos.hashCode()),explosionBlockPredicateShape);
+                        ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"block_explosion_markers"+pos.hashCode()),explosionBlockPredicateShape);
                         explosionBlockPredicateShape.submitSubShape();
                         return explosionBlockPredicateShape;
                 });

@@ -8,7 +8,7 @@ import ml.mypals.ryansrenderingkit.shape.line.StripLineShape;
 import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -205,7 +205,7 @@ public abstract class NaturalSpawnerMixin {
                .build(Shape.RenderingType.BATCH);
 
             ShapeManagers.addShape(
-                    ResourceLocation.fromNamespaceAndPath(
+                    Identifier.fromNamespaceAndPath(
                             MOD_ID,"mob_spawn_trace/" + trace.toString().toLowerCase().replace("@","_")
                     ),path
             );

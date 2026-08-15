@@ -37,7 +37,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class Lucidity implements ModInitializer {
         registerVanillaKeyBindings();
         //? if >=1.21.6 {
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
-                ResourceLocation.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),
+                Identifier.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),
                 (guiGraphics,deltaTracker)->{
                     WandTooltipRenderer.renderWandTooltip(guiGraphics);
                 });
@@ -68,8 +68,8 @@ public class Lucidity implements ModInitializer {
         /*HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
             wrapper.addLayer(new IdentifiedLayer() {
                 @Override
-                public ResourceLocation id() {
-                    return ResourceLocation.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud");
+                public Identifier id() {
+                    return Identifier.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud");
                 }
 
                 @Override
@@ -85,7 +85,7 @@ public class Lucidity implements ModInitializer {
         *///?}
         FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(container -> {
             ResourceManagerHelper.registerBuiltinResourcePack(
-                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "lavahighlight"),
+                    Identifier.fromNamespaceAndPath(MOD_ID, "lavahighlight"),
                     container,
                     ResourcePackActivationType.NORMAL
             );

@@ -6,7 +6,7 @@ import ml.mypals.ryansrenderingkit.shapeManagers.ShapeManagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
@@ -30,9 +30,9 @@ public class ImageRenderManager {
     public static final ConcurrentHashMap<String, MediaShape> activeShapes = new ConcurrentHashMap<>();
     public static final String TEMP_TEXTURE_PATH = "textures/temp/";
     private static final String GENERATED_PATH = "assets/" + MOD_ID + "/textures/generated/";
-    public static final ResourceLocation LOST = ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/lost-file.png");
-    public static final ResourceLocation LOADING = ResourceLocation.fromNamespaceAndPath(MOD_ID, "textures/loading.png");
-    public static ResourceLocation TEST = null;
+    public static final Identifier LOST = Identifier.fromNamespaceAndPath(MOD_ID, "textures/lost-file.png");
+    public static final Identifier LOADING = Identifier.fromNamespaceAndPath(MOD_ID, "textures/loading.png");
+    public static Identifier TEST = null;
     public static void uploadTextures(){
         TEST = createTexture("null/1/1","m");
     }
@@ -50,7 +50,7 @@ public class ImageRenderManager {
         Minecraft client = Minecraft.getInstance();
         TextureManager textureManager = client.getTextureManager();
 
-        ((ITextureManager) textureManager).lucidity$destroyAll(ResourceLocation.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH));
+        ((ITextureManager) textureManager).lucidity$destroyAll(Identifier.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH));
         images.clear();
         activeShapes.entrySet().removeIf((set)->{
             set.getValue().discard();
@@ -94,7 +94,7 @@ public class ImageRenderManager {
                         false
                 );
 
-                ResourceLocation shapeId = ResourceLocation.fromNamespaceAndPath(MOD_ID, "media_" + mediaEntry.getName());
+                Identifier shapeId = Identifier.fromNamespaceAndPath(MOD_ID, "media_" + mediaEntry.getName());
                 ShapeManagers.addShape(shapeId, newShape);
                 activeShapes.put(mediaEntry.getName(), newShape);
             } else {
@@ -109,13 +109,13 @@ public class ImageRenderManager {
         readyToMerge.clear();
     }
 
-    public static ResourceLocation prepareImageMedia(String path, String name) {
+    public static Identifier prepareImageMedia(String path, String name) {
         return createTexture(path, name);
     }
 
-    public static Map.Entry<ResourceLocation[], List<Integer>> prepareGIFMedia(String path, String name) {
+    public static Map.Entry<Identifier[], List<Integer>> prepareGIFMedia(String path, String name) {
         GIFHandler.GifFrameData data = createGifTextures(path, name);
-        return Map.entry(data.identifiers.toArray(ResourceLocation[]::new), data.delays);
+        return Map.entry(data.identifiers.toArray(Identifier[]::new), data.delays);
     }
 
     public static void resolveRepeatedName(int index) {
@@ -138,10 +138,10 @@ public class ImageRenderManager {
         }
     }
 
-    public static ResourceLocation createTexture(String source, String name) {
+    public static Identifier createTexture(String source, String name) {
         Minecraft client = Minecraft.getInstance();
         TextureManager textureManager = client.getTextureManager();
-        ResourceLocation generatedPath = LOST;
+        Identifier generatedPath = LOST;
         NativeImage image = null;
         try {
             if (source.startsWith("http://") || source.startsWith("https://")) {
@@ -172,12 +172,12 @@ public class ImageRenderManager {
                 }
             }
 
-            generatedPath = ResourceLocation.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH + name);
-            ResourceLocation finalGeneratedPath = generatedPath;
+            generatedPath = Identifier.fromNamespaceAndPath(MOD_ID, TEMP_TEXTURE_PATH + name);
+            Identifier finalGeneratedPath = generatedPath;
             NativeImage finalImage = image;
 
             //? if >=1.21.5 {
-            ResourceLocation finalGeneratedPath1 = generatedPath;
+            Identifier finalGeneratedPath1 = generatedPath;
             //?}
             Minecraft.getInstance().execute(() -> textureManager.register(finalGeneratedPath, new DynamicTexture(/*? if >=1.21.5 {*/finalGeneratedPath1::toLanguageKey,/*?}*/finalImage)));
 
@@ -217,17 +217,17 @@ public class ImageRenderManager {
         double[] rotation = parseArray(parts[3], 4);
         double[] scale = parseArray(parts[4], 2);
 
-        MediaEntry initialEntry = createEntry(index, name, path, new ResourceLocation[]{LOADING}, pos, rotation, scale, MediaTypeDetector.MediaType.UNKNOWN, false);
+        MediaEntry initialEntry = createEntry(index, name, path, new Identifier[]{LOADING}, pos, rotation, scale, MediaTypeDetector.MediaType.UNKNOWN, false);
 
         new Thread(() -> {
             try {
-                ResourceLocation[] image = new ResourceLocation[]{LOST};
+                Identifier[] image = new Identifier[]{LOST};
                 List<Integer> delays = new ArrayList<>();
                 MediaTypeDetector.MediaType type = MediaTypeDetector.detectMediaType(path);
                 if (type.equals(MediaTypeDetector.MediaType.IMAGE)) {
-                    image = new ResourceLocation[]{prepareImageMedia(path, name)};
+                    image = new Identifier[]{prepareImageMedia(path, name)};
                 } else if (type.equals(MediaTypeDetector.MediaType.GIF)) {
-                    Map.Entry<ResourceLocation[], List<Integer>> gifEntry = prepareGIFMedia(path, name);
+                    Map.Entry<Identifier[], List<Integer>> gifEntry = prepareGIFMedia(path, name);
                     image = gifEntry.getKey();
                     delays = gifEntry.getValue();
                 }
@@ -244,7 +244,7 @@ public class ImageRenderManager {
         return initialEntry;
     }
 
-    private static MediaEntry createEntry(int index, String name, String path, ResourceLocation[] textures, double[] pos, double[] rotation, double[] scale, MediaTypeDetector.MediaType type, boolean ready) {
+    private static MediaEntry createEntry(int index, String name, String path, Identifier[] textures, double[] pos, double[] rotation, double[] scale, MediaTypeDetector.MediaType type, boolean ready) {
         return new MediaEntry(ready, index, name, path, textures, pos, rotation, scale, type);
     }
 

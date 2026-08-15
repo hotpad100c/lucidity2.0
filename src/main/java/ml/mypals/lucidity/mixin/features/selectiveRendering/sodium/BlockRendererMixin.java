@@ -3,7 +3,7 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.sodium;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
-import net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl;
+import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
 //? if <=1.21.4 {
 /*import net.minecraft.client.resources.model.BakedModel;
 *///?} else {

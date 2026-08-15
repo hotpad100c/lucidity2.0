@@ -8,9 +8,9 @@ import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import fi.dy.masa.malilib.util.data.Color4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.WitherBossModel;
+import net.minecraft.client.model.monster.wither.WitherBossModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;

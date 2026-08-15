@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -345,7 +345,7 @@ public class WandActionsManager {
                     })
                     .build(Shape.RenderingType.BATCH);
             ShapeManagers.addShape(
-                    ResourceLocation.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box_solid"),
+                    Identifier.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box_solid"),
                     pointing
             );
         }
@@ -400,7 +400,7 @@ public class WandActionsManager {
                 })
                 .build(Shape.RenderingType.BATCH);
         ShapeManagers.addShape(
-                ResourceLocation.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box"),
+                Identifier.fromNamespaceAndPath(MOD_ID, "selective_rendering_info_box"),
                 infoBox
         );
     }

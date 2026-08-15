@@ -1,6 +1,6 @@
 package ml.mypals.lucidity.features.imageRender;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +11,7 @@ public class MediaEntry {
     private boolean selected;
     private List<Integer> delays;
     public int index;
-    public ResourceLocation[] textureIDs;
+    public Identifier[] textureIDs;
     public boolean ready;
     public String path;
     public String name;
@@ -20,7 +20,7 @@ public class MediaEntry {
     public double[] scale;
 
     public MediaEntry(boolean ready, int index, @Nullable String name,
-                      @Nullable String orgPath, @Nullable ResourceLocation[] texturePath,
+                      @Nullable String orgPath, @Nullable Identifier[] texturePath,
                       double[] pos, double[] rotation, double[] scale,
                       @NotNull MediaTypeDetector.MediaType type) {
         this.ready = ready;
@@ -83,7 +83,7 @@ public class MediaEntry {
         return path;
     }
 
-    public ResourceLocation[] getTexture() {
+    public Identifier[] getTexture() {
         return textureIDs;
     }
 

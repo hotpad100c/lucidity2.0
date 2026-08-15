@@ -6,7 +6,7 @@ import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsum
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 //? if >=1.21.3 {

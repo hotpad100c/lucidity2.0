@@ -18,7 +18,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static ml.mypals.lucidity.LucidityModInfo.MOD_ID;
 import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager.*;
@@ -27,7 +27,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class HotkeyCallbacks {
     //? if >=1.21.9 {
     static KeyMapping.Category SELECTIVE_RENDERING = KeyMapping.Category.register(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID,"category.selective_renderings")
+            Identifier.fromNamespaceAndPath(MOD_ID,"category.selective_renderings")
     );
     //?}
     public static KeyMapping addArea;

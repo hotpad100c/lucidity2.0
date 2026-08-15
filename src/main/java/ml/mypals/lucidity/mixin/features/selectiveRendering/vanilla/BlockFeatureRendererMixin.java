@@ -10,7 +10,7 @@ import ml.mypals.lucidity.features.selectiveRendering.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.feature.BlockFeatureRenderer;
