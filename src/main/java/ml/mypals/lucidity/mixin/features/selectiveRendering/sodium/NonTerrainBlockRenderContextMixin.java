@@ -67,7 +67,7 @@ public abstract class NonTerrainBlockRenderContextMixin {
         if (alpha > -1) {
             for (int i = 0; i < 4; i++) {
                 int color = quad.getColor(i);
-                quad.color(i, ((alpha & 0xFF) << 24) | (color & 0x00FFFFFF));
+                quad.setColor(i, ((alpha & 0xFF) << 24) | (color & 0x00FFFFFF));
             }
         }
     }

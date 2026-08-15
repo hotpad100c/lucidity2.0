@@ -192,7 +192,7 @@ public class ExplosionBlockPredicateShape extends Shape {
     }
     private void drawCenter(VertexBuilder builder,float deltaTick) {
         List<Vec3> facingTriangle = createPlayerFacingTriangle(explosionResult.getCenter(deltaTick),
-                Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(),0.1f);
+                Minecraft.getInstance().gameRenderer.getMainCamera().position(),0.1f);
         builder.putColor(EXPLOSION_CENTER_COLOR.getColor().intValue);
         for (Vec3 vertex : facingTriangle) {
             builder.putVertex(vertex);
@@ -206,7 +206,7 @@ public class ExplosionBlockPredicateShape extends Shape {
             Vec3 pos = data.offsetFromCenter().reverse().add(vec3);
             if(vec3.distanceTo(pos)>0.1){
                 List<Vec3> facingTriangle = createPlayerFacingTriangle(pos,
-                        Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(),0.03f);
+                        Minecraft.getInstance().gameRenderer.getMainCamera().position(),0.03f);
 
                 float alpha = (data.strength() / explosionResult.maxPower())*255*2;
 
@@ -232,7 +232,7 @@ public class ExplosionBlockPredicateShape extends Shape {
     }
 
     private void drawEntitySamples(VertexBuilder builder,float deltaTick) {
-        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().position();
 
 
         explosionSamples.clear();

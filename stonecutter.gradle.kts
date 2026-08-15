@@ -71,7 +71,12 @@ stonecutter parameters {
         // 用包前缀替换会把它一起误伤。
         "net.caffeinemc.mods.sodium.client.render.frapi.helper.ColorHelper" to "net.caffeinemc.mods.sodium.client.render.helper.ColorHelper",
         "net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl" to "net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl",
-        "net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext" to "net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext"
+        "net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext" to "net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext",
+        // MutableQuadViewImpl.color(index, argb) 改名成了 setColor
+        "quad.color(i," to "quad.setColor(i,",
+
+        // Camera.getPosition() -> position()
+        "getMainCamera().getPosition()" to "getMainCamera().position()"
     ).forEach { (old, new) ->
         replacements.string {
             direction = eval(current.version, ">=1.21.11")
