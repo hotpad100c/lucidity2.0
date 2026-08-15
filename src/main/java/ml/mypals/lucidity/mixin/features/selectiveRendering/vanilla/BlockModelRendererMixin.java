@@ -11,7 +11,7 @@ import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentVertexConsumer;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 //? if <1.21.5 {
 /*import net.minecraft.client.resources.model.BakedModel;
@@ -83,7 +83,7 @@ public class BlockModelRendererMixin {
     @WrapMethod(method = "tesselateBlock")
     private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, List<BlockModelPart> list, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, int i, Operation<Void> original){
         if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos) && SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() > 0){
-            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.translucentMovingBlock());
+            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderTypes.translucentMovingBlock());
             original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(vertexConsumer), bl, i);
             return;
         }
@@ -93,7 +93,7 @@ public class BlockModelRendererMixin {
     /*@WrapMethod(method = "tesselateBlock")
     private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, BakedModel bakedModel, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, RandomSource randomSource, long l, int i, Operation<Void> original){
         if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos) && SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() > 0){
-            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.translucentMovingBlock());
+            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderTypes.translucentMovingBlock());
             original.call(blockAndTintGetter, bakedModel, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(consumer), bl, randomSource, l, i);
             return;
         }

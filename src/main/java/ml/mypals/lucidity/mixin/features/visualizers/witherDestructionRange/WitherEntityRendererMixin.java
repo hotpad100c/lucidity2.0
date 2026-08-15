@@ -10,7 +10,7 @@ import fi.dy.masa.malilib.util.data.Color4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.monster.wither.WitherBossModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -68,7 +68,7 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
             //? if >=1.21.9 {
             MultiBufferSource multiBufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             //?}
-            renderBox(poseStack,multiBufferSource.getBuffer(RenderType.debugQuads()), destructionBox,color.r,color.g,color.b,color.a);
+            renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), destructionBox,color.r,color.g,color.b,color.a);
 
             poseStack.popPose();
         }

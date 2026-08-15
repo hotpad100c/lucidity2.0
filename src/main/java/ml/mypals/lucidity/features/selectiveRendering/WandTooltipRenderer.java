@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.GameRenderer;
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;

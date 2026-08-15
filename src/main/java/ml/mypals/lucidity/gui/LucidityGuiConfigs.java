@@ -31,7 +31,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 
 import net.minecraft.client.input.MouseButtonEvent;
 //?}
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 

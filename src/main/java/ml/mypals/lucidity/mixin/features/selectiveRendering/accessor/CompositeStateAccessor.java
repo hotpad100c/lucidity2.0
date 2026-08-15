@@ -1,7 +1,7 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.accessor;
 
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

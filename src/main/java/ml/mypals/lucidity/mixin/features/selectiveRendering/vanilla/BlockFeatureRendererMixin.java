@@ -10,7 +10,7 @@ import ml.mypals.lucidity.features.selectiveRendering.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.feature.BlockFeatureRenderer;
@@ -55,7 +55,7 @@ public class BlockFeatureRendererMixin {
         if (!SelectiveRenderingManager.shouldRenderBlock(state, pos) && !SelectiveRenderingConfigs.isBlockFullyHidden()) {
 
             VertexConsumer wrapped =
-                    new ControllableTransparentVertexConsumer(bufferSource.getBuffer(RenderType.translucentMovingBlock()));
+                    new ControllableTransparentVertexConsumer(bufferSource.getBuffer(RenderTypes.translucentMovingBlock()));
 
             original.call(instance, blockAndTintGetter, list, state, pos, poseStack, wrapped, b, i);
 

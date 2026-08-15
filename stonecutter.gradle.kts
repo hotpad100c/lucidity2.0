@@ -52,6 +52,16 @@ stonecutter parameters {
         "net.minecraft.world.entity.vehicle.AbstractBoat" to "net.minecraft.world.entity.vehicle.boat.AbstractBoat",
         "net.minecraft.world.entity.vehicle.MinecartTNT" to "net.minecraft.world.entity.vehicle.minecart.MinecartTNT",
 
+        // RenderType 上的命名类型全部搬到了 RenderTypes（RenderType 本身退化成不可继承的
+        // 具体类）。这里换成整包通配 import：既拿到 RenderTypes，也保证替换是幂等的
+        // ——如果写成"再补一行 import"，每次 Refresh 都会再补一次。
+        "import net.minecraft.client.renderer.rendertype.RenderType;" to "import net.minecraft.client.renderer.rendertype.*;",
+        "RenderType.translucentMovingBlock" to "RenderTypes.translucentMovingBlock",
+        "RenderType.entityTranslucent(" to "RenderTypes.entityTranslucent(",
+        "RenderType.lines()" to "RenderTypes.lines()",
+        "RenderType.debugQuads()" to "RenderTypes.debugQuads()",
+        "RenderType.LINES" to "RenderTypes.LINES",
+
         // ryansrenderingkit 1.2.1 的唯一破坏性改动（这一版是随 1.21.11 一起上的，
         // 所以借用同一个版本判定）
         "model_vertexes" to "modelVertexes",

@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.resources.Identifier;
 
 import java.awt.*;

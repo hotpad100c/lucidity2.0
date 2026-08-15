@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 //? if >=1.21.5 {
 
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
@@ -43,7 +43,7 @@ public abstract class EntityRendererMixin {
     }
     @Inject(at = @At("HEAD"), method = "renderHitboxes(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/entity/state/EntityRenderState;Lnet/minecraft/client/renderer/entity/state/HitboxesRenderState;Lnet/minecraft/client/renderer/MultiBufferSource;)V")
     private void renderHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState, MultiBufferSource multiBufferSource, CallbackInfo ci) {
-        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.lines());
+        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderTypes.lines());
     //?} else {
     /*@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity target, float f, float g, float h, float i, CallbackInfo ci) {

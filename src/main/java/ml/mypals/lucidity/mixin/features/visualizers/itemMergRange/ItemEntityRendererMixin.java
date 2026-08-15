@@ -3,7 +3,7 @@ package ml.mypals.lucidity.mixin.features.visualizers.itemMergRange;
 import com.mojang.blaze3d.vertex.*;
 import fi.dy.masa.malilib.util.data.Color4f;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
 //? if >=1.21.3 {
 import net.minecraft.client.renderer.entity.state.ItemEntityRenderState;
@@ -47,7 +47,7 @@ public class ItemEntityRendererMixin {
                     bbw / 2, bbh, bbw / 2
             ).inflate(0.5F, 0.0F, 0.5F);
 
-            renderBox(poseStack,multiBufferSource.getBuffer(RenderType.debugQuads()), aabb,color.r,color.g,color.b,color.a);
+            renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), aabb,color.r,color.g,color.b,color.a);
             poseStack.popPose();
         }
     }

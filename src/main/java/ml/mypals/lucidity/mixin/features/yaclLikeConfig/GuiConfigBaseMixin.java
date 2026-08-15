@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 //? if >=1.21.9 {
 import net.minecraft.client.input.MouseButtonEvent;
 //?}
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;

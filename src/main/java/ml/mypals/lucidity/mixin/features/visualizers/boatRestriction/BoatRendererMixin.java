@@ -2,7 +2,7 @@ package ml.mypals.lucidity.mixin.features.visualizers.boatRestriction;
 
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 //? if >=1.21.3 {
 
 import net.minecraft.client.renderer.entity.AbstractBoatRenderer;
@@ -71,10 +71,10 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
             BufferBuilder stripConsumer = Tesselator.getInstance().begin(RenderType.LINE_STRIP.mode(), RenderType.LINE_STRIP.format());
             addCurve(Color.WHITE,poseStack,stripConsumer ,arc);
             RenderType.LINE_STRIP.draw(stripConsumer.build());
-            BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderType.LINES.mode(), RenderType.LINES.format());
+            BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderTypes.LINES.mode(), RenderTypes.LINES.format());
             addLineSegment(Color.RED,poseStack,lineConsumer ,center,left);
             addLineSegment(Color.GREEN,poseStack,lineConsumer ,center,right);
-            RenderType.LINES.draw(lineConsumer.build());
+            RenderTypes.LINES.draw(lineConsumer.build());
         }
     }
     @Unique

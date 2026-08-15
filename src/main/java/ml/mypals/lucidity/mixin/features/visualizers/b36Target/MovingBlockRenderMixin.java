@@ -105,7 +105,7 @@ public abstract class MovingBlockRenderMixin {
             targetPos,
             poseStack,
             new TransparentVertexConsumer(Minecraft.getInstance().renderBuffers().bufferSource()
-                    .getBuffer(RenderType.translucentMovingBlock())),
+                    .getBuffer(RenderTypes.translucentMovingBlock())),
             true,
             LightTexture.FULL_BLOCK
          );
@@ -130,7 +130,7 @@ public abstract class MovingBlockRenderMixin {
         if(renderAdditional){
             renderAdditional = false;
             //? if >=1.21.6 {
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucentMovingBlock());
+            VertexConsumer consumer = multiBufferSource.getBuffer(RenderTypes.translucentMovingBlock());
             //?} else {
             /^VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
              ^///?}

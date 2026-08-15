@@ -8,7 +8,7 @@ import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.EmptyTextur
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.RenderStateAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.*;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -49,14 +49,14 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
                     && ((EmptyTextureStateShardAccessor)tex).getTexture().isPresent()) {
                 return new ControllableTransparentVertexConsumer(
                     multiBufferSource.getBuffer(
-                        RenderType.entityTranslucent(((EmptyTextureStateShardAccessor)tex).getTexture().get())
+                        RenderTypes.entityTranslucent(((EmptyTextureStateShardAccessor)tex).getTexture().get())
                     )
                 );
             }
         }else {
             return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(renderType));
         }
-        return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(RenderType.translucentMovingBlock()));
+        return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(RenderTypes.translucentMovingBlock()));
 
     }
 
