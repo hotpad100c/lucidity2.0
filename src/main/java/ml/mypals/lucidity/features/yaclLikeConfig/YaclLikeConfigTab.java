@@ -1,6 +1,9 @@
 package ml.mypals.lucidity.features.yaclLikeConfig;
 
 import fi.dy.masa.malilib.gui.button.ButtonGeneric;
+//? if >=1.21.11 {
+import fi.dy.masa.malilib.render.GuiContext;
+//?}
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
@@ -21,9 +24,11 @@ public class YaclLikeConfigTab extends ButtonGeneric {
     }
 
     @Override
-    //? if >=1.21.6 {
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
-    //?} else {
+    //? if >=1.21.11 {
+    public void render(GuiContext drawContext, int mouseX, int mouseY, boolean selected) {
+    //?} else if >=1.21.6 {
+    /*public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
+    *///?} else {
     /*public void render(int mouseX, int mouseY, boolean selected, GuiGraphics drawContext) {
     *///?}
         if (this.visible) {

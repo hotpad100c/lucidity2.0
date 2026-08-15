@@ -52,6 +52,10 @@ stonecutter parameters {
         "net.minecraft.world.entity.vehicle.AbstractBoat" to "net.minecraft.world.entity.vehicle.boat.AbstractBoat",
         "net.minecraft.world.entity.vehicle.MinecartTNT" to "net.minecraft.world.entity.vehicle.minecart.MinecartTNT",
 
+        // ryansrenderingkit 1.2.1 的唯一破坏性改动（这一版是随 1.21.11 一起上的，
+        // 所以借用同一个版本判定）
+        "model_vertexes" to "modelVertexes",
+
         // sodium 0.8 把 frapi 子树摊平了
         "net.caffeinemc.mods.sodium.client.render.frapi.helper." to "net.caffeinemc.mods.sodium.client.render.helper.",
         "net.caffeinemc.mods.sodium.client.render.frapi.mesh." to "net.caffeinemc.mods.sodium.client.render.model.",

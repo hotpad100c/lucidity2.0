@@ -152,11 +152,11 @@ public class MediaShape extends Shape implements EmptyMesh {
 
     @Override
     protected void generateRawGeometry(boolean b) {
-        this.model_vertexes.clear();
-        this.model_vertexes.add(new Vec3(-1, -1, 0));
-        this.model_vertexes.add(new Vec3(1, -1, 0));
-        this.model_vertexes.add(new Vec3(1, 1, 0));
-        this.model_vertexes.add(new Vec3(-1, 1, 0));
+        this.modelVertexes.clear();
+        this.modelVertexes.add(new Vec3(-1, -1, 0));
+        this.modelVertexes.add(new Vec3(1, -1, 0));
+        this.modelVertexes.add(new Vec3(1, 1, 0));
+        this.modelVertexes.add(new Vec3(-1, 1, 0));
 
         this.indexBuffer = new int[]{
                 0, 1, 3,
@@ -215,11 +215,11 @@ public class MediaShape extends Shape implements EmptyMesh {
         float scaledWidth = (float) (textureWidth.get() * mediaData.scale.x);
         float scaledHeight = (float) (textureHeight.get() * mediaData.scale.y);
 
-        this.model_vertexes.clear();
-        this.model_vertexes.add(new Vec3(-scaledWidth, -scaledHeight, 0));
-        this.model_vertexes.add(new Vec3(scaledWidth, -scaledHeight, 0));
-        this.model_vertexes.add(new Vec3(scaledWidth, scaledHeight, 0));
-        this.model_vertexes.add(new Vec3(-scaledWidth, scaledHeight, 0));
+        this.modelVertexes.clear();
+        this.modelVertexes.add(new Vec3(-scaledWidth, -scaledHeight, 0));
+        this.modelVertexes.add(new Vec3(scaledWidth, -scaledHeight, 0));
+        this.modelVertexes.add(new Vec3(scaledWidth, scaledHeight, 0));
+        this.modelVertexes.add(new Vec3(-scaledWidth, scaledHeight, 0));
 
         BufferBuilder bufferBuilder = Tesselator.getInstance().begin(
                 VertexFormat.Mode.QUADS,
@@ -229,16 +229,16 @@ public class MediaShape extends Shape implements EmptyMesh {
 
 
         bufferBuilder.addVertex(builder.getPositionMatrix(),
-                        (float) model_vertexes.get(0).x, (float) model_vertexes.get(0).y, (float) model_vertexes.get(0).z)
+                        (float) modelVertexes.get(0).x, (float) modelVertexes.get(0).y, (float) modelVertexes.get(0).z)
                 .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(0.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
-                        (float) model_vertexes.get(1).x, (float) model_vertexes.get(1).y, (float) model_vertexes.get(1).z)
+                        (float) modelVertexes.get(1).x, (float) modelVertexes.get(1).y, (float) modelVertexes.get(1).z)
                 .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(1.0f, 1.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
-                        (float) model_vertexes.get(2).x, (float) model_vertexes.get(2).y, (float) model_vertexes.get(2).z)
+                        (float) modelVertexes.get(2).x, (float) modelVertexes.get(2).y, (float) modelVertexes.get(2).z)
                 .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(1.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
         bufferBuilder.addVertex(builder.getPositionMatrix(),
-                        (float) model_vertexes.get(3).x, (float) model_vertexes.get(3).y, (float) model_vertexes.get(3).z)
+                        (float) modelVertexes.get(3).x, (float) modelVertexes.get(3).y, (float) modelVertexes.get(3).z)
                 .setColor(this.baseColor.getRed(), this.baseColor.getGreen(), this.baseColor.getBlue(), this.baseColor.getAlpha()).setUv(0.0f, 0.0f).setLight(LightTexture.FULL_BRIGHT);
 
 

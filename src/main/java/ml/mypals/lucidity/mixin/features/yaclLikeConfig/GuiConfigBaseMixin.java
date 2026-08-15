@@ -9,6 +9,9 @@ import fi.dy.masa.malilib.gui.GuiListBase;
 import fi.dy.masa.malilib.gui.button.ButtonBase;
 import fi.dy.masa.malilib.gui.widgets.WidgetConfigOption;
 import fi.dy.masa.malilib.gui.widgets.WidgetListConfigOptions;
+//? if >=1.21.11 {
+import fi.dy.masa.malilib.render.GuiContext;
+//?}
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 //? if >=1.21.6 {
@@ -56,31 +59,39 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     @Override
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
         if(YACL_STYLE.getBooleanValue()){
+            // malilib 0.27 起所有 draw* 都收 GuiContext（GuiGraphics 的子类），
+            // 并且 GuiBase 不再缓存 drawContext 字段。这里统一成一个局部变量 ctx，
+            // 下面的调用点在各版本之间就只剩参数顺序的差别了。
+            //? if >=1.21.11 {
+            GuiContext ctx = GuiContext.fromGuiGraphics(drawContext);
+            //?} else {
+            /*GuiGraphics ctx = drawContext;
             if (this.drawContext == null || !this.drawContext.equals(drawContext)) {
                 this.drawContext = drawContext;
             }
+            *///?}
 
             lucidity$offsetAndRun((ignored)->{
                 this.renderBackground(drawContext, mouseX, mouseY,partialTicks);
-                this.drawTitle(drawContext, mouseX, mouseY, partialTicks);
+                this.drawTitle(ctx, mouseX, mouseY, partialTicks);
                 //? if >=1.21.6 {
-                this.drawWidgets(drawContext, mouseX, mouseY);
-                this.drawTextFields(drawContext, mouseX, mouseY);
-                this.drawButtons(drawContext, mouseX, mouseY, partialTicks);
+                this.drawWidgets(ctx, mouseX, mouseY);
+                this.drawTextFields(ctx, mouseX, mouseY);
+                this.drawButtons(ctx, mouseX, mouseY, partialTicks);
                 //?} else {
-                /*this.drawWidgets(mouseX, mouseY, drawContext);
-                this.drawTextFields(mouseX, mouseY, drawContext);
-                this.drawButtons(mouseX, mouseY, partialTicks, drawContext);
+                /*this.drawWidgets(mouseX, mouseY, ctx);
+                this.drawTextFields(mouseX, mouseY, ctx);
+                this.drawButtons(mouseX, mouseY, partialTicks, ctx);
                 *///?}
-                this.drawContents(drawContext, mouseX, mouseY, partialTicks);
+                this.drawContents(ctx, mouseX, mouseY, partialTicks);
                 //? if >=1.21.6 {
-                this.drawHoveredWidget(drawContext, mouseX, mouseY);
-                this.drawButtonHoverTexts(drawContext, mouseX, mouseY, partialTicks);
+                this.drawHoveredWidget(ctx, mouseX, mouseY);
+                this.drawButtonHoverTexts(ctx, mouseX, mouseY, partialTicks);
                 //?} else {
-                /*this.drawHoveredWidget(mouseX, mouseY, drawContext);
-                this.drawButtonHoverTexts(mouseX, mouseY, partialTicks, drawContext);
+                /*this.drawHoveredWidget(mouseX, mouseY, ctx);
+                this.drawButtonHoverTexts(mouseX, mouseY, partialTicks, ctx);
                 *///?}
-                this.drawGuiMessages(drawContext);
+                this.drawGuiMessages(ctx);
                 return false;
             });
 
@@ -124,9 +135,11 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
         }
     }
     @Override
-    //? if >=1.21.6 {
-    public void drawButtons( GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
-    //?} else {
+    //? if >=1.21.11 {
+    public void drawButtons(GuiContext drawContext, int mouseX, int mouseY, float partialTicks) {
+    //?} else if >=1.21.6 {
+    /*public void drawButtons( GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
+    *///?} else {
     /*public void drawButtons(int mouseX, int mouseY, float partialTicks, GuiGraphics drawContext) {
     *///?}
         if(!YACL_STYLE.getBooleanValue()) {
@@ -235,7 +248,11 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     }
 
     @Unique
-    private void lucidity$drawScrollIndicators(GuiGraphics drawContext, int screenWidth) {
+    //? if >=1.21.11 {
+    private void lucidity$drawScrollIndicators(GuiContext drawContext, int screenWidth) {
+    //?} else {
+    /*private void lucidity$drawScrollIndicators(GuiGraphics drawContext, int screenWidth) {
+    *///?}
         if (this.lucidity$scrollOffset < this.lucidity$maxScrollOffset - NAVBAR_MARGIN) {
             this.drawString(drawContext, "→", screenWidth - 15, BUTTON_TOP_Y - 6, 0xFFFFFFFF);
         }
