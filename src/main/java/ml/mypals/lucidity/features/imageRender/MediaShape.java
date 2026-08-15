@@ -17,6 +17,9 @@ import ml.mypals.ryansrenderingkit.transform.shapeTransformers.DefaultTransforme
 import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+//? if >=1.21.11 {
+import net.minecraft.client.renderer.rendertype.*;
+//?}
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.particles.ParticleTypes;

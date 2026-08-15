@@ -8,6 +8,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+//? if >=1.21.11 {
+import net.minecraft.client.renderer.rendertype.*;
+//?}
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.PistonHeadRenderer;
 //? if >=1.21.5 {

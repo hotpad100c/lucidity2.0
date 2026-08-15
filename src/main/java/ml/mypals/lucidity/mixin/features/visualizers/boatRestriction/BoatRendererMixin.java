@@ -68,10 +68,18 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
 
             List<Vec3> arc = generateArc(center, leftYaw, rightYaw, 2.0);
 
-            BufferBuilder stripConsumer = Tesselator.getInstance().begin(RenderType.LINE_STRIP.mode(), RenderType.LINE_STRIP.format());
+            //? if <1.21.11 {
+            /*BufferBuilder stripConsumer = Tesselator.getInstance().begin(RenderType.LINE_STRIP.mode(), RenderType.LINE_STRIP.format());
             addCurve(Color.WHITE,poseStack,stripConsumer ,arc);
             RenderType.LINE_STRIP.draw(stripConsumer.build());
+            *///?}
             BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderTypes.LINES.mode(), RenderTypes.LINES.format());
+            //? if >=1.21.11 {
+            // 1.21.11 移除了 LINE_STRIP，这里把弧线拆成相邻两点之间的线段，画进同一个 LINES 批次
+            for (int i = 0; i + 1 < arc.size(); i++) {
+                addLineSegment(Color.WHITE, poseStack, lineConsumer, arc.get(i), arc.get(i + 1));
+            }
+            //?}
             addLineSegment(Color.RED,poseStack,lineConsumer ,center,left);
             addLineSegment(Color.GREEN,poseStack,lineConsumer ,center,right);
             RenderTypes.LINES.draw(lineConsumer.build());

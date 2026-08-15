@@ -72,8 +72,9 @@ stonecutter parameters {
         "net.caffeinemc.mods.sodium.client.render.frapi.helper.ColorHelper" to "net.caffeinemc.mods.sodium.client.render.helper.ColorHelper",
         "net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl" to "net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl",
         "net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext" to "net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext",
-        // MutableQuadViewImpl.color(index, argb) 改名成了 setColor
+        // sodium 0.8 的 quad 读写器都改了名：color(i, argb) -> setColor，color(i) -> getColor
         "quad.color(i," to "quad.setColor(i,",
+        "quad.color(i)" to "quad.getColor(i)",
 
         // Camera.getPosition() -> position()
         "getMainCamera().getPosition()" to "getMainCamera().position()"

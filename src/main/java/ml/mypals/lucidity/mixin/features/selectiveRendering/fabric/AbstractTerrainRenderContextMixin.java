@@ -62,7 +62,7 @@ public abstract class AbstractTerrainRenderContextMixin
     private void onBufferQuad(MutableQuadViewImpl quad, CallbackInfo ci) {
         if(!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState,blockInfo.blockPos) && !SelectiveRenderingConfigs.isBlockFullyHidden()){
             for (int i = 0; i < 4; i++) {
-                quad.setColor(i, rewriteQuadAlpha(quad.color(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
+                quad.setColor(i, rewriteQuadAlpha(quad.getColor(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
             }
         }
     }
@@ -84,7 +84,7 @@ public abstract class AbstractTerrainRenderContextMixin
     protected void bufferQuad(MutableQuadViewImpl quad, VertexConsumer vertexConsumer) {
         if (!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState, blockInfo.blockPos) && !SelectiveRenderingConfigs.isBlockFullyHidden()) {
             for (int i = 0; i < 4; i++) {
-                quad.setColor(i, rewriteQuadAlpha(quad.color(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
+                quad.setColor(i, rewriteQuadAlpha(quad.getColor(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
             }
             //? if <=1.21.5 {
             /*super.bufferQuad(quad, getVertexConsumer(RenderType.translucent()));

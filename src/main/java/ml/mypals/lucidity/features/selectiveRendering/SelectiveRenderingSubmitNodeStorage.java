@@ -11,6 +11,9 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.*;
+//? if >=1.21.11 {
+import net.minecraft.client.renderer.rendertype.*;
+//?}
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
@@ -38,23 +41,23 @@ public class SelectiveRenderingSubmitNodeStorage extends SubmitNodeStorage imple
     }
 
     public <S> void submitModel(Model<? super S> model, S object, PoseStack poseStack, RenderType renderType, int i, int j, int k, @Nullable TextureAtlasSprite textureAtlasSprite, int l, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
-        base.order(0).submitModel(model, object, poseStack, new SelectiveRenderingRenderTypeWrapper(renderType), i, j, k, textureAtlasSprite, l, crumblingOverlay);
+        base.order(0).submitModel(model, object, poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), i, j, k, textureAtlasSprite, l, crumblingOverlay);
     }
 
     public void submitModelPart(ModelPart modelPart, PoseStack poseStack, RenderType renderType, int i, int j, @Nullable TextureAtlasSprite textureAtlasSprite, boolean bl, boolean bl2, int k, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int l) {
-        base.order(0).submitModelPart(modelPart, poseStack, new SelectiveRenderingRenderTypeWrapper(renderType), i, j, textureAtlasSprite, bl, bl2, k, crumblingOverlay, l);
+        base.order(0).submitModelPart(modelPart, poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), i, j, textureAtlasSprite, bl, bl2, k, crumblingOverlay, l);
     }
 
     public void submitBlockModel(PoseStack poseStack, RenderType renderType, BlockStateModel blockStateModel, float f, float g, float h, int i, int j, int k) {
-        base.order(0).submitBlockModel(poseStack, new SelectiveRenderingRenderTypeWrapper(renderType), blockStateModel, f, g, h, i, j, k);
+        base.order(0).submitBlockModel(poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), blockStateModel, f, g, h, i, j, k);
     }
 
     public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int j, int k, int[] is, List<BakedQuad> list, RenderType renderType, ItemStackRenderState.FoilType foilType) {
-        base.order(0).submitItem(poseStack, itemDisplayContext, i, j, k, is, list, new SelectiveRenderingRenderTypeWrapper(renderType), foilType);
+        base.order(0).submitItem(poseStack, itemDisplayContext, i, j, k, is, list, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), foilType);
     }
 
     public void submitCustomGeometry(PoseStack poseStack, RenderType renderType, SubmitNodeCollector.CustomGeometryRenderer customGeometryRenderer) {
-        base.order(0).submitCustomGeometry(poseStack, new SelectiveRenderingRenderTypeWrapper(renderType), customGeometryRenderer);
+        base.order(0).submitCustomGeometry(poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), customGeometryRenderer);
     }
 
     public void submitHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState) {
