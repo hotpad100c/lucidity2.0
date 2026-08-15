@@ -28,6 +28,7 @@ repositories {
     strictMaven("https://maven.terraformersmc.com/releases/", "terraformersmc", "com.terraformersmc")
     strictMaven("https://masa.dy.fi/maven", "masa", "masa.dy.fi")
     strictMaven("https://jitpack.io", "jitpack", "com.github.sakura-ryoko")
+    strictMaven( "https://maven.fallenbreath.me/releases","me.fallenbreath" )
     flatDir {
         dirs("libs")
     }

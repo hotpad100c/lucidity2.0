@@ -27,7 +27,7 @@ import net.minecraft.client.gui.screens.Screen;
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
-//?if>=1.21.9{
+//? if >=1.21.9 {
 
 import net.minecraft.client.input.MouseButtonEvent;
 //?}
@@ -359,10 +359,10 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
             this.importTask = importTask;
         }
 
-        //?if>=1.21.9{
+        //? if >=1.21.9 {
 
         protected void addConfigOption(int x, int y, int labelWidth, int configWidth, IConfigBase config) {
-        //?}else{
+        //?} else {
         /*@Override
         protected void addConfigOption(int x, int y, float zLevel, int labelWidth, int configWidth, IConfigBase config) {
         *///?}
@@ -381,12 +381,12 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
         }
 
 
-        //?if>=1.21.9{
+        //? if >=1.21.9 {
         @Override
         public boolean onMouseClicked(MouseButtonEvent mouseButtonEvent, boolean db) {
             int mouseY = (int) mouseButtonEvent.y();
             int mouseX = (int) mouseButtonEvent.x();
-        //?}else{
+        //?} else {
         /*@Override
         public boolean onMouseClicked(int mouseX, int mouseY, int mouseButton) {
         *///?}
@@ -414,10 +414,10 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
                 }
                 return true;
             }
-            //?if>=1.21.9{
+            //? if >=1.21.9 {
             return super.onMouseClicked(mouseButtonEvent, db);
-            //?}else{
-            /*    return super.onMouseClicked(mouseX, mouseY, mouseButton);
+            //?} else {
+                /*return super.onMouseClicked(mouseX, mouseY, mouseButton);
             *///?}
         }
     }
