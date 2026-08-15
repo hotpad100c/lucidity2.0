@@ -66,10 +66,12 @@ stonecutter parameters {
         // 所以借用同一个版本判定）
         "model_vertexes" to "modelVertexes",
 
-        // sodium 0.8 把 frapi 子树摊平了
-        "net.caffeinemc.mods.sodium.client.render.frapi.helper." to "net.caffeinemc.mods.sodium.client.render.helper.",
-        "net.caffeinemc.mods.sodium.client.render.frapi.mesh." to "net.caffeinemc.mods.sodium.client.render.model.",
-        "net.caffeinemc.mods.sodium.client.render.frapi.render." to "net.caffeinemc.mods.sodium.client.render.model."
+        // sodium 0.8 把 frapi 子树里的一部分挪了出来。注意只能按类名精确匹配：
+        // frapi.render 包还在，NonTerrainBlockRenderContext 仍留在里面，
+        // 用包前缀替换会把它一起误伤。
+        "net.caffeinemc.mods.sodium.client.render.frapi.helper.ColorHelper" to "net.caffeinemc.mods.sodium.client.render.helper.ColorHelper",
+        "net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl" to "net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl",
+        "net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext" to "net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext"
     ).forEach { (old, new) ->
         replacements.string {
             direction = eval(current.version, ">=1.21.11")

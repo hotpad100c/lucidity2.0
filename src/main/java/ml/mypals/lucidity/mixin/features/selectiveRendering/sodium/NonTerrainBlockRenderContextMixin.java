@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
-import net.caffeinemc.mods.sodium.client.render.model.NonTerrainBlockRenderContext;
+import net.caffeinemc.mods.sodium.client.render.frapi.render.NonTerrainBlockRenderContext;
 //? if >=1.21.6 {
 import net.fabricmc.fabric.api.renderer.v1.render.BlockVertexConsumerProvider;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;

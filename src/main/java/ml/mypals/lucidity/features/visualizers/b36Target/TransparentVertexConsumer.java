@@ -37,4 +37,18 @@ public class TransparentVertexConsumer implements VertexConsumer {
     public @NotNull VertexConsumer setNormal(float f, float g, float h) {
         return base.setNormal(f,g,h);
     }
+
+    //? if >=1.21.11 {
+    // 1.21.11 把 setLineWidth 和 setColor(int) 提成了抽象方法
+    @Override
+    public @NotNull VertexConsumer setLineWidth(float width) {
+        return base.setLineWidth(width);
+    }
+
+    @Override
+    public @NotNull VertexConsumer setColor(int argb) {
+        // 走本类的四参重载，好让固定的半透明 alpha 依旧生效
+        return this.setColor((argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF, (argb >>> 24) & 0xFF);
+    }
+    //?}
 }
