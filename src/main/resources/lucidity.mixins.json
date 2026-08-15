@@ -55,6 +55,7 @@
     "features.selectiveRendering.vanilla.ParticleManagerMixin",
     "features.selectiveRendering.vanilla.ParticleMixin",
     "features.selectiveRendering.vanilla.RenderLayersMixin",
+    "features.selectiveRendering.vanilla.RenderTypeDrawMixin",
     "features.selectiveRendering.vanilla.SectionBuilderMixin",
     "features.selectiveRendering.vanilla.light.AoFaceMixin",
     "features.tisMicroTimingHighlight.ChatScreenMixin",
