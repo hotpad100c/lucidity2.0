@@ -1,5 +1,18 @@
 package ml.mypals.lucidity.mixin.features.visualizers.entityYaw;
 
+//? if >=1.21.11 {
+// 1.21.11 把调试碰撞箱渲染整体换成了 Gizmos 体系：EntityRenderDispatcher.renderHitboxes
+// 和 HitboxesRenderState 都不存在了，ShapeRenderer 的绘制辅助也一并移除。
+// 这个功能（实体朝向可视化）需要重写到 EntityHitboxDebugRenderer / Gizmos 上，
+// 在那之前先在 1.21.11 上停用，避免拖住整个构建。
+import net.minecraft.client.Minecraft;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(Minecraft.class)
+public class EntityRendererMixin {
+}
+//?} else {
+/*
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.config.FeatureToggle;
@@ -64,9 +77,9 @@ public abstract class EntityRendererMixin {
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderTypes.lines());
         float f = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();
     //?} else {
-    /*@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
+    /^@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity target, float f, float g, float h, float i, CallbackInfo ci) {
-    *///?}
+    ^///?}
         //? if >=1.21.5 {
         Entity target = targetEntity.get();
         //?}
@@ -76,11 +89,11 @@ public abstract class EntityRendererMixin {
 
             Entity entity = serverEntity != null ? serverEntity : target;
 
-            /*? if >=1.21.3 {*/ShapeRenderer./*?} else {*//*EntityRenderDispatcher.*//*?}*/renderVector(poseStack, vertexConsumer,
+            /^? if >=1.21.3 {^/ShapeRenderer./^?} else {^//^EntityRenderDispatcher.^//^?}^/renderVector(poseStack, vertexConsumer,
                     new Vector3f(0.0F, entity.getBbHeight()/2, 0.0F),
                     Vec3.directionFromRotation(0.0F, getPreciseEntityRotation(entity,f)).scale(2.5F), YROT_COLOR.getIntegerValue());
             if(entity instanceof LivingEntity livingEntity){
-                /*? if >=1.21.3 {*/ShapeRenderer./*?} else {*//*EntityRenderDispatcher.*//*?}*/renderVector(poseStack, vertexConsumer,
+                /^? if >=1.21.3 {^/ShapeRenderer./^?} else {^//^EntityRenderDispatcher.^//^?}^/renderVector(poseStack, vertexConsumer,
                         new Vector3f(0.0F, entity.getBbHeight()/2, 0.0F),
                         Vec3.directionFromRotation(0.0F, getPreciseEntityBodyRotation(livingEntity,f)).scale(3.0F), BODY_ROT_COLOR.getIntegerValue());
             }
@@ -92,6 +105,7 @@ public abstract class EntityRendererMixin {
     }
     @Unique
     private static float getPreciseEntityRotation(Entity entity,float f) {
-        return entity.getYRot(/*? if >=1.21.3 {*/f/*?}*/);
+        return entity.getYRot(/^? if >=1.21.3 {^/f/^?}^/);
     }
 }
+*///?}

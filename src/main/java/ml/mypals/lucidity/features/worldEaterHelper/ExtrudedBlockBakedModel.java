@@ -116,7 +116,28 @@ public class ExtrudedBlockBakedModel implements BlockStateModel {
 
 
     private BakedQuad transformQuad(BakedQuad quad, float yOffset) {
-        int[] data = quad.vertices().clone();
+        //? if >=1.21.11 {
+        // 1.21.11 起 BakedQuad 是 record，顶点位置直接以 Vector3fc 暴露，
+        // 不用再手工拆那个打包过的 int[]。
+        Vector3f[] positions = new Vector3f[4];
+        for (int v = 0; v < 4; v++) {
+            Vector3f pos = new Vector3f(quad.position(v));
+            pos.sub(0.5f, 0.5f, 0.5f);
+            pos.rotate(rotation);
+            pos.add(0.5f, 0.5f + yOffset, 0.5f);
+            positions[v] = pos;
+        }
+        return new BakedQuad(
+                positions[0], positions[1], positions[2], positions[3],
+                quad.packedUV(0), quad.packedUV(1), quad.packedUV(2), quad.packedUV(3),
+                quad.tintIndex(),
+                quad.direction(),
+                quad.sprite(),
+                false,
+                LightTexture.FULL_BRIGHT
+        );
+        //?} else {
+        /*int[] data = quad.vertices().clone();
 
         for (int v = 0; v < 4; v++) {
             int i = v * 8;
@@ -142,6 +163,7 @@ public class ExtrudedBlockBakedModel implements BlockStateModel {
                 false,
                 LightTexture.FULL_BRIGHT
         );
+        *///?}
     }
     //?} else {
     /*@Override

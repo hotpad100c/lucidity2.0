@@ -76,8 +76,8 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
             BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderTypes.LINES.mode(), RenderTypes.LINES.format());
             //? if >=1.21.11 {
             // 1.21.11 移除了 LINE_STRIP，这里把弧线拆成相邻两点之间的线段，画进同一个 LINES 批次
-            for (int i = 0; i + 1 < arc.size(); i++) {
-                addLineSegment(Color.WHITE, poseStack, lineConsumer, arc.get(i), arc.get(i + 1));
+            for (int arcIndex = 0; arcIndex + 1 < arc.size(); arcIndex++) {
+                addLineSegment(Color.WHITE, poseStack, lineConsumer, arc.get(arcIndex), arc.get(arcIndex + 1));
             }
             //?}
             addLineSegment(Color.RED,poseStack,lineConsumer ,center,left);

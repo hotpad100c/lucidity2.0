@@ -59,7 +59,17 @@ public class MediaShape extends Shape implements EmptyMesh {
     private static final Function<Identifier, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
         MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
-        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/*? if <1.21.6 {*//*, TriState.DEFAULT*//*?}*/, false)).createCompositeState(false)));
+        //? if >=1.21.11 {
+        // 1.21.11 起 RenderType 由名字 + RenderSetup 组成，纹理挂在 RenderSetup 上，
+        // 采样器名沿用原版的 Sampler0。
+        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((identifier) -> RenderType.create("media_shape_texture",
+                RenderSetup.builder(RenderPipelines.GUI_TEXTURED)
+                        .withTexture("Sampler0", identifier)
+                        .bufferSize(1536)
+                        .createRenderSetup()));
+        //?} else {
+        /*MEDIA_SHAPE_RENDER_TYPE = Util.memoize((resourceLocation) -> RenderType.create("media_shape_texture", 1536, RenderPipelines.GUI_TEXTURED, RenderType.CompositeState.builder().setTextureState(new RenderStateShard.TextureStateShard(resourceLocation/^? if <1.21.6 {^//^, TriState.DEFAULT^//^?}^/, false)).createCompositeState(false)));
+        *///?}
     }
     //?}
 

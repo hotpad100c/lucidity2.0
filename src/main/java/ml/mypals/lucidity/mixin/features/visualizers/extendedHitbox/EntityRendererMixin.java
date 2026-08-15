@@ -1,5 +1,18 @@
 package ml.mypals.lucidity.mixin.features.visualizers.extendedHitbox;
 
+//? if >=1.21.11 {
+// 1.21.11 把调试碰撞箱渲染整体换成了 Gizmos 体系：EntityRenderDispatcher.renderHitboxes
+// 和 HitboxesRenderState 都不存在了，ShapeRenderer 的绘制辅助也一并移除。
+// 这个功能（扩展碰撞箱可视化）需要重写到 EntityHitboxDebugRenderer / Gizmos 上，
+// 在那之前先在 1.21.11 上停用，避免拖住整个构建。
+import net.minecraft.client.Minecraft;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(Minecraft.class)
+public class EntityRendererMixin {
+}
+//?} else {
+/*
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -45,9 +58,9 @@ public abstract class EntityRendererMixin {
     private void renderHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState, MultiBufferSource multiBufferSource, CallbackInfo ci) {
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderTypes.lines());
     //?} else {
-    /*@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
+    /^@Inject(at = @At("HEAD"), method = "renderHitbox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/entity/Entity;FFFF)V", cancellable = true)
     private static void renderHitbox(PoseStack poseStack, VertexConsumer vertexConsumer, Entity target, float f, float g, float h, float i, CallbackInfo ci) {
-    *///?}
+    ^///?}
         //? if >=1.21.5 {
         Entity target = targetEntity.get();
         //?}
@@ -60,10 +73,10 @@ public abstract class EntityRendererMixin {
                 //? if >=1.21.9 {
                 ShapeRenderer.renderLineBox(poseStack.last(), vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
                 //?} else if >=1.21.3 {
-                /*ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                *///?} else {
-                /*LevelRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
-                *///?}
+                /^ShapeRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                ^///?} else {
+                /^LevelRenderer.renderLineBox(poseStack, vertexConsumer, aABB,1.0F, 1.0F, 0.0F, 0.6F);
+                ^///?}
             }
         }
     }
@@ -80,3 +93,4 @@ public abstract class EntityRendererMixin {
         return null;
     }
 }
+*///?}

@@ -18,7 +18,9 @@ import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
+//? if <1.21.11 {
+/*import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
+*///?}
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -60,9 +62,12 @@ public class SelectiveRenderingSubmitNodeStorage extends SubmitNodeStorage imple
         base.order(0).submitCustomGeometry(poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), customGeometryRenderer);
     }
 
+    //? if <1.21.11 {
+    /*// 1.21.11 把调试碰撞箱移交给了 Gizmos 体系，SubmitNodeCollector 上不再有 submitHitbox
     public void submitHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState) {
         base.order(0).submitHitbox(poseStack, entityRenderState, hitboxesRenderState);
     }
+    *///?}
 
     public void submitShadow(PoseStack poseStack, float f, List<EntityRenderState.ShadowPiece> list) {
         base.order(0).submitShadow(poseStack, f, list);

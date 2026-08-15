@@ -145,8 +145,16 @@ public class ExplosionSimulatorManager {
             }
         }
 
-        boolean respawnAnchorExplodes = !level.dimensionType().respawnAnchorWorks();
+        //? if >=1.21.11 {
+        // 1.21.11 把这两个维度开关搬进了环境属性系统：床变成了带 explodes 标志的 BedRule
+        boolean respawnAnchorExplodes = !level.environmentAttributes()
+                .getDimensionValue(net.minecraft.world.attribute.EnvironmentAttributes.RESPAWN_ANCHOR_WORKS);
+        boolean bedExplodes = level.environmentAttributes()
+                .getDimensionValue(net.minecraft.world.attribute.EnvironmentAttributes.BED_RULE).explodes();
+        //?} else {
+        /*boolean respawnAnchorExplodes = !level.dimensionType().respawnAnchorWorks();
         boolean bedExplodes = !level.dimensionType().bedWorks();
+        *///?}
 
         for (BlockPos pos : BlockPos.betweenClosed(
                 /*? if >1.21.1 {*/

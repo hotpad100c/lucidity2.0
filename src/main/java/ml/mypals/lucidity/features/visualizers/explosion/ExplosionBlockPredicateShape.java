@@ -92,15 +92,23 @@ public class ExplosionBlockPredicateShape extends Shape {
         }
     }
     public static List<Vec3> parseQuadToTriangles(BakedQuad quad,BlockPos pos) {
-        //? if >=1.21.5 {
+        //? if >=1.21.11 {
+        // 1.21.11 的 BakedQuad 直接给出顶点位置，不再需要从打包的 int[] 里解
+        Vec3 v0 = vertexOf(quad, 0, pos);
+        Vec3 v1 = vertexOf(quad, 1, pos);
+        Vec3 v2 = vertexOf(quad, 2, pos);
+        Vec3 v3 = vertexOf(quad, 3, pos);
+        //?} else {
+        /*//? if >=1.21.5 {
         int[] vertices = quad.vertices();
         //?} else {
-        /*int[] vertices = quad.getVertices();
-        *///?}
+        /^int[] vertices = quad.getVertices();
+        ^///?}
         Vec3 v0 = extractVertexPosition(vertices, 0).add(pos.getX(),pos.getY(),pos.getZ());
         Vec3 v1 = extractVertexPosition(vertices, 1).add(pos.getX(),pos.getY(),pos.getZ());
         Vec3 v2 = extractVertexPosition(vertices, 2).add(pos.getX(),pos.getY(),pos.getZ());
         Vec3 v3 = extractVertexPosition(vertices, 3).add(pos.getX(),pos.getY(),pos.getZ());
+        *///?}
 
         List<Vec3> triangle1 = new ArrayList<>();
         triangle1.add(v0);
@@ -116,6 +124,13 @@ public class ExplosionBlockPredicateShape extends Shape {
 
         return triangles;
     }
+    //? if >=1.21.11 {
+    private static Vec3 vertexOf(BakedQuad quad, int vertexIndex, BlockPos pos) {
+        org.joml.Vector3fc v = quad.position(vertexIndex);
+        return new Vec3(v.x() + pos.getX(), v.y() + pos.getY(), v.z() + pos.getZ());
+    }
+    //?}
+
     private static Vec3 extractVertexPosition(int[] vertices, int vertexIndex) {
         int startIndex = vertexIndex * 8;
 

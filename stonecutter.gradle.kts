@@ -72,9 +72,11 @@ stonecutter parameters {
         "net.caffeinemc.mods.sodium.client.render.frapi.helper.ColorHelper" to "net.caffeinemc.mods.sodium.client.render.helper.ColorHelper",
         "net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl" to "net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl",
         "net.caffeinemc.mods.sodium.client.render.frapi.render.AbstractBlockRenderContext" to "net.caffeinemc.mods.sodium.client.render.model.AbstractBlockRenderContext",
-        // sodium 0.8 的 quad 读写器都改了名：color(i, argb) -> setColor，color(i) -> getColor
-        "quad.color(i," to "quad.setColor(i,",
-        "quad.color(i)" to "quad.getColor(i)",
+        // sodium 0.8 的 quad 读写器改了名：color(i, argb) -> setColor，color(i) -> getColor。
+        // 注意必须连上下文一起匹配：fabric indigo 也有一个同名的 MutableQuadViewImpl，
+        // 它的方法没改名，用裸的 "quad.color(" 会把 AbstractTerrainRenderContextMixin 一起误伤。
+        "int color = quad.color(i);" to "int color = quad.getColor(i);",
+        "quad.color(i, ((alpha" to "quad.setColor(i, ((alpha",
 
         // Camera.getPosition() -> position()
         "getMainCamera().getPosition()" to "getMainCamera().position()"

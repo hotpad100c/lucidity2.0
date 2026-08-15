@@ -7,7 +7,9 @@ import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.CompositeSt
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.EmptyTextureStateShardAccessor;
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.RenderStateAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
+//? if <1.21.11 {
+/*import net.minecraft.client.renderer.RenderStateShard;
+*///?}
 import net.minecraft.client.renderer.rendertype.*;
 
 import org.jetbrains.annotations.NotNull;
