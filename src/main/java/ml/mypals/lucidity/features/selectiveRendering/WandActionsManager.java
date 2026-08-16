@@ -193,8 +193,9 @@ public class WandActionsManager {
         if(selectCoolDown > 0){return;}
         switch (APPLY_TARGET_MODE.getOptionListValue()){
             case WandApplyToMode.APPLY_TO_BLOCKS -> {
-                BLOCK_RENDERING_MODE.setOptionListValue(BLOCK_RENDERING_MODE.getOptionListValue().cycle(increase));
-                scheduleChunkRebuild();
+                SelectiveRenderingMode previous = BLOCK_RENDERING_MODE.getOptionListValue();
+                BLOCK_RENDERING_MODE.setOptionListValue(previous.cycle(increase));
+                onBlockRenderModeChanged(previous, BLOCK_RENDERING_MODE.getOptionListValue());
             }
             case WandApplyToMode.APPLY_TO_ENTITIES -> {
                 ENTITY_RENDERING_MODE.setOptionListValue(ENTITY_RENDERING_MODE.getOptionListValue().cycle(increase));

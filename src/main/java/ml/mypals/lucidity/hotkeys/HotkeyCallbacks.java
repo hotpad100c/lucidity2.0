@@ -45,8 +45,9 @@ public class HotkeyCallbacks {
         FeatureToggle.FLUID_SOURCE_HIGHLIGHT.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
         FeatureToggle.BLOCK_NO_RANDOM_OFFSET.setValueChangeCallback(iConfigBoolean -> Minecraft.getInstance().levelRenderer.allChanged());
         ImageRendererConfigs.IMAGES.setValueChangeCallback(configStringList -> ImageRenderManager.prepareImages());
-        SelectiveRenderingConfigs.APPLY_TARGET_MODE.setValueChangeCallback((string)->scheduleChunkRebuild());
-        SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.setValueChangeCallback((value)->Minecraft.getInstance().levelRenderer.allChanged());
+        // APPLY_TARGET_MODE 只决定魔杖作用于方块/实体/粒子中的哪一类，不参与 shouldRenderBlock，
+        // 切换它不需要重建任何区块
+        SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.setValueChangeCallback((value)->onHiddenTransparencyChanged());
         SelectiveRenderingConfigs.SELECTED_AREAS.setValueChangeCallback((string)->resolveSelectedAreasFromString(string.getStrings()));
         SelectiveRenderingConfigs.SELECTED_BLOCKS.setValueChangeCallback((string)->resolveSelectedBlockStatesFromString(string.getStrings()));
         SelectiveRenderingConfigs.SELECTED_ENTITIES.setValueChangeCallback((string)->resolveSelectedEntityTypesFromString(string.getStrings()));

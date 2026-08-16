@@ -7,6 +7,7 @@ import ml.mypals.lucidity.utils.BlockMatchRule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -140,6 +141,9 @@ public class SelectiveRenderingManager {
     }
 
     public static void resolveSelectedBlockStatesFromString(List<String> blockStrings) {
+        boolean unchanged = blockStrings.equals(lastBlockRuleStrings);
+        lastBlockRuleStrings = List.copyOf(blockStrings);
+
         selectedBlockTypes.clear();
         for (String raw : blockStrings) {
             String input = raw.replace(" ", "").toLowerCase();
@@ -149,7 +153,11 @@ public class SelectiveRenderingManager {
                 System.err.println("[Lucidity] Failed to parse rule: " + raw);
             }
         }
-        scheduleChunkRebuild();
+        // malilib 每次保存配置都会回调，列表没变就没有任何东西需要重建
+        if (unchanged) {
+            return;
+        }
+        onSelectedBlockTypesChanged();
     }
 
     public static void resolveSelectedEntityTypesFromString(List<String> entityStrings){
@@ -212,6 +220,10 @@ public class SelectiveRenderingManager {
     }
     public static void resolveSelectedAreasFromString(List<String> areaStrings){List<AreaBox> newAreas = new ArrayList<>();
 
+        boolean unchanged = areaStrings.equals(lastAreaStrings);
+        lastAreaStrings = List.copyOf(areaStrings);
+        List<BlockRegion> before = regionsOf(selectedAreas);
+
         for (String areaString : areaStrings) {
             try {
                 newAreas.add(parseAABB(areaString));
@@ -227,7 +239,11 @@ public class SelectiveRenderingManager {
             selectedAreas.add(area);
             area.submit();
         });
-        scheduleChunkRebuild();
+        // 选区形状没变时只需要重新提交渲染用的 Shape，不必碰区块网格
+        if (unchanged) {
+            return;
+        }
+        onSelectedAreasChanged(before, regionsOf(selectedAreas));
     }
 
     private static AreaBox parseAABB(String areaString) throws IllegalArgumentException {
@@ -386,7 +402,147 @@ public class SelectiveRenderingManager {
                 areaBox.minPos.getY() <= pos.y() && pos.y() <= areaBox.maxPos.getY()+f &&
                 areaBox.minPos.getZ() <= pos.z() && pos.z() <= areaBox.maxPos.getZ()+f;
     }
+    // ------------------------------------------------------------------
+    // 区块重建调度
+    //
+    // 一次配置变化只需要重建 shouldRenderBlock 结果真正发生改变的那些区段。
+    // 依据 shouldRender 的判定表：
+    //   INSIDE_*  = isInArea && f(isSelected)  —— 选区外恒为"隐藏"
+    //   OUTSIDE_* = !isInArea && f(isSelected) —— 选区内恒为"隐藏"
+    //   ANY_*     结果与 isInArea 无关
+    //   *_ALL     结果与 isSelected 无关
+    // 由此可以判断某次变化是否被关在选区内。
+    // ------------------------------------------------------------------
+
+    /** 一个闭区间方块范围。 */
+    public record BlockRegion(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+        public static BlockRegion of(AreaBox area) {
+            return new BlockRegion(
+                    area.minPos.getX(), area.minPos.getY(), area.minPos.getZ(),
+                    area.maxPos.getX(), area.maxPos.getY(), area.maxPos.getZ());
+        }
+        public BlockRegion expand(int n) {
+            return new BlockRegion(minX - n, minY - n, minZ - n, maxX + n, maxY + n, maxZ + n);
+        }
+    }
+
+    /** 邻居面剔除、AO 以及活塞方块实体最多向外读 1 格，受影响范围要相应外扩。 */
+    private static final int REGION_MARGIN = 1;
+
+    private static List<String> lastAreaStrings = null;
+    private static List<String> lastBlockRuleStrings = null;
+
+    private static List<BlockRegion> regionsOf(Collection<AreaBox> areas) {
+        List<BlockRegion> regions = new ArrayList<>(areas.size());
+        for (AreaBox area : areas) {
+            regions.add(BlockRegion.of(area));
+        }
+        return regions;
+    }
+
+    /** isInArea 是否参与该模式的判定。 */
+    private static boolean usesArea(SelectiveRenderingMode mode) {
+        return switch (mode) {
+            case INSIDE_SPECIFIC, INSIDE_NON_SPECIFIC, INSIDE_ALL,
+                 OUTSIDE_SPECIFIC, OUTSIDE_NON_SPECIFIC, OUTSIDE_ALL -> true;
+            case OFF, ANY_SPECIFIC, ANY_NON_SPECIFIC -> false;
+        };
+    }
+
+    /** 方块类型/状态过滤是否参与该模式的判定。 */
+    private static boolean usesTypeFilter(SelectiveRenderingMode mode) {
+        return switch (mode) {
+            case INSIDE_SPECIFIC, INSIDE_NON_SPECIFIC,
+                 OUTSIDE_SPECIFIC, OUTSIDE_NON_SPECIFIC,
+                 ANY_SPECIFIC, ANY_NON_SPECIFIC -> true;
+            case OFF, INSIDE_ALL, OUTSIDE_ALL -> false;
+        };
+    }
+
+    /** 该模式下选区外的方块恒被判为隐藏，因此任何变化都被关在选区里。 */
+    private static boolean allHiddenOutsideArea(SelectiveRenderingMode mode) {
+        return mode == SelectiveRenderingMode.INSIDE_SPECIFIC
+                || mode == SelectiveRenderingMode.INSIDE_NON_SPECIFIC
+                || mode == SelectiveRenderingMode.INSIDE_ALL;
+    }
+
+    /** 选区增删改。 */
+    public static void onSelectedAreasChanged(List<BlockRegion> before, List<BlockRegion> after) {
+        List<BlockRegion> touched = new ArrayList<>(before.size() + after.size());
+        touched.addAll(before);
+        touched.addAll(after);
+
+        SelectiveRenderingMode mode = BLOCK_RENDERING_MODE.getOptionListValue();
+        // ANY_* / OFF 下 isInArea 根本不参与判定，选区怎么改都不影响方块可见性
+        applyRebuild(usesArea(mode) ? touched : List.of(), touched);
+    }
+
+    /** 选中方块类型/状态列表变化。 */
+    public static void onSelectedBlockTypesChanged() {
+        SelectiveRenderingMode mode = BLOCK_RENDERING_MODE.getOptionListValue();
+        List<BlockRegion> areas = regionsOf(selectedAreas);
+
+        if (!usesTypeFilter(mode)) {
+            // OFF / *_ALL：类型过滤不参与判定
+            applyRebuild(List.of(), areas);
+        } else if (allHiddenOutsideArea(mode)) {
+            // INSIDE_*（"只显示选区内的某些方块，其余透明"就在这里）：
+            // 选区外恒为隐藏，与选了哪些类型无关，所以变化只可能发生在选区内
+            applyRebuild(areas, areas);
+        } else {
+            // OUTSIDE_* / ANY_*：被选中的类型可能出现在世界任何角落
+            applyRebuild(null, areas);
+        }
+    }
+
+    /** 方块渲染模式切换。 */
+    public static void onBlockRenderModeChanged(SelectiveRenderingMode before, SelectiveRenderingMode after) {
+        List<BlockRegion> areas = regionsOf(selectedAreas);
+
+        if (before == after) {
+            applyRebuild(List.of(), areas);
+        } else if (allHiddenOutsideArea(before) && allHiddenOutsideArea(after)) {
+            // 两个模式都把选区外判为隐藏，差异只可能出现在选区内
+            applyRebuild(areas, areas);
+        } else {
+            applyRebuild(null, areas);
+        }
+    }
+
+    /**
+     * 隐藏方块透明度变化。
+     *
+     * 实体/方块实体走 uniform，改透明度对它们完全不需要重建；这里要重建纯粹是因为
+     * 地形三条后端（原版 / fabric indigo / sodium）仍然把 alpha 烘焙进顶点色。
+     * 所以只需要重建"含有隐藏方块"的那些区段。
+     *
+     * 透明度不改变哪些方块被隐藏，只改变它们的颜色，因此不触发光照重算。
+     */
+    public static void onHiddenTransparencyChanged() {
+        SelectiveRenderingMode mode = BLOCK_RENDERING_MODE.getOptionListValue();
+
+        if (mode == SelectiveRenderingMode.OFF) {
+            // 没有任何方块被判为隐藏
+            applyRebuild(List.of(), List.of());
+        } else if (mode == SelectiveRenderingMode.OUTSIDE_ALL) {
+            // 唯一一个"隐藏集合完全落在选区内"的模式（隐藏 == isInArea）
+            applyRebuild(regionsOf(selectedAreas), List.of());
+        } else {
+            // 其余模式下选区外也存在隐藏方块，只能全量
+            applyRebuild(null, List.of());
+        }
+    }
+
+    /** 保守兜底：全量重建。 */
     public static void scheduleChunkRebuild() {
+        applyRebuild(null, regionsOf(selectedAreas));
+    }
+
+    /**
+     * @param dirty        需要重建的范围；{@code null} 表示整个世界，空列表表示无需重建
+     * @param lightRegions 需要重算光照的范围
+     */
+    private static void applyRebuild(@Nullable List<BlockRegion> dirty, List<BlockRegion> lightRegions) {
         Minecraft client = Minecraft.getInstance();
         if (client.level == null) return;
 
@@ -395,13 +551,70 @@ public class SelectiveRenderingManager {
             lightUpdateTask = null;
         }
 
-        client.levelRenderer.allChanged();
-
-        if (!FORCE_LIGHT_UPDATE.getBooleanValue()) {
+        if (dirty == null) {
+            client.levelRenderer.allChanged();
+        } else if (!dirty.isEmpty()) {
+            markSectionsDirty(client, dirty);
+        } else {
+            // 可见性完全没变，连光照都不用动
             return;
         }
 
+        if (!FORCE_LIGHT_UPDATE.getBooleanValue() || lightRegions.isEmpty()) {
+            return;
+        }
+        startLightRecalc(client.level, lightRegions);
+    }
+
+    private static void markSectionsDirty(Minecraft client, List<BlockRegion> regions) {
         ClientLevel level = client.level;
+        if (level == null) return;
+
+        //? if >=1.21.3 {
+        int levelMinSection = SectionPos.blockToSectionCoord(level.getMinY());
+        int levelMaxSection = SectionPos.blockToSectionCoord(level.getMaxY());
+        //?} else {
+        /*int levelMinSection = SectionPos.blockToSectionCoord(level.getMinBuildHeight());
+        int levelMaxSection = SectionPos.blockToSectionCoord(level.getMaxBuildHeight());
+        *///?}
+
+        // 选区可以画得非常大，按视距裁剪，避免在根本加载不到的区段坐标上空转
+        boolean clamp = client.player != null;
+        int viewSections = client.options.getEffectiveRenderDistance() + 2;
+        int camSectionX = clamp ? SectionPos.blockToSectionCoord(client.player.getBlockX()) : 0;
+        int camSectionZ = clamp ? SectionPos.blockToSectionCoord(client.player.getBlockZ()) : 0;
+
+        for (BlockRegion raw : regions) {
+            BlockRegion region = raw.expand(REGION_MARGIN);
+
+            int minSx = SectionPos.blockToSectionCoord(region.minX());
+            int maxSx = SectionPos.blockToSectionCoord(region.maxX());
+            int minSy = Math.max(levelMinSection, SectionPos.blockToSectionCoord(region.minY()));
+            int maxSy = Math.min(levelMaxSection, SectionPos.blockToSectionCoord(region.maxY()));
+            int minSz = SectionPos.blockToSectionCoord(region.minZ());
+            int maxSz = SectionPos.blockToSectionCoord(region.maxZ());
+
+            if (clamp) {
+                minSx = Math.max(minSx, camSectionX - viewSections);
+                maxSx = Math.min(maxSx, camSectionX + viewSections);
+                minSz = Math.max(minSz, camSectionZ - viewSections);
+                maxSz = Math.min(maxSz, camSectionZ + viewSections);
+            }
+
+            for (int sx = minSx; sx <= maxSx; sx++) {
+                for (int sy = minSy; sy <= maxSy; sy++) {
+                    for (int sz = minSz; sz <= maxSz; sz++) {
+                        // 视野外的区段坐标会被 ViewArea 忽略，这里不需要额外判断。
+                        // sodium 覆写了私有的 setSectionDirty(int,int,int,boolean)，
+                        // 公开的三参重载会委托过去，所以两条管线都吃这个调用。
+                        client.levelRenderer.setSectionDirty(sx, sy, sz);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void startLightRecalc(ClientLevel level, List<BlockRegion> regions) {
         //? if >=1.21.3 {
         int worldTop = level.getMaxY() - 1;
         //?} else {
@@ -411,11 +624,11 @@ public class SelectiveRenderingManager {
 
             List<BlockPos> toUpdate = new ArrayList<>();
 
-            for (AreaBox area : selectedAreas) {
+            for (BlockRegion region : regions) {
                 if (Thread.currentThread().isInterrupted()) return;
 
-                BlockPos min = area.minPos;
-                BlockPos max = area.maxPos;
+                BlockPos min = new BlockPos(region.minX(), region.minY(), region.minZ());
+                BlockPos max = new BlockPos(region.maxX(), region.maxY(), region.maxZ());
 
                 BlockPos outerMin = min.offset(-15, 0, -15);
                 BlockPos outerMax = max.offset(15, 0, 15);
