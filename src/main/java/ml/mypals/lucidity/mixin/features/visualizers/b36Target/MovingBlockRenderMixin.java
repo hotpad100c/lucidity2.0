@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsumer;
+import ml.mypals.lucidity.utils.DeferredGeometry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 //? if >=1.21.11 {
@@ -85,20 +86,20 @@ public abstract class MovingBlockRenderMixin {
          // PistonMovingBlockEntity 本身就位于"目的地"，动画期间的偏移由 submit 内部
          // pushPose/popPose 处理、在 TAIL 处已经还原，所以这里不需要任何平移：
          // 直接画在原点就是目的地预览。
-         poseStack.pushPose();
-         Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(
-            moved,
-            Minecraft.getInstance().getBlockRenderer().getBlockModel(moved.blockState)
-                    .collectParts(Minecraft.getInstance().level.getRandom()),
-            moved.blockState,
-            moved.blockPos,
-            poseStack,
-            new TransparentVertexConsumer(Minecraft.getInstance().renderBuffers().bufferSource()
-                    .getBuffer(RenderTypes.translucentMovingBlock())),
-            true,
-            LightTexture.FULL_BLOCK
-         );
-         poseStack.popPose();
+         //
+         // 绘制必须走提交节点：submit 阶段直接写 bufferSource 的话这一帧不会画出来。
+         DeferredGeometry.submit(submitNodeCollector, poseStack, RenderTypes.translucentMovingBlock(),
+                 (ps, consumer) -> Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(
+                         moved,
+                         Minecraft.getInstance().getBlockRenderer().getBlockModel(moved.blockState)
+                                 .collectParts(Minecraft.getInstance().level.getRandom()),
+                         moved.blockState,
+                         moved.blockPos,
+                         ps,
+                         new TransparentVertexConsumer(consumer),
+                         true,
+                         LightTexture.FULL_BLOCK
+                 ));
         //?} else {
         /*BlockPos blockPos = piston.getBlockPos().relative(piston.getMovementDirection().getOpposite());
         Direction dir = piston.getMovementDirection();

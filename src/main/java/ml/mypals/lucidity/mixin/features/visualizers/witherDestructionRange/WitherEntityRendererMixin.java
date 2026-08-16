@@ -7,6 +7,7 @@ import com.mojang.blaze3d.opengl.GlStateManager;
 *///?}
 import com.mojang.blaze3d.vertex.PoseStack;
 import fi.dy.masa.malilib.util.data.Color4f;
+import ml.mypals.lucidity.utils.DeferredGeometry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.monster.wither.WitherBossModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -66,9 +67,12 @@ public abstract class WitherEntityRendererMixin extends MobRenderer<WitherBoss, 
             AABB destructionBox = getDestructionBox(witherRenderState);
             Color4f color = WITHER_DESTRUCTION_RANGE_COLOR.getColor();
             //? if >=1.21.9 {
-            MultiBufferSource multiBufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-            //?}
-            renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), destructionBox,color.r,color.g,color.b,color.a);
+            // 绘制必须走提交节点：submit 阶段直接写 bufferSource 的话这一帧不会画出来
+            DeferredGeometry.submit(submitNodeCollector, poseStack, RenderTypes.debugQuads(),
+                    (ps, consumer) -> renderBox(ps, consumer, destructionBox, color.r, color.g, color.b, color.a));
+            //?} else {
+            /*renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), destructionBox,color.r,color.g,color.b,color.a);
+            *///?}
 
             poseStack.popPose();
         }

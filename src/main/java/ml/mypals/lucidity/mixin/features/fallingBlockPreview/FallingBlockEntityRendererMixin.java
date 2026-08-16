@@ -3,6 +3,7 @@ package ml.mypals.lucidity.mixin.features.fallingBlockPreview;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsumer;
+import ml.mypals.lucidity.utils.DeferredGeometry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -95,33 +96,46 @@ public class FallingBlockEntityRendererMixin {
             poseStack.translate(offsetX, offsetY, offsetZ);
             poseStack.scale(1.001f, 1.001f, 1.001f);
 
-            //? if >=1.21.9 {
-            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderTypes.translucentMovingBlock());
-            //?} else if >=1.21.6 {
-            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderTypes.translucentMovingBlock());
-            *///?} else {
-            /*VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
-            *///?}
-
             BlockRenderDispatcher blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
+
+            //? if >=1.21.9 {
+            // 绘制必须走提交节点：submit 阶段直接写 bufferSource 的话这一帧不会画出来
+            DeferredGeometry.submit(submitNodeCollector, poseStack, RenderTypes.translucentMovingBlock(),
+                    (ps, consumer) -> blockRenderDispatcher.getModelRenderer().tesselateBlock(
+                            Minecraft.getInstance().level,
+                            blockRenderDispatcher.getBlockModel(blockState)
+                                    .collectParts(Minecraft.getInstance().level.getRandom()),
+                            blockState,
+                            predictLandingPos,
+                            ps,
+                            new TransparentVertexConsumer(consumer),
+                            true,
+                            LightTexture.FULL_BLOCK));
+            //?} else {
+            /*//? if >=1.21.6 {
+            /^VertexConsumer consumer = multiBufferSource.getBuffer(RenderTypes.translucentMovingBlock());
+            ^///?} else {
+            /^VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
+            ^///?}
 
             blockRenderDispatcher.getModelRenderer().tesselateBlock(
                     Minecraft.getInstance().level,
                     //? if >=1.21.5 {
-                    blockRenderDispatcher.getBlockModel(blockState).collectParts(Minecraft.getInstance().level.getRandom()),
-                    //?} else {
-                    /*blockRenderDispatcher.getBlockModel(blockState),
-                    *///?}
+                    /^blockRenderDispatcher.getBlockModel(blockState).collectParts(Minecraft.getInstance().level.getRandom()),
+                    ^///?} else {
+                    /^blockRenderDispatcher.getBlockModel(blockState),
+                    ^///?}
                     blockState,
                     predictLandingPos,
                     poseStack,
                     new TransparentVertexConsumer(consumer),
                     true,
                     //? if <=1.21.4 {
-                    /*RandomSource.create(),
+                    /^RandomSource.create(),
                     blockState.getSeed(predictLandingPos),
-                    *///?}
+                    ^///?}
                     LightTexture.FULL_BLOCK);
+            *///?}
             poseStack.popPose();
         }
     }
