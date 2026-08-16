@@ -56,7 +56,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockRender(BlockRenderer instance, BlockStateModel type, BlockState blockState, BlockPos model, BlockPos state, Operation<Void> original){
-        if(shouldRenderBlock(blockState,model) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(instance, type, blockState, model, state);
         }
     }
@@ -70,7 +70,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockRender(BlockRenderer instance, BakedModel type, BlockState blockState, BlockPos model, BlockPos state, Operation<Void> original){
-        if(shouldRenderBlock(blockState,model) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(instance, type, blockState, model, state);
         }
     }
@@ -86,7 +86,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
     public void filterFluidRender(FluidRenderer instance, LevelSlice levelSlice, BlockState blockState,
                                   FluidState fluidState, BlockPos blockPos, BlockPos modelOffset,
                                   TranslucentGeometryCollector translucentGeometryCollector, ChunkBuildBuffers chunkBuildBuffers, Operation<Void> original){
-        if(shouldRenderBlock(blockState,blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(instance, levelSlice, blockState, fluidState, blockPos,modelOffset,translucentGeometryCollector,chunkBuildBuffers);
         }
     }
@@ -100,7 +100,7 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             remap = false
     )
     public void filterBlockStateRender(BuiltSectionInfo.Builder builder, BlockEntity blockEntity, boolean b , Operation<Void> original, @Local BlockState blockState){
-        if(shouldRenderBlock(blockState,blockEntity.getBlockPos()) || !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(builder,blockEntity,b);
         }
     }

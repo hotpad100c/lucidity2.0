@@ -41,10 +41,8 @@ public class BlockRenderInfoMixin {
 
         boolean renderNeighbor = shouldRenderBlock(neighbor, neighborPos);
 
-        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            if (renderThis != renderNeighbor) {
-                return true;
-            }
+        if (renderThis != renderNeighbor) {
+            return true;
         }
 
         if (renderThis != renderNeighbor) {

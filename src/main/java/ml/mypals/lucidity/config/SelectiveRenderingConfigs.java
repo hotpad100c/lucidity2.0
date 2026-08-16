@@ -62,9 +62,17 @@ public class SelectiveRenderingConfigs {
             PARTICLE_RENDERING_MODE,
             APPLY_TARGET_MODE
     );
-    public static boolean isBlockFullyHidden(){
-        return HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() <= 0;
-    }
+    // isBlockFullyHidden() 已移除。
+    //
+    // 它原本的意思是"透明度为 0 时干脆别 emit 几何"，属于把 alpha 当几何开关用 ——
+    // 这是烘焙时代的产物。副作用是 0 和 1 之间存在断崖：alpha=0 时若上游的 emit 守卫
+    // 没兜住（不同渲染后端、mixin 未注入），就会落到"完全正常渲染"的分支，
+    // 方块反而彻底显现。
+    //
+    // 现在透明度一律作为颜色处理（实体走 uniform，地形烘焙进顶点色），
+    // alpha=0 自然就是全透明，不需要额外的几何特例。这样 0~255 单调连续，
+    // 网格形状也不再随 alpha 跳变。
+    // 代价是 alpha=0 时仍会提交一批全透明几何，开销与 alpha=1 时相同。
 
     public static class SelectiveRenderingModeList extends ConfigOptionList {
         public SelectiveRenderingModeList(String name, SelectiveRenderingManager.SelectiveRenderingMode defaultValue) {

@@ -77,7 +77,7 @@ public abstract class SectionBuilderMixin {
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLjava/util/List;)V"))
     public void onBuilBlock(
             BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, List<BlockModelPart> list, Operation<Void> original) {
-        if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
         }
 
@@ -86,7 +86,7 @@ public abstract class SectionBuilderMixin {
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"))
     public void onBuilBlock(
             BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, RandomSource randomSource, Operation<Void> original) {
-     if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
+     { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
          original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, randomSource);
      }
     *///?}
@@ -107,8 +107,8 @@ public abstract class SectionBuilderMixin {
             @Local Map<ChunkSectionLayer, BufferBuilder> map,
             //?}
             @Local(argsOnly = true) SectionBufferBuilderPack sectionBufferBuilderPack) {
-        if (SelectiveRenderingManager.shouldRenderBlock(blockState, blockPos) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            VertexConsumer vertexConsumer1 = SelectiveRenderingConfigs.isBlockFullyHidden() ? vertexConsumer:
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
+            VertexConsumer vertexConsumer1 =
                     //? if <=1.21.5 {
                     /*new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, RenderType.translucent()));
                     *///?} else {
@@ -121,7 +121,7 @@ public abstract class SectionBuilderMixin {
             target = "Lnet/minecraft/client/renderer/chunk/SectionCompiler;handleBlockEntity(Lnet/minecraft/client/renderer/chunk/SectionCompiler$Results;Lnet/minecraft/world/level/block/entity/BlockEntity;)V"))
     public void onBuilBlockEntity(
             SectionCompiler instance, SectionCompiler.Results results, BlockEntity blockEntity, Operation<Void> original) {
-        if (SelectiveRenderingManager.shouldRenderBlock(blockEntity.getBlockState(), blockEntity.getBlockPos()) || !SelectiveRenderingConfigs.isBlockFullyHidden()) {
+        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             original.call(instance, results, blockEntity);
         }
     }

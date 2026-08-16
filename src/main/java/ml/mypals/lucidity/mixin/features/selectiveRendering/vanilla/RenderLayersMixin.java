@@ -24,7 +24,7 @@ public class RenderLayersMixin {
     /*private static RenderType injectCustomFluidRenderLayer(FluidState fluidState, Operation<RenderType> original) {
     *///?}
         if (FLUID_TRANSPARENCY_OVERRIDE.getBooleanValue() ||
-                !(SelectiveRenderingConfigs.isBlockFullyHidden() && SelectiveRenderingConfigs.BLOCK_RENDERING_MODE.getOptionListValue() != OFF)) {
+                SelectiveRenderingConfigs.BLOCK_RENDERING_MODE.getOptionListValue() != OFF) {
             //? if >=1.21.6 {
             return ChunkSectionLayer.TRANSLUCENT;
             //?} else {

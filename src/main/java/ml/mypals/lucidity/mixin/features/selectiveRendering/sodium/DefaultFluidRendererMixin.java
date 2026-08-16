@@ -49,14 +49,8 @@ public class DefaultFluidRendererMixin {
         boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
         boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
 
-        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(false);
-            }
-        }else {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(!renderThis);
-            }
+        if (renderThis != renderNeighbor) {
+            cir.setReturnValue(false);
         }
 
     }
@@ -64,9 +58,6 @@ public class DefaultFluidRendererMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(LevelSlice level, BlockState state, FluidState fluidState, BlockPos pos, BlockPos offset, TranslucentGeometryCollector collector, ChunkModelBuilder meshBuilder, Material material, ColorProvider<FluidState> colorProvider, TextureAtlasSprite[] sprites, CallbackInfo ci) {
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
-        if (alpha == 0) {
-            ci.cancel();
-        }
     }
 
     @Inject(at = @At("RETURN"), method = "isSideExposed"
@@ -76,14 +67,8 @@ public class DefaultFluidRendererMixin {
         boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
         boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
 
-        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(true);
-            }
-        }else {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(renderThis);
-            }
+        if (renderThis != renderNeighbor) {
+            cir.setReturnValue(true);
         }
     }
 

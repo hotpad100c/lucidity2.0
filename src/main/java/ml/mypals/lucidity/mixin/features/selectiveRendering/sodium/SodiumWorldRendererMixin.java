@@ -31,8 +31,7 @@ public class SodiumWorldRendererMixin {
     private static void renderBlockEntity(PoseStack matrices, RenderBuffers bufferBuilders, Long2ObjectMap<SortedSet<BlockDestructionProgress>> blockBreakingProgressions, float tickDelta, MultiBufferSource.BufferSource immediate, double x, double y, double z, BlockEntityRenderDispatcher dispatcher, BlockEntity entity, LocalPlayer player, LocalBooleanRef isGlowing, Operation<Void> original) {
         BlockPos pos = entity.getBlockPos();
         BlockState state = entity.getBlockState();
-        if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)
-                && !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)){
             original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, new ControllableTransparentBuffersWrapper(bufferBuilders.bufferSource()), x, y, z, dispatcher, entity, player, isGlowing);
         }else {
             original.call(matrices, bufferBuilders, blockBreakingProgressions, tickDelta, immediate, x, y, z, dispatcher, entity, player, isGlowing);

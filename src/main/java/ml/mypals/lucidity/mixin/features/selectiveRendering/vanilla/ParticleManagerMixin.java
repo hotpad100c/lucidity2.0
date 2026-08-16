@@ -74,11 +74,9 @@ public abstract class ParticleManagerMixin {
         ParticleType currentParticleType = ((ParticleAccessor)instance).lucidity$getParticleType();
         ParticlePosAccessor particlePosAccessor = (ParticlePosAccessor)instance;
         if(currentParticleType != null && !SelectiveRenderingManager.shouldRenderParticle(currentParticleType,new Vec3(particlePosAccessor.getX(),particlePosAccessor.getY(),particlePosAccessor.getZ()))){
-            if(!SelectiveRenderingConfigs.isBlockFullyHidden()){
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                original.call(instance, new ControllableTransparentVertexConsumer(vertexConsumer),camera,v);
-            }
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            original.call(instance, new ControllableTransparentVertexConsumer(vertexConsumer),camera,v);
         }else {
             original.call(instance, vertexConsumer, camera, v);
         }
@@ -114,9 +112,7 @@ public abstract class ParticleManagerMixin {
         ParticleType currentParticleType = ((ParticleAccessor)instance).lucidity$getParticleType();
         ParticlePosAccessor particlePosAccessor = (ParticlePosAccessor)instance;
         if(currentParticleType != null && !SelectiveRenderingManager.shouldRenderParticle(currentParticleType,new Vec3(particlePosAccessor.getX(),particlePosAccessor.getY(),particlePosAccessor.getZ()))){
-            if(!SelectiveRenderingConfigs.isBlockFullyHidden()){
-                original.call(instance, new ControllableTransparentVertexConsumer(vertexConsumer),camera,v);
-            }
+            original.call(instance, new ControllableTransparentVertexConsumer(vertexConsumer),camera,v);
         }else {
             original.call(instance, vertexConsumer, camera, v);
         }
@@ -126,9 +122,7 @@ public abstract class ParticleManagerMixin {
         ParticleType currentRenderingType = ((ParticleAccessor)instance).lucidity$getParticleType();
         ParticlePosAccessor particlePosAccessor = (ParticlePosAccessor)instance;
         if(currentRenderingType != null && !SelectiveRenderingManager.shouldRenderParticle(currentRenderingType,new Vec3(particlePosAccessor.getX(),particlePosAccessor.getY(),particlePosAccessor.getZ()))){
-            if(!SelectiveRenderingConfigs.isBlockFullyHidden()){
-                original.call(instance, poseStack, new ControllableTransparentBuffersWrapper((MultiBufferSource.BufferSource )multiBufferSource),camera,v);
-            }
+            original.call(instance, poseStack, new ControllableTransparentBuffersWrapper((MultiBufferSource.BufferSource )multiBufferSource),camera,v);
         }else {
             original.call(instance, poseStack, multiBufferSource, camera, v);
         }

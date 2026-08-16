@@ -53,9 +53,6 @@ public abstract class NonTerrainBlockRenderContextMixin {
     /*private void onRenderModel(BlockAndTintGetter blockView, BakedModel model, BlockState state, BlockPos pos, PoseStack poseStack, VertexConsumer buffer, boolean cull, RandomSource random, long seed, int overlay, CallbackInfo ci) {
     *///?}
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
-        if (alpha == 0) {
-            ci.cancel();
-        }
     }
 
     @Inject(method = "bufferQuad", at = @At("HEAD"))

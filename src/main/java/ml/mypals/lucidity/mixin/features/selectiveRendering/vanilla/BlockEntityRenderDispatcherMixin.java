@@ -29,8 +29,7 @@ public class BlockEntityRenderDispatcherMixin {
 
     @WrapMethod(method = "submit")
     private void renderBlockEntity(BlockEntityRenderState blockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, Operation<Void> original) {
-        if (!SelectiveRenderingManager.shouldRenderBlock(blockEntityRenderState.blockState,blockEntityRenderState.blockPos)
-                && !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        if (!SelectiveRenderingManager.shouldRenderBlock(blockEntityRenderState.blockState,blockEntityRenderState.blockPos)){
             original.call(blockEntityRenderState, poseStack,new SelectiveRenderingSubmitNodeStorage(submitNodeCollector), cameraRenderState);
         }else {
             original.call(blockEntityRenderState, poseStack, submitNodeCollector, cameraRenderState);
@@ -42,8 +41,7 @@ public class BlockEntityRenderDispatcherMixin {
     private void renderBlockEntity(BlockEntity entity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, Operation<Void> original) {
         BlockPos pos = entity.getBlockPos();
         BlockState state = entity.getBlockState();
-        if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)
-                && !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)){
             original.call(entity, f, poseStack, new ControllableTransparentBuffersWrapper((MultiBufferSource.BufferSource) multiBufferSource));
         }else {
             original.call(entity, f, poseStack, multiBufferSource);

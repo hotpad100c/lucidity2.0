@@ -36,11 +36,7 @@ public class BlockOcclusionCacheMixin {
         if (renderThis == renderNeighbor) {
             return;
         }
-        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            cir.setReturnValue(true);
-        } else {
-            cir.setReturnValue(renderThis);
-        }
+        cir.setReturnValue(true);
     }
 }
 //?} else {
@@ -53,14 +49,8 @@ public class BlockOcclusionCacheMixin {
         boolean renderThis = shouldRenderBlock(selfBlockState,selfPos);
         boolean renderNeighbor = shouldRenderBlock(view.getBlockState(selfPos.relative(facing)),selfPos.relative(facing));
 
-        if (!SelectiveRenderingConfigs.isBlockFullyHidden()) {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(true);
-            }
-        }else {
-            if (renderThis != renderNeighbor) {
-                cir.setReturnValue(renderThis);
-            }
+        if (renderThis != renderNeighbor) {
+            cir.setReturnValue(true);
         }
     }
 }

@@ -60,7 +60,7 @@ public abstract class AbstractTerrainRenderContextMixin
     @Inject(method = "bufferQuad", at = @At(value = "INVOKE", target = "Lnet/fabricmc/fabric/impl/client/indigo/renderer/render/AbstractBlockRenderContext;bufferQuad(Lnet/fabricmc/fabric/impl/client/indigo/renderer/mesh/MutableQuadViewImpl;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V"))
     //?}
     private void onBufferQuad(MutableQuadViewImpl quad, CallbackInfo ci) {
-        if(!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState,blockInfo.blockPos) && !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        if(!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState,blockInfo.blockPos)){
             for (int i = 0; i < 4; i++) {
                 quad.color(i, rewriteQuadAlpha(quad.color(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
             }
@@ -72,7 +72,7 @@ public abstract class AbstractTerrainRenderContextMixin
     @WrapOperation(method = "bufferQuad", at = @At(value = "INVOKE", target = "Lnet/fabricmc/fabric/impl/client/indigo/renderer/render/AbstractBlockRenderContext;bufferQuad(Lnet/fabricmc/fabric/impl/client/indigo/renderer/mesh/MutableQuadViewImpl;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V"))
     //?}
     private void onBufferQuad(AbstractBlockRenderContext instance, MutableQuadViewImpl mutableQuadView, VertexConsumer vertexConsumer, Operation<Void> original) {
-        if(!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState,blockInfo.blockPos) && !SelectiveRenderingConfigs.isBlockFullyHidden()){
+        if(!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState,blockInfo.blockPos)){
             original.call(instance,mutableQuadView,getVertexConsumer(RenderType.translucent()));
         }else{
             original.call(instance,mutableQuadView,vertexConsumer);
@@ -82,7 +82,7 @@ public abstract class AbstractTerrainRenderContextMixin
 
     @Override
     protected void bufferQuad(MutableQuadViewImpl quad, VertexConsumer vertexConsumer) {
-        if (!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState, blockInfo.blockPos) && !SelectiveRenderingConfigs.isBlockFullyHidden()) {
+        if (!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState, blockInfo.blockPos)) {
             for (int i = 0; i < 4; i++) {
                 quad.color(i, rewriteQuadAlpha(quad.color(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
             }
