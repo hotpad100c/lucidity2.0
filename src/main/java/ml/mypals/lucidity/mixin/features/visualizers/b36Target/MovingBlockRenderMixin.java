@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.block.model.BlockStateModel;
 /*import net.minecraft.client.resources.model.BakedModel;
  *///?}
 //? if >=1.21.9 {
+import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.blockentity.state.PistonHeadRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 //?}
@@ -75,46 +76,43 @@ public abstract class MovingBlockRenderMixin {
         if(!B36_TARGET_PREVIEW.getBooleanValue()) return;
 
         //? if >=1.21.9 {
-         Direction dir = getPistonDirection(piston);
-         BlockPos blockPos = piston.blockPos.relative(dir);
-        //?} else {
-        /*BlockPos blockPos = piston.getBlockPos().relative(piston.getMovementDirection().getOpposite());
-        Direction dir = piston.getMovementDirection();
-        *///?}
-        BlockPos targetPos = blockPos.relative(dir);
-        poseStack.pushPose();
+         // piston.blockState 继承自 BlockEntityRenderState，指的是 moving_piston 这个方块本身，
+         // 它的渲染形状是 INVISIBLE —— 拿它去 tesselate 什么都画不出来。
+         // 真正被推动的方块在 piston.block（MovingBlockRenderState）里。
+         MovingBlockRenderState moved = piston.block;
+         if (moved == null) return;
 
-        //? if >=1.21.9 {
-         poseStack.translate(
-                 targetPos.getX() - piston.blockPos.getX(),
-                 targetPos.getY() - piston.blockPos.getY(),
-                 targetPos.getZ() - piston.blockPos.getZ()
-         );
-        //?} else {
-        /*poseStack.translate(
-                targetPos.getX() - piston.getBlockPos().getX(),
-                targetPos.getY() - piston.getBlockPos().getY(),
-                targetPos.getZ() - piston.getBlockPos().getZ()
-        );
-        *///?}
-
-        renderAdditional = true;
-        //? if >=1.21.9 {
+         // PistonMovingBlockEntity 本身就位于"目的地"，动画期间的偏移由 submit 内部
+         // pushPose/popPose 处理、在 TAIL 处已经还原，所以这里不需要任何平移：
+         // 直接画在原点就是目的地预览。
+         poseStack.pushPose();
          Minecraft.getInstance().getBlockRenderer().getModelRenderer().tesselateBlock(
-            Minecraft.getInstance().level,
-            Minecraft.getInstance().getBlockRenderer().getBlockModel(piston.blockState)
+            moved,
+            Minecraft.getInstance().getBlockRenderer().getBlockModel(moved.blockState)
                     .collectParts(Minecraft.getInstance().level.getRandom()),
-            piston.blockState,
-            targetPos,
+            moved.blockState,
+            moved.blockPos,
             poseStack,
             new TransparentVertexConsumer(Minecraft.getInstance().renderBuffers().bufferSource()
                     .getBuffer(RenderTypes.translucentMovingBlock())),
             true,
             LightTexture.FULL_BLOCK
          );
-
+         poseStack.popPose();
         //?} else {
-        /*this.renderBlock(
+        /*BlockPos blockPos = piston.getBlockPos().relative(piston.getMovementDirection().getOpposite());
+        Direction dir = piston.getMovementDirection();
+        BlockPos targetPos = blockPos.relative(dir);
+        poseStack.pushPose();
+
+        poseStack.translate(
+                targetPos.getX() - piston.getBlockPos().getX(),
+                targetPos.getY() - piston.getBlockPos().getY(),
+                targetPos.getZ() - piston.getBlockPos().getZ()
+        );
+
+        renderAdditional = true;
+        this.renderBlock(
                 targetPos,
                 piston.getMovedState(),
                 poseStack,
@@ -123,9 +121,9 @@ public abstract class MovingBlockRenderMixin {
                 false,
                 j
         );
-        *///?}
 
         poseStack.popPose();
+        *///?}
     }
     //? if <1.21.9 {
     /*@WrapMethod(method = "renderBlock")
