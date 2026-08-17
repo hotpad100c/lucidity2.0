@@ -710,17 +710,6 @@ public class LucidityLanguageGenerator {
 
 
         languageProviderManager.addTranslation(
-                "lucidity.config.features.name.accurate_entity_shadow",
-                "Better Entity Shadow",
-                "更好的实体阴影"
-        );
-        languageProviderManager.addTranslation(
-                "lucidity.config.features.comment.accurate_entity_shadow",
-                "Make entity shadow slightly better.",
-                "让实体阴影稍微好一点"
-        );
-
-        languageProviderManager.addTranslation(
                 "lucidity.config.features.name.b36_preview",
                 "B36 Destination Preview",
                 "b36目的地预览"

@@ -34,7 +34,6 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     /*? if >=1.21 {*/VAULT_ITEM_DISPLAY("vault_item_display",false),/*?}*/
     B36_TARGET_PREVIEW("b36_preview",false),
     FLUID_SOURCE_HIGHLIGHT("fluid_source_highlight",false),
-    ACCURATE_ENTITY_SHADOW("accurate_entity_shadow",false),
     CONTAINER_SIGNAL_PREVIEW("container_signal_preview",false),
     EXTENDED_HITBOX("extended_hitbox_visualize",false),
     BLOCK_NO_RANDOM_OFFSET("block_no_random_offset",false,true),

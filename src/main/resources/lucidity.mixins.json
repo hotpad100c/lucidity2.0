@@ -3,7 +3,6 @@
   "package": "ml.mypals.lucidity.mixin",
   "compatibilityLevel": "${java}",
   "mixins": [
-    "features.accurateShadow.EntityRendererMixin",
     "features.blockNoRandomOffset.BlockStateMixin",
     "features.selectiveRendering.fabric.light.AoCalculatorMixin",
     "features.selectiveRendering.sodium.BlockOcclusionCacheMixin",
