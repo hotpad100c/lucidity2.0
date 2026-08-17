@@ -42,7 +42,6 @@ public class FluidRendererMixin {
         }
     }
 
-    //? if >= 1.21.3 {
     
     @WrapOperation(
             method = "tesselate",
@@ -100,56 +99,4 @@ public class FluidRendererMixin {
         }
         return original.call(side, f, neighborState);
     }
-    //?} else {
-    /*@WrapOperation(
-            method = "tesselate",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/block/LiquidBlockRenderer;shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/material/FluidState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;Lnet/minecraft/world/level/material/FluidState;)Z"
-            )
-    )
-    private boolean redirectShouldRenderFace(
-            BlockAndTintGetter blockAndTintGetter,
-            BlockPos pos, FluidState fluidState,
-            BlockState state, Direction side,
-            FluidState fluidState2, Operation<Boolean> original
-    ) {
-        Level world = Minecraft.getInstance().level;
-        if (world == null) return original.call(blockAndTintGetter, pos, fluidState, state, side, fluidState2);
-        BlockState neighborState = world.getBlockState(pos.relative(side));
-        boolean currentSpecial = shouldRenderBlock(state, pos);
-        boolean neighborSpecial = shouldRenderBlock(neighborState, pos.relative(side));
-        if (currentSpecial && !neighborSpecial) {
-            return true;
-        }
-        if (!currentSpecial && neighborSpecial) {
-            return false;
-        }
-        return original.call(blockAndTintGetter, pos, fluidState, state, side, fluidState2);
-    }
-
-    @WrapMethod(
-            method = "isFaceOccludedByState(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/Direction;FLnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;)Z"
-    )
-    private static boolean redirectIsFaceOccluded(
-            BlockGetter blockGetter,
-            Direction side,
-            float f, BlockPos pos,
-            BlockState neighborState,
-            Operation<Boolean> original
-    ) {
-        Level world = Minecraft.getInstance().level;
-        if (world == null) return original.call(blockGetter, side, f, pos, neighborState);
-        BlockState currentState = world.getBlockState(pos);
-        boolean currentSpecial = shouldRenderBlock(currentState, pos);
-        boolean neighborSpecial = shouldRenderBlock(neighborState, pos.relative(side));
-        if (currentSpecial && !neighborSpecial) {
-            return false;
-        }
-        if (!currentSpecial && neighborSpecial) {
-            return true;
-        }
-        return original.call(blockGetter, side, f, pos, neighborState);
-    }
-    *///?}
 }

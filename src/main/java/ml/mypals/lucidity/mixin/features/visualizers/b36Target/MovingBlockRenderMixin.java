@@ -9,21 +9,13 @@ import ml.mypals.lucidity.features.visualizers.b36Target.TransparentVertexConsum
 import ml.mypals.lucidity.utils.DeferredGeometry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-//? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.*;
-//?}
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.PistonHeadRenderer;
-//? if >=1.21.5 {
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-//?} else {
-/*import net.minecraft.client.resources.model.BakedModel;
- *///?}
-//? if >=1.21.9 {
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.blockentity.state.PistonHeadRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
-//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -45,38 +37,16 @@ import static ml.mypals.lucidity.config.FeatureToggle.B36_TARGET_PREVIEW;
 public abstract class MovingBlockRenderMixin {
     @Unique
     private boolean renderAdditional = false;
-    //? if <1.21.9 {
-    /*@Shadow protected abstract void renderBlock(BlockPos blockPos, BlockState blockState, PoseStack poseStack, MultiBufferSource multiBufferSource, Level level, boolean bl, int i);
-    @Shadow @Final private BlockRenderDispatcher blockRenderer;
-    *///?}
-    //? if >=1.21.9 {
     @Inject(
             method = "submit(Lnet/minecraft/client/renderer/blockentity/state/PistonHeadRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
             at = @At("TAIL")
     )private void renderPreviewBlock(
             PistonHeadRenderState piston, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci
     )
-    //?} else if >=1.21.5 {
-    /*@Inject(
-            method = "render(Lnet/minecraft/world/level/block/piston/PistonMovingBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/world/phys/Vec3;)V",
-            at = @At("TAIL")
-    )private void renderPreviewBlock(
-            PistonMovingBlockEntity piston, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, Vec3 vec3, CallbackInfo ci
-    )
-    *///?} else {
-    /*@Inject(
-            method = "render(Lnet/minecraft/world/level/block/piston/PistonMovingBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V",
-            at = @At("TAIL")
-    )private void renderPreviewBlock(
-            PistonMovingBlockEntity piston, float f,
-            PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci
-    )
-    *///?}
      {
 
         if(!B36_TARGET_PREVIEW.getBooleanValue()) return;
 
-        //? if >=1.21.9 {
          // piston.blockState 继承自 BlockEntityRenderState，指的是 moving_piston 这个方块本身，
          // 它的渲染形状是 INVISIBLE —— 拿它去 tesselate 什么都画不出来。
          // 真正被推动的方块在 piston.block（MovingBlockRenderState）里。
@@ -100,57 +70,8 @@ public abstract class MovingBlockRenderMixin {
                          true,
                          LightTexture.FULL_BLOCK
                  ));
-        //?} else {
-        /*BlockPos blockPos = piston.getBlockPos().relative(piston.getMovementDirection().getOpposite());
-        Direction dir = piston.getMovementDirection();
-        BlockPos targetPos = blockPos.relative(dir);
-        poseStack.pushPose();
-
-        poseStack.translate(
-                targetPos.getX() - piston.getBlockPos().getX(),
-                targetPos.getY() - piston.getBlockPos().getY(),
-                targetPos.getZ() - piston.getBlockPos().getZ()
-        );
-
-        renderAdditional = true;
-        this.renderBlock(
-                targetPos,
-                piston.getMovedState(),
-                poseStack,
-                multiBufferSource,
-                piston.getLevel(),
-                false,
-                j
-        );
-
-        poseStack.popPose();
-        *///?}
     }
-    //? if <1.21.9 {
-    /*@WrapMethod(method = "renderBlock")
-    private void renderBlock(BlockPos blockPos, BlockState blockState, PoseStack poseStack, MultiBufferSource multiBufferSource, Level level, boolean bl, int i, Operation<Void> original) {
-        if(renderAdditional){
-            renderAdditional = false;
-            //? if >=1.21.6 {
-            VertexConsumer consumer = multiBufferSource.getBuffer(RenderTypes.translucentMovingBlock());
-            //?} else {
-            /^VertexConsumer consumer = multiBufferSource.getBuffer(RenderType.translucent());
-             ^///?}
-            poseStack.scale(1.001f,1.001f,1.001f);
-            //? if >=1.21.5 {
-            assert Minecraft.getInstance().level != null;
-            this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(blockState).collectParts(Minecraft.getInstance().level.getRandom()), blockState, blockPos, poseStack, new TransparentVertexConsumer(consumer) , true, i);
 
-            //?} else {
-            /^this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(blockState), blockState, blockPos, poseStack, new TransparentVertexConsumer(consumer) , true, Minecraft.getInstance().level.getRandom(), blockState.getSeed(blockPos), i);
-            ^///?}
-        }else {
-            original.call(blockPos, blockState, poseStack, multiBufferSource, level, bl, i);
-        }
-    }
-    *///?}
-
-    //? if >=1.21.9 {
     @Unique
     private static Direction getPistonDirection(PistonHeadRenderState s) {
         float ax = Math.abs(s.xOffset);
@@ -169,6 +90,5 @@ public abstract class MovingBlockRenderMixin {
 
         return Direction.NORTH;
     }
-    //?}
 
 }

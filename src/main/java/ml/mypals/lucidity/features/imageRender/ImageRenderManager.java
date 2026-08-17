@@ -176,10 +176,8 @@ public class ImageRenderManager {
             Identifier finalGeneratedPath = generatedPath;
             NativeImage finalImage = image;
 
-            //? if >=1.21.5 {
             Identifier finalGeneratedPath1 = generatedPath;
-            //?}
-            Minecraft.getInstance().execute(() -> textureManager.register(finalGeneratedPath, new DynamicTexture(/*? if >=1.21.5 {*/finalGeneratedPath1::toLanguageKey,/*?}*/finalImage)));
+            Minecraft.getInstance().execute(() -> textureManager.register(finalGeneratedPath, new DynamicTexture(finalGeneratedPath1::toLanguageKey,finalImage)));
 
         } catch (Throwable e) {
             Lucidity.LOGGER.error("Failed to create texture from {}: {}", source, e.getMessage());

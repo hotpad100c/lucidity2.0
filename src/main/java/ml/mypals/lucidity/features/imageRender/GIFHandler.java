@@ -147,7 +147,7 @@ public class GIFHandler {
                 identifiers.add(frameIdentifier);
 
                 Minecraft.getInstance().execute(() -> {
-                    textureManager.register(frameIdentifier, new DynamicTexture(/*? if >=1.21.5 {*/frameIdentifier::toLanguageKey,/*?}*/nativeImage));
+                    textureManager.register(frameIdentifier, new DynamicTexture(frameIdentifier::toLanguageKey,nativeImage));
                 });
 
                 prevDisposal = disposalMethod;
@@ -213,13 +213,8 @@ public class GIFHandler {
                 int g = (argb >> 8)  & 0xFF;
                 int b =  argb        & 0xFF;
 
-                //? if >=1.21.3 {
                 int color = (a << 24) | (r << 16) | (g << 8) | b;
                 nativeImage.setPixel(x, y, color);
-                //?} else {
-                /*int color = (a << 24) | (b << 16) | (g << 8) | r;
-                nativeImage.setPixelRGBA(x, y, color);//Idk too...
-                *///?}
             }
         }
 

@@ -154,7 +154,6 @@ public class DefaultFluidRendererMixin {
         }
     }
 
-    //? if >=1.21.11 {
     @WrapMethod(method = "isSideExposedOffset")
     private boolean redirectShouldRenderFace(
             BlockAndTintGetter world, BlockState state, BlockPos pos, Direction dir, float height, Operation<Boolean> original
@@ -189,19 +188,4 @@ public class DefaultFluidRendererMixin {
     ) {
         return isRenderingTransformed.get() || original.call(world, pos, dir, fluid);
     }
-    //?} else {
-    /*@WrapMethod(method = "isSideExposed")
-    private boolean redirectShouldRenderFace(
-            BlockAndTintGetter world, int x, int y, int z, Direction dir, float height, Operation<Boolean> original
-    ) {
-        return isRenderingTransformed.get() || original.call(world, x, y, z, dir, height);
-    }
-
-    @WrapMethod(method = "isFullBlockFluidOccluded")
-    private boolean redirectIsFaceOccluded(
-            BlockAndTintGetter world, BlockPos pos, Direction dir, BlockState blockState, FluidState fluid, Operation<Boolean> original
-    ) {
-        return !isRenderingTransformed.get() && original.call(world, pos, dir, blockState, fluid);
-    }
-    *///?}
 }

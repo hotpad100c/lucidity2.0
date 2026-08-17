@@ -45,11 +45,7 @@ public final class MicroTimingAnalyzer {
             MicrotimingKeyWorldTracker.MicroEventNode parent
     ) {
         if (parent == null) return null;
-        //? if >=1.21.5 {
         return new ClickEvent.CopyToClipboard(encodeParentHidden(parent));
-        //?} else {
-        /*return new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, encodeParentHidden(parent));
-        *///?}
     }
 
     private static final char BIT_0 = '\u00A0';

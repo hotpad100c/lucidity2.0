@@ -68,11 +68,7 @@ public record BlockMatchRule(
             }
 
             Identifier id = Identifier.tryParse(targetPart);
-            //? if >=1.21.3 {
             block = BuiltInRegistries.BLOCK.getValue(id);
-            //?} else {
-            /*block = BuiltInRegistries.BLOCK.get(id);
-            *///?}
         }
 
         Map<Property<?>, String> states = new HashMap<>();

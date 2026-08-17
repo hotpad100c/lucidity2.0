@@ -1,18 +1,9 @@
 package ml.mypals.lucidity.utils;
 
-//? if <1.21.9 {
-/*public final class DeferredGeometry {
-    private DeferredGeometry() {}
-}
-*///?} else {
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-//? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderType;
-//?} else {
-/*import net.minecraft.client.renderer.RenderType;
-*///?}
 
 import java.util.function.BiConsumer;
 
@@ -43,4 +34,3 @@ public final class DeferredGeometry {
         });
     }
 }
-//?}

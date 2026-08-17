@@ -48,7 +48,6 @@ public class ControllableTransparentVertexConsumer implements VertexConsumer {
         return this;
     }
 
-    //? if >=1.21.11 {
     // 1.21.11 把 setLineWidth 和 setColor(int) 提成了抽象方法
     @Override
     public @NotNull VertexConsumer setLineWidth(float width) {
@@ -61,5 +60,4 @@ public class ControllableTransparentVertexConsumer implements VertexConsumer {
         // 走本类的四参重载，透明度照样会被 HIDDEN_BLOCK_TRANSPARENCY 覆盖
         return this.setColor((argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF, (argb >>> 24) & 0xFF);
     }
-    //?}
 }

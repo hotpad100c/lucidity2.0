@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-//? if >=1.21.9 {
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentBuffersWrapper;
@@ -96,8 +95,3 @@ public class FeatureRendererDispatcher {
         original.call(instance, submitNodeCollection, new ControllableTransparentBuffersWrapper(bufferSource), blockRenderDispatcher, outlineBufferSource);
     }
 }
-//?} else {
-/*@Mixin(Minecraft.class)
-public class FeatureRendererDispatcher {
-}
-*///?}

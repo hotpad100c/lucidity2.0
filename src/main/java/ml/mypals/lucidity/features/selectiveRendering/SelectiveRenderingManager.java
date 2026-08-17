@@ -169,11 +169,7 @@ public class SelectiveRenderingManager {
                     entityString = "minecraft:" + entityString;
                 }
                 Identifier entityId = Identifier.tryParse(entityString);
-                //? if >=1.21.3 {
                 EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.getValue(entityId);
-                //?} else {
-                /*EntityType<?> targetEntity = BuiltInRegistries.ENTITY_TYPE.get(entityId);
-                *///?}
                 selectedEntityTypes.add(BuiltInRegistries.ENTITY_TYPE.getId(targetEntity));
             }catch (Exception e) {
                 System.err.println("Failed to parse entity type: " + entityString);
@@ -189,11 +185,7 @@ public class SelectiveRenderingManager {
                     particleString = "minecraft:" + particleString;
                 }
                 Identifier particleId = Identifier.tryParse(particleString);
-                //? if >=1.21.3 {
                 ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.getValue(particleId);
-                 //?} else {
-                /*ParticleType<?> targetParticle = BuiltInRegistries.PARTICLE_TYPE.get(particleId);
-                *///?}
                 selectedParticleTypes.add(BuiltInRegistries.PARTICLE_TYPE.getId(targetParticle));
             }catch (Exception e) {
                 System.err.println("Failed to parse particle type: " + particleString);
@@ -207,11 +199,7 @@ public class SelectiveRenderingManager {
                 name = "minecraft:" + name;
             }
             Identifier id = Identifier.tryParse(name);
-            //? if >=1.21.3 {
             wand = BuiltInRegistries.ITEM.getValue(id);
-             //?} else {
-            /*wand = BuiltInRegistries.ITEM.get(id);
-            *///?}
         }catch (Exception e) {
             name = "minecraft:breeze_rod";
             System.err.println("Failed to parse wand item: " + name);
@@ -570,13 +558,8 @@ public class SelectiveRenderingManager {
         ClientLevel level = client.level;
         if (level == null) return;
 
-        //? if >=1.21.3 {
         int levelMinSection = SectionPos.blockToSectionCoord(level.getMinY());
         int levelMaxSection = SectionPos.blockToSectionCoord(level.getMaxY());
-        //?} else {
-        /*int levelMinSection = SectionPos.blockToSectionCoord(level.getMinBuildHeight());
-        int levelMaxSection = SectionPos.blockToSectionCoord(level.getMaxBuildHeight());
-        *///?}
 
         // 选区可以画得非常大，按视距裁剪，避免在根本加载不到的区段坐标上空转
         boolean clamp = client.player != null;
@@ -615,11 +598,7 @@ public class SelectiveRenderingManager {
     }
 
     private static void startLightRecalc(ClientLevel level, List<BlockRegion> regions) {
-        //? if >=1.21.3 {
         int worldTop = level.getMaxY() - 1;
-        //?} else {
-        /*int worldTop = level.getMaxBuildHeight() - 1;
-        *///?}
         lightUpdateTask = new Thread(() -> {
 
             List<BlockPos> toUpdate = new ArrayList<>();

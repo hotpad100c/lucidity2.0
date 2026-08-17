@@ -24,14 +24,14 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
     BOAT_VIEW_RESTRICTION("boat_restriction", false,false),
     BODY_YAW("body_yaw",false,true),
     FLUID_TRANSPARENCY_OVERRIDE("fluid_transparency_override",false),
-    /*? if >=1.21.4 {*/CREAKING_HEART_INDICATOR("creaking_heart_indicator",false),/*?}*/
+    CREAKING_HEART_INDICATOR("creaking_heart_indicator",false),
     ITEM_MERG_RANGE_VISUALIZE("item_merg_range_visualize",false),
     ENDER_DRAGON_WAYPOINTS_VISUALIZE("ender_dragon_waypoints_visualize",false,true),
     ENDER_DRAGON_DESTRUCTION_VISUALIZE("ender_dragon_destruction_visualize",false,true),
     WITHER_DESTRUCTION_VISUALIZE("wither_destruction_visualize",false,true),
     NETHER_COORDINATE_CACULATOR("coordinate_caculator",false),
     WORLD_EATER_MINE_HELPER("world_eater_mine_helper",false),
-    /*? if >=1.21 {*/VAULT_ITEM_DISPLAY("vault_item_display",false),/*?}*/
+    VAULT_ITEM_DISPLAY("vault_item_display",false),
     B36_TARGET_PREVIEW("b36_preview",false),
     FLUID_SOURCE_HIGHLIGHT("fluid_source_highlight",false),
     CONTAINER_SIGNAL_PREVIEW("container_signal_preview",false),
@@ -60,9 +60,7 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
 
     private boolean enabled = false;
 
-    //? if >=1.21.9 {
     private boolean dirty = false;
-    //?}
 
 
     FeatureToggle(String name, boolean enabled, boolean singlePlayerOnly)
@@ -150,7 +148,6 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
         this.description = s;
     }
 
-    //? if >=1.21.9 {
     @Override
     public boolean isDirty() {
         return dirty;
@@ -174,7 +171,6 @@ public enum FeatureToggle implements IHotkeyTogglable, IConfigNotifiable<IConfig
             this.onValueChanged();
         }
     }
-    //?}
 
     @Override
     public void setValueFromJsonElement(JsonElement jsonElement) {

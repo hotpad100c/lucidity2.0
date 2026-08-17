@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager.shouldRenderBlock;
 
-//? if >=1.21.11 {
 // sodium 0.8 删掉了 BlockOcclusionCache，shouldDrawSide 挪到了 AbstractBlockRenderContext，
 // 并且从四个参数收成了 shouldDrawSide(Direction)——方块位置和状态改从实例字段读。
 // （类名沿用旧的，避免改动 mixin 配置。）
@@ -39,19 +38,3 @@ public class BlockOcclusionCacheMixin {
         cir.setReturnValue(true);
     }
 }
-//?} else {
-/*import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache;
-
-@Mixin(value = BlockOcclusionCache.class,remap = false)
-public class BlockOcclusionCacheMixin {
-    @Inject(at = @At("HEAD"), method = "shouldDrawSide", remap = false, cancellable = true)
-    private void filterShouldDrawSide(BlockState selfBlockState, BlockGetter view, BlockPos selfPos, Direction facing, CallbackInfoReturnable<Boolean> cir) {
-        boolean renderThis = shouldRenderBlock(selfBlockState,selfPos);
-        boolean renderNeighbor = shouldRenderBlock(view.getBlockState(selfPos.relative(facing)),selfPos.relative(facing));
-
-        if (renderThis != renderNeighbor) {
-            cir.setReturnValue(true);
-        }
-    }
-}
-*///?}

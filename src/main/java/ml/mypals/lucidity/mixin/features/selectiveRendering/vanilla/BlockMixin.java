@@ -17,16 +17,4 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 
 @Mixin(Block.class)
 public class BlockMixin {
-    //? if <=1.21.1 {
-    /*@WrapMethod(method = "shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;)Z")
-    private static boolean onRenderSmoothOrFlat(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction side, BlockPos blockPos2, Operation<Boolean> original)
-    {
-        boolean shouldRender = shouldRenderBlock(state,pos);
-        boolean shouldRenderNeighbor = shouldRenderBlock(blockGetter.getBlockState(pos.relative(side)),pos.relative(side));
-        if (shouldRender != shouldRenderNeighbor) {
-            return shouldRender;
-        }
-        return original.call(state, blockGetter, pos, side, blockPos2);
-    }
-    *///?}
 }

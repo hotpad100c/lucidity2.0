@@ -1,13 +1,5 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla;
 
-//? if <1.21.11 {
-/*import net.minecraft.client.Minecraft;
-import org.spongepowered.asm.mixin.Mixin;
-
-@Mixin(Minecraft.class)
-public class RenderTypeDrawMixin {
-}
-*///?} else {
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingRenderTypes;
 import net.minecraft.client.renderer.rendertype.*;
@@ -43,4 +35,3 @@ public class RenderTypeDrawMixin {
         return new Vector4f(colorModulator.x(), colorModulator.y(), colorModulator.z(), colorModulator.w() * alpha);
     }
 }
-//?}

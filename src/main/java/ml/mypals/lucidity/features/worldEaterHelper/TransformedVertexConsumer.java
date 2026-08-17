@@ -55,7 +55,6 @@ public class TransformedVertexConsumer implements VertexConsumer {
         return delegate.setNormal(normal.x, normal.y, normal.z);
     }
 
-    //? if >=1.21.11 {
     // 1.21.11 把 setLineWidth 和 setColor(int) 提成了抽象方法
     @Override
     public @NotNull VertexConsumer setLineWidth(float width) {
@@ -66,5 +65,4 @@ public class TransformedVertexConsumer implements VertexConsumer {
     public @NotNull VertexConsumer setColor(int argb) {
         return delegate.setColor(argb);
     }
-    //?}
 }

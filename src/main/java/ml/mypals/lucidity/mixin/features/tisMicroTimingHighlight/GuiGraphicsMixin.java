@@ -25,16 +25,9 @@ public abstract class GuiGraphicsMixin {
     public void renderComponentHoverEffect(Font font, Style style, int i, int j, CallbackInfo ci) {
         if (MICROTIMING_MARKER_VISUALIZER.getBooleanValue() && style != null && style.getHoverEvent() != null) {
             HoverEvent hoverEvent = style.getHoverEvent();
-            //? if >=1.21.5 {
             if (hoverEvent != null && hoverEvent.action() == HoverEvent.Action.SHOW_TEXT) {
                 HoverEvent.ShowText showText = (HoverEvent.ShowText)hoverEvent;
                 Component component = showText.value();
-            //?} else {
-            
-            /*if (hoverEvent != null && hoverEvent.getAction() == HoverEvent.Action.SHOW_TEXT) {
-                Component component = hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT);
-             
-            *///?}
                 if (component != null) {
                     String content = component.getString();
 
@@ -44,12 +37,8 @@ public abstract class GuiGraphicsMixin {
                         if(vec3 != null && dyeColor != null){
                             ClickEvent clickEvent = style.getClickEvent();
                             if(clickEvent != null){
-                                //? if >=1.21.5 {
                                 ClickEvent.CopyToClipboard copyToClipboard = (ClickEvent.CopyToClipboard)clickEvent;
                                 updateActorPos(vec3,dyeColor,decodeParentHidden(copyToClipboard.value()));
-                                //?} else {
-                                    /*updateActorPos(vec3,dyeColor,decodeParentHidden(clickEvent.getValue()));
-                                *///?}
                             } else {
                                     updateActorPos(vec3, dyeColor, null);
                             }

@@ -24,13 +24,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
-//?}
-//? if >=1.21.9 {
 
 import net.minecraft.client.input.MouseButtonEvent;
-//?}
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -76,13 +72,10 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
         if (this.minecraft.level == null) {
             this.renderPanorama(guiGraphics, f);
         }
-        //? if <1.21.6 {
-        /*this.renderBlurredBackground(/^? if <=1.21.1 {^//^f^//^?}^/);
-        *///?}
         this.renderMenuBackground(guiGraphics);
-        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit( RenderPipelines.GUI_TEXTURED,Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
 
-        guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
+        guiGraphics.blit( RenderPipelines.GUI_TEXTURED,Screen.HEADER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
     }
     @Override
     public void initGui()
@@ -359,13 +352,8 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
             this.importTask = importTask;
         }
 
-        //? if >=1.21.9 {
 
         protected void addConfigOption(int x, int y, int labelWidth, int configWidth, IConfigBase config) {
-        //?} else {
-        /*@Override
-        protected void addConfigOption(int x, int y, float zLevel, int labelWidth, int configWidth, IConfigBase config) {
-        *///?}
             int btnX = x + labelWidth + 10;
             int btnY = y + 1;
             int btnWidth = (configWidth - 10) / 2;
@@ -381,15 +369,10 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
         }
 
 
-        //? if >=1.21.9 {
         @Override
         public boolean onMouseClicked(MouseButtonEvent mouseButtonEvent, boolean db) {
             int mouseY = (int) mouseButtonEvent.y();
             int mouseX = (int) mouseButtonEvent.x();
-        //?} else {
-        /*@Override
-        public boolean onMouseClicked(int mouseX, int mouseY, int mouseButton) {
-        *///?}
             if (this.exportBtn != null && this.exportBtn.isMouseOver(mouseX, mouseY)) {
                 Screen screen = Minecraft.getInstance().screen;
                 if (screen instanceof GuiBase guiBase) {
@@ -414,11 +397,7 @@ public class LucidityGuiConfigs extends GuiConfigsBase {
                 }
                 return true;
             }
-            //? if >=1.21.9 {
             return super.onMouseClicked(mouseButtonEvent, db);
-            //?} else {
-                /*return super.onMouseClicked(mouseX, mouseY, mouseButton);
-            *///?}
         }
     }
 }

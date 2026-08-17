@@ -13,11 +13,7 @@ import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-//? if <1.21.5 {
-/*import net.minecraft.client.resources.model.BakedModel;
-*///?} else {
 import net.minecraft.client.renderer.block.model.BlockModelPart;
-//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -32,8 +28,6 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 
 @Mixin(ModelBlockRenderer.class)
 public class BlockModelRendererMixin {
-    //? if >=1.21.3 {
-    //? >=1.21.5 {
     @WrapOperation(at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/ModelBlockRenderer;shouldRenderFace(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;ZLnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;)Z"),
             method = {"tesselateWithAO(Lnet/minecraft/world/level/BlockAndTintGetter;Ljava/util/List;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZI)V",
@@ -47,37 +41,6 @@ public class BlockModelRendererMixin {
         }
         return original.call(blockAndTintGetter, state, b, side, blockPos);
     }
-    //?} else {
-    /*@WrapOperation(at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/Block;shouldRenderFace(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"),
-            method = {"tesselateWithAO(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;JI)V",
-                    "tesselateWithoutAO(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;JI)V"})
-    private boolean onRenderSmoothOrFlat(
-            BlockState state, BlockState otherState,
-            Direction side, Operation<Boolean> original,
-            @Local(argsOnly = true) BlockAndTintGetter world,
-            @Local(argsOnly = true) BlockPos pos
-    ) {
-        BlockPos otherPos = pos.relative(side);
-        BlockState neighbor = world.getBlockState(otherPos);
-
-        boolean renderThis = shouldRenderBlock(state, pos);
-        boolean renderNeighbor = shouldRenderBlock(neighbor, otherPos);
-
-        if (renderThis != renderNeighbor) {
-            return true;
-        }
-
-        if (renderThis != renderNeighbor) {
-            return renderThis;
-        }
-
-        return original.call(state, otherState, side);
-    }
-
-    *///?}
-    //?}
-    //? if >=1.21.5 {
     @WrapMethod(method = "tesselateBlock")
     private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, List<BlockModelPart> list, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, int i, Operation<Void> original){
         if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos)){
@@ -87,15 +50,4 @@ public class BlockModelRendererMixin {
         }
         original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, vertexConsumer, bl, i);
     }
-    //?} else {
-    /*@WrapMethod(method = "tesselateBlock")
-    private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, BakedModel bakedModel, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, RandomSource randomSource, long l, int i, Operation<Void> original){
-        if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos)){
-            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderTypes.translucentMovingBlock());
-            original.call(blockAndTintGetter, bakedModel, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(consumer), bl, randomSource, l, i);
-            return;
-        }
-        original.call(blockAndTintGetter, bakedModel, blockState, blockPos, poseStack, vertexConsumer, bl, randomSource, l, i);
-    }
-    *///?}
 }

@@ -14,11 +14,7 @@ import net.caffeinemc.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
 import net.caffeinemc.mods.sodium.client.render.chunk.translucent_sorting.TranslucentGeometryCollector;
 import net.caffeinemc.mods.sodium.client.world.LevelSlice;
 import net.minecraft.client.renderer.chunk.VisGraph;
-//? if >=1.21.5 {
 import net.minecraft.client.renderer.block.model.BlockStateModel;
-//?} else {
-/*import net.minecraft.client.resources.model.BakedModel;
- *///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,7 +42,6 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             original.call(instance, blockPos);
         }
     }
-    //? if >=1.21.5 {
     @WrapOperation(
             method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lnet/caffeinemc/mods/sodium/client/util/task/CancellationToken;)Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;",
             at = @At(
@@ -60,21 +55,6 @@ public abstract class ChunkBuilderMeshingTaskMixin{
             original.call(instance, type, blockState, model, state);
         }
     }
-    //?} else {
-    /*@WrapOperation(
-            method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;Lnet/caffeinemc/mods/sodium/client/util/task/CancellationToken;)Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildOutput;",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline/BlockRenderer;renderModel(Lnet/minecraft/client/resources/model/BakedModel;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;)V"
-            ),
-            remap = false
-    )
-    public void filterBlockRender(BlockRenderer instance, BakedModel type, BlockState blockState, BlockPos model, BlockPos state, Operation<Void> original){
-        { 
-            original.call(instance, type, blockState, model, state);
-        }
-    }
-    *///?}
 
     @WrapOperation(
             method = "execute(Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/ChunkBuildContext;" +

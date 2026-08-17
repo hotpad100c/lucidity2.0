@@ -8,12 +8,10 @@ import ml.mypals.lucidity.features.selectiveRendering.ControllableTransparentBuf
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingSubmitNodeStorage;
 import net.minecraft.client.renderer.MultiBufferSource;
-//? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
-//?}
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,7 +23,6 @@ import org.spongepowered.asm.mixin.Mixin;
 public class BlockEntityRenderDispatcherMixin {
 
 
-    //? if >=1.21.9 {
 
     @WrapMethod(method = "submit")
     private void renderBlockEntity(BlockEntityRenderState blockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, Operation<Void> original) {
@@ -36,16 +33,4 @@ public class BlockEntityRenderDispatcherMixin {
         }
     }
 
-    //?} else {
-    /*@WrapMethod(method = "render(Lnet/minecraft/world/level/block/entity/BlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;)V")
-    private void renderBlockEntity(BlockEntity entity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, Operation<Void> original) {
-        BlockPos pos = entity.getBlockPos();
-        BlockState state = entity.getBlockState();
-        if(!SelectiveRenderingManager.shouldRenderBlock(state,pos)){
-            original.call(entity, f, poseStack, new ControllableTransparentBuffersWrapper((MultiBufferSource.BufferSource) multiBufferSource));
-        }else {
-            original.call(entity, f, poseStack, multiBufferSource);
-        }
-    }
-    *///?}
 }

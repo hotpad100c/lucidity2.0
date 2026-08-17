@@ -9,17 +9,11 @@ import fi.dy.masa.malilib.gui.GuiListBase;
 import fi.dy.masa.malilib.gui.button.ButtonBase;
 import fi.dy.masa.malilib.gui.widgets.WidgetConfigOption;
 import fi.dy.masa.malilib.gui.widgets.WidgetListConfigOptions;
-//? if >=1.21.11 {
 import fi.dy.masa.malilib.render.GuiContext;
-//?}
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
-//?}
-//? if >=1.21.9 {
 import net.minecraft.client.input.MouseButtonEvent;
-//?}
 import net.minecraft.client.renderer.rendertype.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
@@ -62,35 +56,17 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
             // malilib 0.27 起所有 draw* 都收 GuiContext（GuiGraphics 的子类），
             // 并且 GuiBase 不再缓存 drawContext 字段。这里统一成一个局部变量 ctx，
             // 下面的调用点在各版本之间就只剩参数顺序的差别了。
-            //? if >=1.21.11 {
             GuiContext ctx = GuiContext.fromGuiGraphics(drawContext);
-            //?} else {
-            /*GuiGraphics ctx = drawContext;
-            if (this.drawContext == null || !this.drawContext.equals(drawContext)) {
-                this.drawContext = drawContext;
-            }
-            *///?}
 
             lucidity$offsetAndRun((ignored)->{
                 this.renderBackground(drawContext, mouseX, mouseY,partialTicks);
                 this.drawTitle(ctx, mouseX, mouseY, partialTicks);
-                //? if >=1.21.6 {
                 this.drawWidgets(ctx, mouseX, mouseY);
                 this.drawTextFields(ctx, mouseX, mouseY);
                 this.drawButtons(ctx, mouseX, mouseY, partialTicks);
-                //?} else {
-                /*this.drawWidgets(mouseX, mouseY, ctx);
-                this.drawTextFields(mouseX, mouseY, ctx);
-                this.drawButtons(mouseX, mouseY, partialTicks, ctx);
-                *///?}
                 this.drawContents(ctx, mouseX, mouseY, partialTicks);
-                //? if >=1.21.6 {
                 this.drawHoveredWidget(ctx, mouseX, mouseY);
                 this.drawButtonHoverTexts(ctx, mouseX, mouseY, partialTicks);
-                //?} else {
-                /*this.drawHoveredWidget(mouseX, mouseY, ctx);
-                this.drawButtonHoverTexts(mouseX, mouseY, partialTicks, ctx);
-                *///?}
                 this.drawGuiMessages(ctx);
                 return false;
             });
@@ -123,31 +99,18 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
             if (this.minecraft.level == null) {
                 this.renderPanorama(guiGraphics, partialTicks);
             }
-            //? if <1.21.6 {
-            /*this.renderBlurredBackground(/^? if <=1.21.1 {^//^partialTicks^//^?}^/);
-             *///?}
             this.renderMenuBackground(guiGraphics);
-            guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
-            guiGraphics.blit(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/Screen.FOOTER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
+            guiGraphics.blit( RenderPipelines.GUI_TEXTURED,Screen.HEADER_SEPARATOR, 0, this.getListY() - 6, 0.0F, 0.0F, this.width, 2, 32, 2);
+            guiGraphics.blit( RenderPipelines.GUI_TEXTURED,Screen.FOOTER_SEPARATOR, 0, this.getListY()+this.getBrowserHeight(), 0.0F, 0.0F, this.width, 2, 32, 2);
 
         }else{
             super.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
         }
     }
     @Override
-    //? if >=1.21.11 {
     public void drawButtons(GuiContext drawContext, int mouseX, int mouseY, float partialTicks) {
-    //?} else if >=1.21.6 {
-    /*public void drawButtons( GuiGraphics drawContext, int mouseX, int mouseY, float partialTicks) {
-    *///?} else {
-    /*public void drawButtons(int mouseX, int mouseY, float partialTicks, GuiGraphics drawContext) {
-    *///?}
         if(!YACL_STYLE.getBooleanValue()) {
-            //? if >=1.21.6 {
             super.drawButtons(drawContext,mouseX,mouseY,partialTicks);
-            //?} else {
-            /*super.drawButtons(mouseX,mouseY,partialTicks,drawContext);
-            *///?}
             return;
         }
         int screenWidth = this.getScreenWidth();
@@ -167,11 +130,7 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
             button.setPosition(xOffset, 26);
 
             if (xOffset + button.getWidth() > 0 && xOffset < screenWidth) {
-                //? if >=1.21.6 {
                 button.render(drawContext,mouseX,mouseY,button.isMouseOver());
-                //?} else {
-                /*button.render(mouseX, mouseY, button.isMouseOver(), drawContext);
-                 *///?}
 
             }
 
@@ -184,11 +143,7 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
 
     }
     @Override
-    //? if >=1.21.9 {
     public boolean onMouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-    //?} else {
-    /*public boolean onMouseScrolled(int mouseX, int mouseY, double horizontalAmount, double verticalAmount) {
-    *///?}
         if(!YACL_STYLE.getBooleanValue()) return super.onMouseScrolled(mouseX,mouseY,horizontalAmount,verticalAmount);
         if (mouseY <= 50) {
             this.lucidity$setScrollOffset(this.lucidity$scrollOffset - (int)(verticalAmount * 15) - (int)(horizontalAmount * 15));
@@ -200,15 +155,10 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     }
 
     @WrapMethod(method = "onMouseClicked")
-    //? if >=1.21.9 {
     private boolean lucidity$onMouseClickedScrollableTabs(MouseButtonEvent click, boolean doubleClick, Operation<Boolean> original) {
         if (!YACL_STYLE.getBooleanValue()) return original.call(click, doubleClick);
         double mouseY = click.y();
         double mouseX = click.x();
-    //?} else {
-    /*private boolean lucidity$onMouseClickedScrollableTabs(int mouseX, int mouseY, int mouseButton, Operation<Boolean> original) {
-        if (!YACL_STYLE.getBooleanValue()) return original.call(mouseX, mouseY, mouseButton);
-    *///?}
 
 
         return lucidity$offsetAndRun((ignored)->{
@@ -221,11 +171,7 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
 
                     button.setPosition(xOffset, BUTTON_TOP_Y);
 
-                    //? if >=1.21.9 {
                     if (button.onMouseClicked(click,doubleClick)) {
-                    //?} else {
-                    /*if (button.onMouseClicked(mouseX, mouseY, mouseButton)) {
-                    *///?}
                         button.setPosition(originalX, originalY);
                         return true;
                     }
@@ -235,11 +181,7 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
                 }
 
             }
-            //? if >=1.21.9 {
             return original.call(click,doubleClick);
-            //?} else {
-            /*return original.call(mouseX, mouseY, mouseButton);
-            *///?}
         });
     }
     @Unique
@@ -248,11 +190,7 @@ public abstract class GuiConfigBaseMixin extends GuiListBase<GuiConfigsBase.Conf
     }
 
     @Unique
-    //? if >=1.21.11 {
     private void lucidity$drawScrollIndicators(GuiContext drawContext, int screenWidth) {
-    //?} else {
-    /*private void lucidity$drawScrollIndicators(GuiGraphics drawContext, int screenWidth) {
-    *///?}
         if (this.lucidity$scrollOffset < this.lucidity$maxScrollOffset - NAVBAR_MARGIN) {
             this.drawString(drawContext, "→", screenWidth - 15, BUTTON_TOP_Y - 6, 0xFFFFFFFF);
         }

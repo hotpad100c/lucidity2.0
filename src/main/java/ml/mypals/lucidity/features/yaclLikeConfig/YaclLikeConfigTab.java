@@ -1,15 +1,11 @@
 package ml.mypals.lucidity.features.yaclLikeConfig;
 
 import fi.dy.masa.malilib.gui.button.ButtonGeneric;
-//? if >=1.21.11 {
 import fi.dy.masa.malilib.render.GuiContext;
-//?}
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.WidgetSprites;
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
-//?}
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.resources.Identifier;
 
@@ -24,29 +20,19 @@ public class YaclLikeConfigTab extends ButtonGeneric {
     }
 
     @Override
-    //? if >=1.21.11 {
     public void render(GuiContext drawContext, int mouseX, int mouseY, boolean selected) {
-    //?} else if >=1.21.6 {
-    /*public void render(GuiGraphics drawContext, int mouseX, int mouseY, boolean selected) {
-    *///?} else {
-    /*public void render(int mouseX, int mouseY, boolean selected, GuiGraphics drawContext) {
-    *///?}
         if (this.visible) {
             boolean yaclStyle = YACL_STYLE.getBooleanValue();
             this.renderDefaultBackground = !yaclStyle;
             if(yaclStyle) {
-                drawContext.blitSprite(/*? if >= 1.21.6 {*/ RenderPipelines.GUI_TEXTURED,/*?} else if >=1.21.3 {*//*RenderType::guiTextured, *//*?}*/
+                drawContext.blitSprite( RenderPipelines.GUI_TEXTURED,
                         SPRITES.get(!this.enabled, this.hovered), this.getX(),
                         this.getY() - 2, this.width, this.height);
                 if (!this.enabled) {
                     this.renderFocusUnderline(drawContext, mc.font, Color.WHITE.getRGB());
                 }
             }
-            //? if >=1.21.6 {
             super.render(drawContext, mouseX, mouseY, selected);
-            //?} else {
-            /*super.render(mouseX, mouseY, selected, drawContext);
-            *///?}
         }
     }
 

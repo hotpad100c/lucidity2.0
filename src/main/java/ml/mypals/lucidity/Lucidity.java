@@ -16,20 +16,11 @@ import ml.mypals.lucidity.init.LucidityInit;
 import ml.mypals.lucidity.features.netherPosCaculator.NetherPosCaculatorManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-//? if >=1.21.6 {
 
-//?} else if >= 1.21.4 {
-/*import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-*///?} else {
-/*import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-*///?}
-//? if >=1.21.6 {
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
-//?}
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -60,31 +51,11 @@ public class Lucidity implements ModInitializer {
         InitializationHandler.getInstance().registerInitializationHandler(new LucidityInit());
         registerVanillaKeyBindings();
         FlashbackCompat.init();
-        //? if >=1.21.6 {
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 Identifier.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),
                 (guiGraphics,deltaTracker)->{
                     WandTooltipRenderer.renderWandTooltip(guiGraphics);
                 });
-        //?} else if >= 1.21.4 {
-        /*HudLayerRegistrationCallback.EVENT.register((wrapper) -> {
-            wrapper.addLayer(new IdentifiedLayer() {
-                @Override
-                public Identifier id() {
-                    return Identifier.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud");
-                }
-
-                @Override
-                public void render(@NotNull GuiGraphics guiGraphics, @NotNull DeltaTracker deltaTracker) {
-                    WandTooltipRenderer.renderWandTooltip(guiGraphics);
-                }
-            });
-        });
-        *///?} else {
-        /*HudRenderCallback.EVENT.register((guiGraphics, deltaTracker) -> {
-            WandTooltipRenderer.renderWandTooltip(guiGraphics);
-        });
-        *///?}
         FabricLoader.getInstance().getModContainer(MOD_ID).ifPresent(container -> {
             ResourceManagerHelper.registerBuiltinResourcePack(
                     Identifier.fromNamespaceAndPath(MOD_ID, "lavahighlight"),

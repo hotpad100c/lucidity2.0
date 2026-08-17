@@ -1,18 +1,12 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
-//? if >=1.21.5 {
 import com.mojang.blaze3d.opengl.GlStateManager;
- //?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
-*///?}
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
-//?}
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -128,13 +122,7 @@ public class WandTooltipRenderer {
         for (ToolTipItem item : hudItems) {
             if (item.icon != null) {
                 GlStateManager._enableBlend();
-                //? if >= 1.21.6 {
                 context.blit(RenderPipelines.GUI_TEXTURED, item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                //?} else if >=1.21.3 {
-                /*context.blit(RenderType::guiTextured, item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                *///?} else {
-                /*context.blit(item.icon, x, y, 0, 0, 16, 16, 16, 16);
-                *///?}
                 GlStateManager._disableBlend();
             }
 
@@ -164,13 +152,7 @@ public class WandTooltipRenderer {
         int x = 0;
         int y = screenHeight - 60;
         GlStateManager._enableBlend();
-        //? if >= 1.21.6 {
         context.blit(RenderPipelines.GUI_TEXTURED,Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
-        /*context.blit(Identifier.fromNamespaceAndPath(MOD_ID, wandApplyToMode.getIcon()), x, y, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?}
         GlStateManager._disableBlend();
         context.drawString(client.font, Component.translatable(wandApplyToMode.getTranslationKey()), x+iconWidth+2, y+(iconWidth/2), 0xFFFFFFE0, true);
 
@@ -190,13 +172,7 @@ public class WandTooltipRenderer {
             }
         };
         GlStateManager._enableBlend();
-        //? if >= 1.21.6 {
         context.blit(RenderPipelines.GUI_TEXTURED, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        //?} else if >=1.21.3 {
-        /*context.blit(RenderType::guiTextured, secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?} else {
-        /*context.blit( secondIcon, x , y + iconWidth/2, 0, 0, iconWidth, iconWidth, iconWidth, iconWidth);
-        *///?}
         GlStateManager._disableBlend();
         context.drawString(client.font, Component.translatable(translationKey), x+iconWidth, y + iconWidth, 0xFFFFFFE0, true);
 

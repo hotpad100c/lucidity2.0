@@ -1,17 +1,9 @@
 package ml.mypals.lucidity.utils;
-//? if >=1.21.5 {
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.opengl.GlStateManager;
-//?} else {
-/*import com.mojang.blaze3d.platform.GlStateManager;
-//? if >=1.21.3 {
-import net.minecraft.client.renderer.CoreShaders;
-//?}
-import com.mojang.blaze3d.systems.RenderSystem;
-*///?}
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.AABB;
@@ -22,16 +14,8 @@ public class LucidityRenderUtils {
     }
     public static void renderBox(PoseStack poseStack, AABB aABB, float f, float g, float h, float i) {
 
-        //? if >= 1.21.6 {
 
         RenderType renderType = RenderTypes.translucentMovingBlock();
-        //?} else if >=1.21.5 {
-        /*RenderType renderType = RenderType.translucent();
-        *///?} else if >=1.21.3 {
-        /*RenderSystem.setShader(CoreShaders.POSITION_COLOR);
-        *///?} else {
-        /*RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        *///?}
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder vertexConsumer = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         renderBox(poseStack, vertexConsumer, aABB.minX, aABB.minY, aABB.minZ, aABB.maxX, aABB.maxY, aABB.maxZ, f, g, h, i, f, g, h);
@@ -41,11 +25,7 @@ public class LucidityRenderUtils {
             GlStateManager._enablePolygonOffset();
             GlStateManager._polygonOffset(1,1);
 
-            //? if >=1.21.5 {
             renderType.draw(builtBuffer);
-            //?} else {
-            /*BufferUploader.drawWithShader(builtBuffer);
-            *///?}
             GlStateManager._disableBlend();
             builtBuffer.close();
         }catch (Exception ignored) {

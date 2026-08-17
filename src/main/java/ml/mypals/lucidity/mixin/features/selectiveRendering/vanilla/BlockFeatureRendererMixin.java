@@ -12,9 +12,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
-//? if >=1.21.9 {
 import net.minecraft.client.renderer.feature.BlockFeatureRenderer;
-//?}
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -26,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
 
-//? if >=1.21.9 {
 @Debug(export = true)
 @Mixin(BlockFeatureRenderer.class)
 public class BlockFeatureRendererMixin {
@@ -65,8 +62,3 @@ public class BlockFeatureRendererMixin {
         }
     }
 }
-//?} else {
-/*@Mixin(Minecraft.class)
-public class BlockFeatureRendererMixin {
-}
-*///?}

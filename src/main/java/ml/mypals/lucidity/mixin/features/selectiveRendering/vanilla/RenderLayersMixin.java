@@ -6,9 +6,7 @@ import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.rendertype.*;
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
-//?}
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -18,18 +16,10 @@ import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingM
 @Mixin(ItemBlockRenderTypes.class)
 public class RenderLayersMixin {
     @WrapMethod(method = "getRenderLayer")
-    //? if >=1.21.6 {
     private static ChunkSectionLayer injectCustomFluidRenderLayer(FluidState fluidState, Operation<ChunkSectionLayer> original) {
-    //?} else {
-    /*private static RenderType injectCustomFluidRenderLayer(FluidState fluidState, Operation<RenderType> original) {
-    *///?}
         if (FLUID_TRANSPARENCY_OVERRIDE.getBooleanValue() ||
                 SelectiveRenderingConfigs.BLOCK_RENDERING_MODE.getOptionListValue() != OFF) {
-            //? if >=1.21.6 {
             return ChunkSectionLayer.TRANSLUCENT;
-            //?} else {
-            /*return RenderType.translucent();
-            *///?}
         }else{
             return original.call(fluidState);
         }

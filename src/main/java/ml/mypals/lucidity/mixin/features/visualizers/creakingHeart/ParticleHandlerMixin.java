@@ -3,7 +3,6 @@ package ml.mypals.lucidity.mixin.features.visualizers.creakingHeart;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 
-//? if >= 1.21.4 {
 import ml.mypals.ryansrenderingkit.builders.shapeBuilders.ShapeGenerator;
 import ml.mypals.lucidity.utils.LucidityColorHelper;
 import ml.mypals.ryansrenderingkit.shape.Shape;
@@ -28,11 +27,7 @@ import static ml.mypals.lucidity.config.FeatureToggle.CREAKING_HEART_INDICATOR;
 import static ml.mypals.lucidity.utils.LucidityColorHelper.pulseColor;
 
 @Mixin(ClientPacketListener.class)
-//?} else {
-/*@Mixin(Minecraft.class)
-*///?}
 public class ParticleHandlerMixin {
-    //? if >= 1.21.4 {
     @Shadow private volatile boolean closed;
 
     @Inject(method = "handleParticleEvent", at = @At(target = "Lnet/minecraft/client/multiplayer/ClientLevel;addParticle(Lnet/minecraft/core/particles/ParticleOptions;ZZDDDDDD)V",value="INVOKE"))
@@ -76,5 +71,4 @@ public class ParticleHandlerMixin {
 
         }
     }
-    //?}
 }

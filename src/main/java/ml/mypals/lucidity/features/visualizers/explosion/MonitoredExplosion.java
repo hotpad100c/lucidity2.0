@@ -28,11 +28,7 @@ import java.util.*;
 
 import static ml.mypals.lucidity.config.ExplosionVisualizerConfigs.*;
 
-//? if >=1.21.3 {
 public class MonitoredExplosion implements Explosion {
-//?} else {
-/*public class MonitoredExplosion extends Explosion {
-*///?}
     public @Nullable BlockPos explosionSourceBlock;
 
     private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
@@ -43,21 +39,6 @@ public class MonitoredExplosion implements Explosion {
     private final Entity source;
     private final float radius;
     private final ExplosionDamageCalculator damageCalculator;
-    //? if <=1.21.1 {
-    /*public MonitoredExplosion(ClientLevel level, @Nullable Entity entity,@Nullable BlockPos blockPos, @Nullable ExplosionDamageCalculator explosionDamageCalculator, Vec3 vec3, float g, BlockInteraction blockInteraction, ParticleOptions particleOptions, ParticleOptions particleOptions2, Holder<SoundEvent> holder) {
-        super(level, entity, vec3.x(), vec3.y(), vec3.z(), g, List.of(), blockInteraction, particleOptions, particleOptions2, holder);
-        this.level = level;
-        this.source = entity;
-        this.radius = g;
-        this.center = vec3;
-        this.blockInteraction = blockInteraction;
-        this.damageCalculator = explosionDamageCalculator == null ? this.makeDamageCalculator(entity) : explosionDamageCalculator;
-        this.explosionSourceBlock = blockPos;
-        if(entity == null && explosionSourceBlock == null){
-            throw new IllegalStateException();
-        }
-    }
-    *///?} else {
     public MonitoredExplosion(ClientLevel clientLevel, @Nullable Entity entity, @Nullable BlockPos blockPos, @Nullable ExplosionDamageCalculator explosionDamageCalculator, Vec3 vec3, float f, Explosion.BlockInteraction blockInteraction) {
         this.level = clientLevel;
         this.source = entity;
@@ -70,7 +51,6 @@ public class MonitoredExplosion implements Explosion {
             throw new IllegalStateException();
         }
     }
-    //?}
     private ExplosionDamageCalculator makeDamageCalculator(@Nullable Entity entity) {
         return entity == null ? EXPLOSION_DAMAGE_CALCULATOR : new EntityBasedExplosionDamageCalculator(entity);
     }
@@ -135,14 +115,12 @@ public class MonitoredExplosion implements Explosion {
     public boolean canTriggerBlocks() {
         return false;
     }
-    //? if >1.21.1 {
     @Override
     public boolean shouldAffectBlocklikeEntities() {
         boolean bl2 = this.source == null || !this.source.isInWater();
         boolean bl3 = this.source == null || this.source.getType() != EntityType.BREEZE_WIND_CHARGE && this.source.getType() != EntityType.WIND_CHARGE;
         return this.blockInteraction.shouldAffectBlocklikeEntities() && bl2 && bl3;
     }
-    //?}
 
     private BlockDestructionResult calculateExplodedPositions() {
         HashMap<BlockPos,Float> affects = new HashMap<>();
@@ -241,7 +219,7 @@ public class MonitoredExplosion implements Explosion {
                         List<SamplePointData> samplePoints = new ArrayList<>();
                         float q = !bl && p == 0.0F ? 0.0F : getSeenPercent(this.center, entity, explosionSourceBlock,(start, end, hit)->samplePoints.add(new SamplePointData(start,end,hit)));
                         if (bl) {
-                            float damage = this.damageCalculator.getEntityDamageAmount(this, entity/*? if >1.21.1 {*/, q/*?}*/);
+                            float damage = this.damageCalculator.getEntityDamageAmount(this, entity, q);
                             EntityWithSamplePoint ewsp = new EntityWithSamplePoint(entity,samplePoints);
                             damagedMap.put(ewsp, damage);
                         }
@@ -270,12 +248,10 @@ public class MonitoredExplosion implements Explosion {
         return this.level;
     }
 
-    //? if >1.21.1 {
     @Override
     public @NotNull ServerLevel level() {
         throw new UnsupportedOperationException("Not supported in simulated explosion!");
     }
-    //?}
 
     @Override
     public @NotNull BlockInteraction getBlockInteraction() {
@@ -284,7 +260,7 @@ public class MonitoredExplosion implements Explosion {
 
     @Nullable
     public LivingEntity getIndirectSourceEntity() {
-        return /*? if >1.21.1 {*/null/*?} else {*//*super.getIndirectSourceEntity()*//*?}*/;
+        return null;
     }
 
     @Nullable

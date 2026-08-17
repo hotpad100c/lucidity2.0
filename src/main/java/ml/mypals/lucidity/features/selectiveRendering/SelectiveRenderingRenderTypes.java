@@ -1,10 +1,5 @@
 package ml.mypals.lucidity.features.selectiveRendering;
 
-//? if <1.21.11 {
-/*public final class SelectiveRenderingRenderTypes {
-    private SelectiveRenderingRenderTypes() {}
-}
-*///?} else {
 import net.minecraft.client.renderer.rendertype.RenderSetup;
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -66,4 +61,3 @@ public final class SelectiveRenderingRenderTypes {
         return HIDDEN.containsKey(renderType);
     }
 }
-//?}

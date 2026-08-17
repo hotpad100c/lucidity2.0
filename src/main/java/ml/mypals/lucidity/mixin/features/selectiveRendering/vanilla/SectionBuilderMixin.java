@@ -32,13 +32,9 @@ import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.minecraft.client.renderer.rendertype.*;
 import net.minecraft.client.renderer.SectionBufferBuilderPack;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-//? if >=1.21.5 {
 import net.minecraft.client.renderer.block.model.BlockModelPart;
-//?}
-//? if >=1.21.6 {
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 
-//?}
 import net.minecraft.client.renderer.chunk.SectionCompiler;
 import net.minecraft.client.renderer.chunk.VisGraph;
 import net.minecraft.core.BlockPos;
@@ -56,12 +52,7 @@ import java.util.Map;
 
 @Mixin(SectionCompiler.class)
 public abstract class SectionBuilderMixin {
-    //? if <=1.21.5 {
-    /*@Shadow protected abstract BufferBuilder getOrBeginLayer(Map<RenderType, BufferBuilder> map, SectionBufferBuilderPack sectionBufferBuilderPack, RenderType renderType);
-
-    *///?} else {
     @Shadow protected abstract BufferBuilder getOrBeginLayer(Map<ChunkSectionLayer, BufferBuilder> par1, SectionBufferBuilderPack par2, ChunkSectionLayer par3);
-    //?}
 
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/chunk/VisGraph;setOpaque(Lnet/minecraft/core/BlockPos;)V"))
@@ -71,7 +62,6 @@ public abstract class SectionBuilderMixin {
             original.call(instance, blockPos);
         }
     }
-    //? if >=1.21.5 {
 
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLjava/util/List;)V"))
@@ -81,15 +71,6 @@ public abstract class SectionBuilderMixin {
             original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
         }
 
-    //?} else {
-    /*@WrapOperation(method = "compile", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"))
-    public void onBuilBlock(
-            BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, RandomSource randomSource, Operation<Void> original) {
-     { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
-         original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, randomSource);
-     }
-    *///?}
     }
 
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
@@ -101,19 +82,11 @@ public abstract class SectionBuilderMixin {
             BlockState blockState,
             FluidState fluidState,
             Operation<Void> original,
-            //? if <=1.21.5 {
-            /*@Local Map<RenderType, BufferBuilder> map ,
-            *///?} else {
             @Local Map<ChunkSectionLayer, BufferBuilder> map,
-            //?}
             @Local(argsOnly = true) SectionBufferBuilderPack sectionBufferBuilderPack) {
         { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
             VertexConsumer vertexConsumer1 =
-                    //? if <=1.21.5 {
-                    /*new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, RenderType.translucent()));
-                    *///?} else {
                     new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT));
-                    //?}
             original.call(instance, blockPos, blockAndTintGetter, vertexConsumer1, blockState, fluidState);
         }
     }
