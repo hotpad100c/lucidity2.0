@@ -28,7 +28,6 @@ public final class FlashbackCompat {
             registered = true;
             Lucidity.LOGGER.info("Flashback detected: registered the selective rendering transparency keyframe");
         } catch (Throwable throwable) {
-            // Flashback 的内部结构没有兼容性承诺，版本对不上时降级而不是把游戏带崩
             Lucidity.LOGGER.warn("Failed to register the selective rendering keyframe with Flashback", throwable);
         }
     }

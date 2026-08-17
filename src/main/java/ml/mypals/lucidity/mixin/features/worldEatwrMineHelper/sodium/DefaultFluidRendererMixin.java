@@ -153,7 +153,29 @@ public class DefaultFluidRendererMixin {
         }
     }
 
-    @WrapMethod(method = "isSideExposed")
+    // 这两个包装的唯一目的是：渲染悬浮的增生模型时关掉 sodium 的流体面剔除，
+    // 否则被包围的原流体六面全剔，增生模型跟着一起消失。是方块那边 isFaceCulled 的流体版。
+    //
+    // sodium 0.8 改了名，而且第二个的语义是反的：
+    //   isSideExposed(world, x, y, z, dir, height)            -> isSideExposedOffset(world, state, pos, dir, height)
+    //   isFullBlockFluidOccluded(...)  「被遮挡」  -> isFullBlockFluidVisible(...)  「可见」
+    // 所以第二个包装的布尔逻辑要跟着翻过来。
+    //? if >=1.21.11 {
+    @WrapMethod(method = "isSideExposedOffset")
+    private boolean redirectShouldRenderFace(
+            BlockAndTintGetter world, BlockState state, BlockPos pos, Direction dir, float height, Operation<Boolean> original
+    ) {
+        return isRenderingTransformed.get() || original.call(world, state, pos, dir, height);
+    }
+
+    @WrapMethod(method = "isFullBlockFluidVisible")
+    private boolean redirectIsFaceVisible(
+            BlockAndTintGetter world, BlockPos pos, Direction dir, BlockState blockState, FluidState fluid, Operation<Boolean> original
+    ) {
+        return isRenderingTransformed.get() || original.call(world, pos, dir, blockState, fluid);
+    }
+    //?} else {
+    /*@WrapMethod(method = "isSideExposed")
     private boolean redirectShouldRenderFace(
             BlockAndTintGetter world, int x, int y, int z, Direction dir, float height, Operation<Boolean> original
     ) {
@@ -166,4 +188,5 @@ public class DefaultFluidRendererMixin {
     ) {
         return !isRenderingTransformed.get() && original.call(world, pos, dir, blockState, fluid);
     }
+    *///?}
 }
