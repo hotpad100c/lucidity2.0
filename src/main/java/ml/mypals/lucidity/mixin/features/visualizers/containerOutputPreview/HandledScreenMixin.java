@@ -42,7 +42,7 @@ public abstract class HandledScreenMixin<T extends AbstractContainerMenu> extend
 
     @Unique
     private void renderComparatorOutput(GuiGraphics context, int mouseX, int mouseY){
-        if (this.minecraft == null || this.minecraft.player == null) {
+        if (this.minecraft.player == null) {
             return;
         }
 
@@ -77,7 +77,7 @@ public abstract class HandledScreenMixin<T extends AbstractContainerMenu> extend
             int comparatorOutput = totalFullness > 0 ? (int) Math.floor(1 + averageFullness * 14) : 0;
 
             Component outputText = Component.literal(this.title.getString()).append(Component.literal("(C: " + comparatorOutput + ")").withStyle(ChatFormatting.GOLD));
-            context.drawString(this.font, outputText, this.titleLabelX, this.titleLabelY, 4210752, false);
+            context.drawString(this.font, outputText, this.titleLabelX, this.titleLabelY, -12566464, false);
         } else if(this.menu instanceof CrafterMenu crafterScreenHandler){
             int affectSlots = 0;
             for (Slot slot : crafterScreenHandler.slots) {
@@ -89,12 +89,12 @@ public abstract class HandledScreenMixin<T extends AbstractContainerMenu> extend
                 }
             }
             Component outputText = Component.literal(this.title.getString()).append(Component.literal("(C: " + affectSlots + ")").withStyle(ChatFormatting.GOLD));
-            context.drawString(this.font, outputText, this.titleLabelX, this.titleLabelY, 4210752, false);
+            context.drawString(this.font, outputText, this.titleLabelX, this.titleLabelY, -12566464, false);
 
         }else {
-            context.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+            context.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -12566464, false);
         }
-        context.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
+        context.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, -12566464, false);
     }
 
     @WrapMethod(method = "renderLabels")

@@ -16,15 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.Type;
 
-/**
- * Keyframe.TypeAdapter 的两个方向都是对着内置类型硬编码的：
- * serialize 是按具体类分派，deserialize 是对 "type" 字符串做 switch，
- * 落到 default 分支就直接抛异常。KeyframeRegistry.register 完全没有参与这里，
- * 所以第三方关键帧只能靠 mixin 在 HEAD 处自己接管。
- *
- * 这里不走 Gson 的 per-class adapter，直接读写 JsonObject，
- * 因此不需要往 Flashback 的 Gson 实例上注册任何东西。
- */
+
 @Pseudo
 @Mixin(Keyframe.TypeAdapter.class)
 public class KeyframeTypeAdapterMixin {

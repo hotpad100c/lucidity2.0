@@ -63,7 +63,6 @@
     "features.tisMicroTimingHighlight.GuiGraphicsMixin",
     "features.visualizers.b36Target.MovingBlockRenderMixin",
     "features.visualizers.boatRestriction.BoatRendererMixin",
-    "features.visualizers.containerOutputPreview.BookViewScreenMixin",
     "features.visualizers.containerOutputPreview.HandledScreenMixin",
     "features.visualizers.creakingHeart.ParticleHandlerMixin",
     "features.visualizers.enderDragonDestructionRange.EnderdragonMixin",
