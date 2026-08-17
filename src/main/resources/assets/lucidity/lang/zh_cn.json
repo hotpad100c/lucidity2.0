@@ -184,5 +184,7 @@
   "lucidity.info.wand.switchRenderingLast": "上一个渲染模式",
   "lucidity.info.wand.switchRenderingNext": "下一个渲染模式",
   "lucidity.info.wand.switchWandMode": "切换魔杖模式",
-  "lucidity.title.configs": "我的视界 %s"
+  "lucidity.title.configs": "我的视界 %s",
+  "lucidity.flashback.hidden_transparency": "隐藏方块透明度",
+  "lucidity.flashback.keyframe.hidden_transparency": "选择性渲染透明度"
 }

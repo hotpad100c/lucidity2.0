@@ -45,8 +45,10 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
     modCompileOnly("com.terraformersmc:modmenu:${property("deps.mod_menu_version")}")
     modImplementation("io.github.hotpad100c:ryansrenderingkit:${property("deps.ryansrenderingkit_version")}")
-    //modImplementation("maven.modrinth:sodium:${property("deps.sodium_version")}")
+    modImplementation("maven.modrinth:sodium:${property("deps.sodium_version")}")
     modCompileOnly("maven.modrinth:sodium:${property("deps.sodium_version")}")
+    // 可选兼容：只在编译期需要，运行时由 FabricLoader.isModLoaded 判断
+    modCompileOnly("maven.modrinth:flashback:${property("deps.flashback_version")}")
 
     modImplementation("com.github.sakura-ryoko:malilib:${property("deps.malilib_version")}")
 

@@ -11,6 +11,7 @@ import ml.mypals.lucidity.features.visualizers.explosion.ExplosionSimulatorManag
 import ml.mypals.lucidity.features.visualizers.fluidSource.FluidSourceResourceLoader;
 import ml.mypals.lucidity.features.visualizers.soundVisualize.SoundListener;
 import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterHelperManager;
+import ml.mypals.lucidity.flashback.FlashbackCompat;
 import ml.mypals.lucidity.init.LucidityInit;
 import ml.mypals.lucidity.features.netherPosCaculator.NetherPosCaculatorManager;
 import net.fabricmc.api.ModInitializer;
@@ -58,6 +59,7 @@ public class Lucidity implements ModInitializer {
     {
         InitializationHandler.getInstance().registerInitializationHandler(new LucidityInit());
         registerVanillaKeyBindings();
+        FlashbackCompat.init();
         //? if >=1.21.6 {
         HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
                 Identifier.fromNamespaceAndPath(MOD_ID,"selective_rendering_hud"),

@@ -37,6 +37,7 @@
     "features.fallingBlockPreview.FallingBlockEntityRendererMixin",
     "features.imageRendeing.TextureManagerMixin",
     "features.invisibleAlphaOverride.LivingEntityRendererMixin",
+    "compat.flashback.KeyframeTypeAdapterMixin",
     "features.selectiveRendering.MouseMixin",
     "features.selectiveRendering.accessor.BufferSourceAccessor",
     "features.selectiveRendering.accessor.CompositeStateAccessor",

@@ -184,5 +184,7 @@
   "lucidity.info.wand.switchRenderingLast": "Previous rendering mode",
   "lucidity.info.wand.switchRenderingNext": "Next rendering mode",
   "lucidity.info.wand.switchWandMode": "Switch wand mode",
-  "lucidity.title.configs": "Lucidity %s"
+  "lucidity.title.configs": "Lucidity %s",
+  "lucidity.flashback.hidden_transparency": "Hidden Transparency",
+  "lucidity.flashback.keyframe.hidden_transparency": "Selective Rendering Transparency"
 }
