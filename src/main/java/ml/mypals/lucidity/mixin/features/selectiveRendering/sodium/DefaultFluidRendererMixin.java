@@ -19,8 +19,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,9 +44,10 @@ public class DefaultFluidRendererMixin {
 
     private int alpha;
 
-    @Inject(at = @At("RETURN"), method = "isFullBlockFluidOccluded"
+    /*
+    @Inject(at = @At("RETURN"), method = "isFullBlockFluidSideVisible"
             , cancellable = true)
-    private void isFullBlockFluidOccluded(BlockAndTintGetter world, BlockPos pos, Direction dir, BlockState blockState, FluidState fluid, CallbackInfoReturnable<Boolean> cir) {
+    private void isFullBlockFluidOccluded(BlockGetter view, BlockPos selfPos, Direction facing, FluidState fluid, CallbackInfoReturnable<Boolean> cir) {
 
         boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
         boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
@@ -53,16 +56,17 @@ public class DefaultFluidRendererMixin {
             cir.setReturnValue(false);
         }
 
-    }
+    }*/
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "render", at = @At("HEAD"))
     private void onRender(LevelSlice level, BlockState state, FluidState fluidState, BlockPos pos, BlockPos offset, TranslucentGeometryCollector collector, ChunkModelBuilder meshBuilder, Material material, ColorProvider<FluidState> colorProvider, TextureAtlasSprite[] sprites, CallbackInfo ci) {
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
     }
 
-    @Inject(at = @At("RETURN"), method = "isSideExposed"
+    /*
+    @Inject(at = @At("RETURN"), method = "isFluidSideExposed*"
             , cancellable = true)
-    private void isSideExposed(BlockAndTintGetter world, int x, int y, int z, Direction dir, float height, CallbackInfoReturnable<Boolean> cir) {
+    private void isSideExposed() {
         BlockPos pos = new BlockPos(x, y, z);
         boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
         boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
@@ -70,7 +74,7 @@ public class DefaultFluidRendererMixin {
         if (renderThis != renderNeighbor) {
             cir.setReturnValue(true);
         }
-    }
+    }*/
 
     @WrapOperation(
             method = "writeQuad",

@@ -7,6 +7,11 @@ import com.mojang.math.Axis;
 import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterHelperManager;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,12 +24,24 @@ import static ml.mypals.lucidity.config.FeatureToggle.WORLD_EATER_MINE_HELPER;
 
 @Mixin(BlockEntityRenderDispatcher.class)
 public class BlockEntityRenderDispatcherMixin {
-    @WrapMethod(method = "render(Lnet/minecraft/world/level/block/entity/BlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;)V")
+    //? if >=1.21.9 {
+    // 1.21.9 起 BlockEntityRenderDispatcher 上已经没有 render(...) 了，
+    // 方块实体走 submit(state, poseStack, collector, camera)。原来的 @WrapMethod
+    // 目标不存在，注入静默失败 —— 这就是额外的方块实体渲染整个不见的原因。
+    @WrapMethod(method = "submit")
+    public void tesselate(BlockEntityRenderState blockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, Operation<Void> original) {
+        original.call(blockEntityRenderState, poseStack, submitNodeCollector, cameraRenderState);
+
+        BlockState blockState = blockEntityRenderState.blockState;
+        BlockPos blockPos = blockEntityRenderState.blockPos;
+    //?} else {
+    /*@WrapMethod(method = "render(Lnet/minecraft/world/level/block/entity/BlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;)V")
     public void tesselate(BlockEntity blockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, Operation<Void> original) {
         original.call(blockEntity, f, poseStack, multiBufferSource);
 
         BlockState blockState = blockEntity.getBlockState();
         BlockPos blockPos = blockEntity.getBlockPos();
+    *///?}
         if (WORLD_EATER_MINE_HELPER.getBooleanValue() && WorldEaterHelperManager.shouldRender(blockState, blockPos)) {
             float height = WORLD_EATER_MINE_HELPER_HEIGHT.getFloatValue();
             poseStack.pushPose();
@@ -36,7 +53,11 @@ public class BlockEntityRenderDispatcherMixin {
 
             poseStack.translate(-0.5, -0.5, -0.5);
 
-            original.call(blockEntity, f, poseStack, multiBufferSource);
+            //? if >=1.21.9 {
+            original.call(blockEntityRenderState, poseStack, submitNodeCollector, cameraRenderState);
+            //?} else {
+            /*original.call(blockEntity, f, poseStack, multiBufferSource);
+            *///?}
 
             poseStack.popPose();
         }

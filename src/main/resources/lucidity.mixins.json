@@ -27,6 +27,7 @@
     "features.visualizers.sculkSensorRange.SculkShriekerBlockMixin",
     "features.visualizers.sculkSensorRange.SculkShriekerBlockTickerMixin",
     "features.visualizers.sculkSensorRange.WardenTickerMixin",
+    "features.worldEatwrMineHelper.sodium.AbstractBlockRenderContextMixin",
     "features.worldEatwrMineHelper.sodium.BlockRendererMixin",
     "features.worldEatwrMineHelper.sodium.DefaultFluidRendererMixin",
     "features.yaclLikeConfig.ButtonBaseAccessor",

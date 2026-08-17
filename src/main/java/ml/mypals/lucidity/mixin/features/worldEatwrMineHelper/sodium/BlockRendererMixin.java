@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import ml.mypals.lucidity.features.worldEaterHelper.UnculledBlockBakedModel;
+import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterTransformState;
 import ml.mypals.lucidity.features.worldEaterHelper.WorldEaterHelperManager;
 import net.caffeinemc.mods.sodium.api.util.ColorARGB;
 import net.caffeinemc.mods.sodium.client.model.quad.properties.ModelQuadOrientation;
@@ -47,14 +48,14 @@ import static ml.mypals.lucidity.config.LucidityConfigs.Generic.WORLD_EATER_MINE
 public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
 
     @Shadow @Final private ChunkVertexEncoder.Vertex[] vertices;
-    @Unique
-    private static final ThreadLocal<Boolean> isRenderingTransformed = ThreadLocal.withInitial(() -> false);
-    @Unique
-    private static final ThreadLocal<Matrix4f> transformMatrix = new ThreadLocal<>();
 
-    @Inject(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline/BlockRenderer;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;[FLnet/caffeinemc/mods/sodium/client/render/chunk/terrain/material/Material;)V"))
+    //? if >=1.21.11 {
+    @Inject(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline/BlockRenderer;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/model/MutableQuadViewImpl;[FLnet/caffeinemc/mods/sodium/client/render/chunk/terrain/material/Material;)V"))
+    //?} else {
+    /*@Inject(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/compile/pipeline/BlockRenderer;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;[FLnet/caffeinemc/mods/sodium/client/render/chunk/terrain/material/Material;)V"))
+    *///?}
     private void redirectBrightnessAndLight(MutableQuadViewImpl quad, CallbackInfo ci) {
-        if (isRenderingTransformed.get()) {
+        if (WorldEaterTransformState.isRenderingTransformed()) {
             for (int i = 0; i < 4; i++) {
                 this.quadLightData.br[i] = 1.0f;
             }
@@ -64,10 +65,15 @@ public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
         }
     }
 
+    //? if >=1.21.11 {
     @Inject(method = "bufferQuad",
+    at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/model/MutableQuadViewImpl;sprite(Lnet/caffeinemc/mods/sodium/client/render/texture/SodiumSpriteFinder;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;"))
+    //?} else {
+    /*@Inject(method = "bufferQuad",
     at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;sprite(Lnet/fabricmc/fabric/api/renderer/v1/model/SpriteFinder;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;"))
+    *///?}
     private void beforeSprite(MutableQuadViewImpl quad, float[] brightnesses, Material material, CallbackInfo ci) {
-        if (isRenderingTransformed.get()) {
+        if (WorldEaterTransformState.isRenderingTransformed()) {
             ChunkVertexEncoder.Vertex[] vertices = this.vertices;
             for (int dstIndex = 0; dstIndex < 4; ++dstIndex) {
                 ChunkVertexEncoder.Vertex out = vertices[dstIndex];
@@ -80,8 +86,8 @@ public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
             at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/vertex/builder/ChunkMeshBufferBuilder;push([Lnet/caffeinemc/mods/sodium/client/render/chunk/vertex/format/ChunkVertexEncoder$Vertex;I)V")
     )
     private void transformVertices(ChunkMeshBufferBuilder instance, ChunkVertexEncoder.Vertex[] vertices, int materialBits, Operation<Void> original) {
-        if (isRenderingTransformed.get()) {
-            Matrix4f matrix = transformMatrix.get();
+        if (WorldEaterTransformState.isRenderingTransformed()) {
+            Matrix4f matrix = WorldEaterTransformState.transform();
             if (matrix != null) {
                 Vector4f pos = new Vector4f();
                 for (ChunkVertexEncoder.Vertex vertex : vertices) {
@@ -107,11 +113,10 @@ public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
 
         original.call(model, state, pos, origin);
     *///?}
-        if (!isRenderingTransformed.get() &&
+        if (!WorldEaterTransformState.isRenderingTransformed() &&
                 WORLD_EATER_MINE_HELPER.getBooleanValue() &&
                 WorldEaterHelperManager.shouldRender(state, pos)) {
 
-            isRenderingTransformed.set(true);
             try {
                 PoseStack poseStack = new PoseStack();
                 float relX = (float) (pos.getX() & 15);
@@ -130,7 +135,7 @@ public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
 
                 poseStack.translate(-(relX + 0.5f), -(relY + 0.5f), -(relZ + 0.5f));
 
-                transformMatrix.set(poseStack.last().pose());
+                WorldEaterTransformState.begin(poseStack.last().pose());
 
                 Minecraft mc = Minecraft.getInstance();
                 BlockRenderDispatcher dispatcher = mc.getBlockRenderer();
@@ -139,8 +144,7 @@ public abstract class BlockRendererMixin extends AbstractBlockRenderContext {
 
                 original.call(unculledBlockBakedModel, state, pos, origin);
             } finally {
-                isRenderingTransformed.set(false);
-                transformMatrix.remove();
+                WorldEaterTransformState.end();
             }
         }
     }

@@ -70,7 +70,7 @@ public abstract class NonTerrainBlockRenderContextMixin {
     }
     //? if >=1.21.5 {
     //? if>=1.21.11{
-    @ModifyArg(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/frapi/render/NonTerrainBlockRenderContext;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V"), index = 1)
+    @ModifyArg(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/frapi/render/NonTerrainBlockRenderContext;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/model/MutableQuadViewImpl;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V"), index = 1)
     //?}else{
     /*@ModifyArg(method = "processQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/frapi/render/NonTerrainBlockRenderContext;bufferQuad(Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;Lcom/mojang/blaze3d/vertex/VertexConsumer;)V"), index = 1)
     *///?}
