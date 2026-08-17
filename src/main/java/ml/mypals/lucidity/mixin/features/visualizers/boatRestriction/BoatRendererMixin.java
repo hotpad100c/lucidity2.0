@@ -1,6 +1,12 @@
 package ml.mypals.lucidity.mixin.features.visualizers.boatRestriction;
 
 import com.mojang.blaze3d.vertex.*;
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
+//?}
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import ml.mypals.lucidity.utils.DeferredGeometry;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.*;
 //? if >=1.21.3 {
@@ -39,8 +45,18 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
         super(context);
     }
 
-    //? if >=1.21.3 {
+    //? if >=1.21.9 {
+    // 1.21.9 起 render(...) 换成 submit(...)，renderTypeAdditions 也改名为 submitTypeAdditions
     @Inject(
+            method = "submit(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/AbstractBoatRenderer;submitTypeAdditions(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;I)V"
+            )
+    )
+    public void render(BoatRenderState boatRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
+    //?} else if >=1.21.3 {
+    /*@Inject(
             method = "render(Lnet/minecraft/client/renderer/entity/state/BoatRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(
                     value = "INVOKE",
@@ -48,7 +64,7 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
             )
     )
     public void render(BoatRenderState boatRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
+    *///?} else {
         /*@Inject(
                 method = "Lnet/minecraft/client/renderer/entity/BoatRenderer;render(Lnet/minecraft/world/entity/vehicle/Boat;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                 at = @At(
@@ -68,21 +84,25 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
 
             List<Vec3> arc = generateArc(center, leftYaw, rightYaw, 2.0);
 
-            //? if <1.21.11 {
+            //? if >=1.21.9 {
+            // submit 阶段不能自己 Tesselator.begin/draw，交给提交节点在 draw 阶段执行。
+            // 另外 1.21.11 移除了 LINE_STRIP，弧线拆成相邻两点的线段画进同一个 LINES 批次。
+            DeferredGeometry.submit(submitNodeCollector, poseStack, RenderTypes.LINES, (ps, consumer) -> {
+                for (int arcIndex = 0; arcIndex + 1 < arc.size(); arcIndex++) {
+                    addLineSegment(Color.WHITE, ps, consumer, arc.get(arcIndex), arc.get(arcIndex + 1));
+                }
+                addLineSegment(Color.RED, ps, consumer, center, left);
+                addLineSegment(Color.GREEN, ps, consumer, center, right);
+            });
+            //?} else {
             /*BufferBuilder stripConsumer = Tesselator.getInstance().begin(RenderType.LINE_STRIP.mode(), RenderType.LINE_STRIP.format());
             addCurve(Color.WHITE,poseStack,stripConsumer ,arc);
             RenderType.LINE_STRIP.draw(stripConsumer.build());
-            *///?}
-            BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderTypes.LINES.mode(), RenderTypes.LINES.format());
-            //? if >=1.21.11 {
-            // 1.21.11 移除了 LINE_STRIP，这里把弧线拆成相邻两点之间的线段，画进同一个 LINES 批次
-            for (int arcIndex = 0; arcIndex + 1 < arc.size(); arcIndex++) {
-                addLineSegment(Color.WHITE, poseStack, lineConsumer, arc.get(arcIndex), arc.get(arcIndex + 1));
-            }
-            //?}
+            BufferBuilder lineConsumer = Tesselator.getInstance().begin(RenderType.LINES.mode(), RenderType.LINES.format());
             addLineSegment(Color.RED,poseStack,lineConsumer ,center,left);
             addLineSegment(Color.GREEN,poseStack,lineConsumer ,center,right);
-            RenderTypes.LINES.draw(lineConsumer.build());
+            RenderType.LINES.draw(lineConsumer.build());
+            *///?}
         }
     }
     @Unique
@@ -115,7 +135,7 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
         );
     }
     @Unique
-    private void addLineSegment(Color color,PoseStack pose, BufferBuilder consumer, Vec3 start, Vec3 end) {
+    private void addLineSegment(Color color,PoseStack pose, VertexConsumer consumer, Vec3 start, Vec3 end) {
         double dx = end.x() - start.x();
         double dy = end.y() - start.y();
         double dz = end.z() - start.z();
@@ -130,7 +150,7 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
         *///?}
         }
     @Unique
-    private void addCurve(Color color,PoseStack pose, BufferBuilder consumer, List<Vec3> points ) {
+    private void addCurve(Color color,PoseStack pose, VertexConsumer consumer, List<Vec3> points ) {
 
         int n = points.size();
         for(int i = 0; i < n; ++i) {

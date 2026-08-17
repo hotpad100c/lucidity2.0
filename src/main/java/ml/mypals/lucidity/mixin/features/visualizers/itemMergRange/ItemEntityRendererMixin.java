@@ -1,6 +1,12 @@
 package ml.mypals.lucidity.mixin.features.visualizers.itemMergRange;
 
 import com.mojang.blaze3d.vertex.*;
+//? if >=1.21.9 {
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
+//?}
+
+import ml.mypals.lucidity.utils.DeferredGeometry;
 import fi.dy.masa.malilib.util.data.Color4f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.*;
@@ -21,12 +27,17 @@ import static ml.mypals.lucidity.utils.LucidityRenderUtils.renderBox;
 
 @Mixin(ItemEntityRenderer.class)
 public class ItemEntityRendererMixin {
-    //? if >=1.21.3 {
-    @Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+    //? if >=1.21.9 {
+    // 1.21.9 起实体渲染器不再有 render(...)，改成 submit(state, poseStack, collector, camera)
+    @Inject(method = "submit(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/renderer/state/CameraRenderState;)V",
+    at = @At("TAIL"))
+    public void render(ItemEntityRenderState itemEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, CallbackInfo ci) {
+    //?} else if >=1.21.3 {
+    /*@Inject(method = "render(Lnet/minecraft/client/renderer/entity/state/ItemEntityRenderState;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
     at = @At("TAIL"))
 
     public void render(ItemEntityRenderState itemEntityRenderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    //?} else {
+    *///?} else {
     /*@Inject(method = "Lnet/minecraft/client/renderer/entity/ItemEntityRenderer;render(Lnet/minecraft/world/entity/item/ItemEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("TAIL"))
 
@@ -47,7 +58,13 @@ public class ItemEntityRendererMixin {
                     bbw / 2, bbh, bbw / 2
             ).inflate(0.5F, 0.0F, 0.5F);
 
-            renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), aabb,color.r,color.g,color.b,color.a);
+            //? if >=1.21.9 {
+            // submit 阶段不能直接画，得交给提交节点在 draw 阶段执行
+            DeferredGeometry.submit(submitNodeCollector, poseStack, RenderTypes.debugQuads(),
+                    (ps, consumer) -> renderBox(ps, consumer, aabb, color.r, color.g, color.b, color.a));
+            //?} else {
+            /*renderBox(poseStack,multiBufferSource.getBuffer(RenderTypes.debugQuads()), aabb,color.r,color.g,color.b,color.a);
+            *///?}
             poseStack.popPose();
         }
     }
