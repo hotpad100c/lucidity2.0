@@ -33,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static ml.mypals.lucidity.config.LucidityConfigs.Generic.FLUID_TRANSPARENCY;
 import static ml.mypals.lucidity.config.FeatureToggle.FLUID_TRANSPARENCY_OVERRIDE;
-import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY;
 import static ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager.shouldRenderBlock;
 
 @Mixin(value = DefaultFluidRenderer.class,remap = false)
@@ -43,39 +42,10 @@ public class DefaultFluidRendererMixin {
     private int[] quadColors;
 
     private int alpha;
-
-    /*
-    @Inject(at = @At("RETURN"), method = "isFullBlockFluidSideVisible"
-            , cancellable = true)
-    private void isFullBlockFluidOccluded(BlockGetter view, BlockPos selfPos, Direction facing, FluidState fluid, CallbackInfoReturnable<Boolean> cir) {
-
-        boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
-        boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
-
-        if (renderThis != renderNeighbor) {
-            cir.setReturnValue(false);
-        }
-
-    }*/
-
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(LevelSlice level, BlockState state, FluidState fluidState, BlockPos pos, BlockPos offset, TranslucentGeometryCollector collector, ChunkModelBuilder meshBuilder, Material material, ColorProvider<FluidState> colorProvider, TextureAtlasSprite[] sprites, CallbackInfo ci) {
-        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
+        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingManager.hiddenTransparencyAt(pos);
     }
-
-    /*
-    @Inject(at = @At("RETURN"), method = "isFluidSideExposed*"
-            , cancellable = true)
-    private void isSideExposed() {
-        BlockPos pos = new BlockPos(x, y, z);
-        boolean renderThis = shouldRenderBlock(world.getBlockState(pos),pos);
-        boolean renderNeighbor = shouldRenderBlock(world.getBlockState(pos.relative(dir)), pos.relative(dir));
-
-        if (renderThis != renderNeighbor) {
-            cir.setReturnValue(true);
-        }
-    }*/
-
     @WrapOperation(
             method = "writeQuad",
             at = @At(

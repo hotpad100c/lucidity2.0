@@ -2,7 +2,6 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.sodium;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
 import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
@@ -27,7 +26,7 @@ public class BlockRendererMixin {
     @Inject(method = "renderModel", at = @At("HEAD"), cancellable = true)
 
     private void onRenderModel(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo ci) {
-        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1:SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
+        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1:SelectiveRenderingManager.hiddenTransparencyAt(pos);
     }
 
     @Inject(method = "bufferQuad", at = @At("HEAD"))

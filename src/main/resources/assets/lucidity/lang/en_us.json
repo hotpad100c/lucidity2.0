@@ -135,7 +135,7 @@
   "lucidity.config.selective_rendering.comment.entity_mode": "Control how entities are selectively rendered",
   "lucidity.config.selective_rendering.comment.force_light_update": "Force light recalculation when selective rendering is applied",
   "lucidity.config.selective_rendering.comment.particle_mod": "Control how particles are selectively rendered",
-  "lucidity.config.selective_rendering.comment.selected_areas": "List of selected areas used for selective rendering",
+  "lucidity.config.selective_rendering.comment.selected_areas": "List of selected areas used for selective rendering. Format: x1,y1,z1:x2,y2,z2, optionally followed by :transparency (0-255) to give that area its own transparency instead of the global one",
   "lucidity.config.selective_rendering.comment.selected_blocks": "List of selected blocks used for selective rendering",
   "lucidity.config.selective_rendering.comment.selected_entities": "List of selected entities used for selective rendering",
   "lucidity.config.selective_rendering.comment.selected_particles": "List of selected particles used for selective rendering",
@@ -184,5 +184,9 @@
   "lucidity.info.wand.switchWandMode": "Switch wand mode",
   "lucidity.title.configs": "Lucidity %s",
   "lucidity.flashback.hidden_transparency": "Hidden Transparency",
-  "lucidity.flashback.keyframe.hidden_transparency": "Selective Rendering Transparency"
+  "lucidity.flashback.keyframe.hidden_transparency": "SelectiveRendering",
+  "lucidity.flashback.target": "Target",
+  "lucidity.flashback.target.global": "Global",
+  "lucidity.flashback.target.area": "Area %s",
+  "lucidity.flashback.target.area_missing": "Area %s (gone)"
 }

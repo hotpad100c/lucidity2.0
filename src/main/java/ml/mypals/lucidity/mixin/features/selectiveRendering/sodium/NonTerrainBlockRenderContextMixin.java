@@ -2,7 +2,6 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.sodium;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import net.caffeinemc.mods.sodium.client.render.model.MutableQuadViewImpl;
 import net.caffeinemc.mods.sodium.client.render.frapi.render.NonTerrainBlockRenderContext;
@@ -32,7 +31,7 @@ public abstract class NonTerrainBlockRenderContextMixin {
     @Inject(method = "renderModel", at = @At("HEAD"), cancellable = true)
     
     private void onRenderModel(BlockAndTintGetter blockView, BlockColors blockColors, BlockStateModel model, BlockState state, BlockPos pos, PoseStack poseStack, BlockVertexConsumerProvider buffer, boolean cull, long seed, int overlay, CallbackInfo ci) {
-        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
+        alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingManager.hiddenTransparencyAt(pos);
     }
 
     @Inject(method = "bufferQuad", at = @At("HEAD"))

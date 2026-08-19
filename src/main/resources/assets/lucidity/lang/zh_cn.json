@@ -135,7 +135,7 @@
   "lucidity.config.selective_rendering.comment.entity_mode": "控制实体的选择性渲染方式",
   "lucidity.config.selective_rendering.comment.force_light_update": "在应用选择性渲染时强制重新计算光照",
   "lucidity.config.selective_rendering.comment.particle_mod": "控制粒子的选择性渲染方式",
-  "lucidity.config.selective_rendering.comment.selected_areas": "用于选择性渲染的已选区域列表",
+  "lucidity.config.selective_rendering.comment.selected_areas": "用于选择性渲染的已选区域列表。格式 x1,y1,z1:x2,y2,z2，可在末尾再加 :透明度（0-255），让该选区用自己的透明度而不是全局透明度",
   "lucidity.config.selective_rendering.comment.selected_blocks": "用于选择性渲染的已选方块列表",
   "lucidity.config.selective_rendering.comment.selected_entities": "用于选择性渲染的已选实体列表",
   "lucidity.config.selective_rendering.comment.selected_particles": "用于选择性渲染的已选粒子列表",
@@ -184,5 +184,9 @@
   "lucidity.info.wand.switchWandMode": "切换魔杖模式",
   "lucidity.title.configs": "我的视界 %s",
   "lucidity.flashback.hidden_transparency": "隐藏方块透明度",
-  "lucidity.flashback.keyframe.hidden_transparency": "选择性渲染透明度"
+  "lucidity.flashback.keyframe.hidden_transparency": "选择性渲染",
+  "lucidity.flashback.target": "目标",
+  "lucidity.flashback.target.global": "全局",
+  "lucidity.flashback.target.area": "选区 %s",
+  "lucidity.flashback.target.area_missing": "选区 %s（已不存在）"
 }

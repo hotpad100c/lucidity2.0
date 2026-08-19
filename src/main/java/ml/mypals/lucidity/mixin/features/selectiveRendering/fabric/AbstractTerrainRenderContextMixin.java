@@ -3,7 +3,6 @@ package ml.mypals.lucidity.mixin.features.selectiveRendering.fabric;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 
 import net.fabricmc.fabric.impl.client.indigo.renderer.render.*;
@@ -37,8 +36,9 @@ public abstract class AbstractTerrainRenderContextMixin
     @Override
     protected void bufferQuad(MutableQuadViewImpl quad, VertexConsumer vertexConsumer) {
         if (!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState, blockInfo.blockPos)) {
+            int alpha = SelectiveRenderingManager.hiddenTransparencyAt(blockInfo.blockPos);
             for (int i = 0; i < 4; i++) {
-                quad.color(i, rewriteQuadAlpha(quad.color(i), SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue()));
+                quad.color(i, rewriteQuadAlpha(quad.color(i), alpha));
             }
             super.bufferQuad(quad, getVertexConsumer(ChunkSectionLayer.TRANSLUCENT));
         } else {

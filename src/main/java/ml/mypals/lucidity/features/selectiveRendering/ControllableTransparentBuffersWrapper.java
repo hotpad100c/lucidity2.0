@@ -3,9 +3,6 @@ package ml.mypals.lucidity.features.selectiveRendering;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.BufferSourceAccessor;
-import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.CompositeStateAccessor;
-import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.EmptyTextureStateShardAccessor;
-import ml.mypals.lucidity.mixin.features.selectiveRendering.accessor.RenderStateAccessor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.*;
 
@@ -30,11 +27,14 @@ public class ControllableTransparentBuffersWrapper extends MultiBufferSource.Buf
         // 透明度由 RenderTypeDrawMixin 在绘制时通过 uniform 施加，这里不需要再包顶点消费者。
         return multiBufferSource.getBuffer(real);
     }
-    public @NotNull VertexConsumer getTransparentBuffer(@NotNull RenderType renderType) {
+    public @NotNull VertexConsumer getTransparentBuffer(@NotNull RenderType renderType, int transparencySource) {
         if (renderType.format() == DefaultVertexFormat.NEW_ENTITY) {
-            return multiBufferSource.getBuffer(SelectiveRenderingRenderTypes.hiddenVariantOf(renderType));
+            return multiBufferSource.getBuffer(
+                    SelectiveRenderingRenderTypes.hiddenVariantOf(renderType, transparencySource));
         }
-        return new ControllableTransparentVertexConsumer(multiBufferSource.getBuffer(renderType));
+        return new ControllableTransparentVertexConsumer(
+                multiBufferSource.getBuffer(renderType),
+                SelectiveRenderingManager.transparencyOfSource(transparencySource));
     }
 
     public void endBatch() {

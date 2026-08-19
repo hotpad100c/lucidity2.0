@@ -1,6 +1,6 @@
 package ml.mypals.lucidity.mixin.features.selectiveRendering.vanilla;
 
-import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
+import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingManager;
 import ml.mypals.lucidity.features.selectiveRendering.SelectiveRenderingRenderTypes;
 import net.minecraft.client.renderer.rendertype.*;
 import org.joml.Vector4f;
@@ -28,10 +28,12 @@ public class RenderTypeDrawMixin {
     )
     private Vector4fc lucidity$modulateHiddenAlpha(Vector4fc colorModulator) {
         RenderType self = (RenderType) (Object) this;
-        if (!SelectiveRenderingRenderTypes.isHiddenVariant(self)) {
+        Integer source = SelectiveRenderingRenderTypes.transparencySourceOf(self);
+        if (source == null) {
             return colorModulator;
         }
-        float alpha = SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() / 255.0F;
+        // 批次自己带着"透明度来自哪个选区"，绘制时才解析成当前值
+        float alpha = SelectiveRenderingManager.transparencyOfSource(source) / 255.0F;
         return new Vector4f(colorModulator.x(), colorModulator.y(), colorModulator.z(), colorModulator.w() * alpha);
     }
 }

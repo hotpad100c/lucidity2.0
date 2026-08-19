@@ -149,8 +149,8 @@ public class LucidityLanguageGenerator {
         );
         languageProviderManager.addTranslation(
                 "lucidity.config.selective_rendering.comment.selected_areas",
-                "List of selected areas used for selective rendering",
-                "用于选择性渲染的已选区域列表"
+                "List of selected areas used for selective rendering. Format: x1,y1,z1:x2,y2,z2, optionally followed by :transparency (0-255) to give that area its own transparency instead of the global one",
+                "用于选择性渲染的已选区域列表。格式 x1,y1,z1:x2,y2,z2，可在末尾再加 :透明度（0-255），让该选区用自己的透明度而不是全局透明度"
         );
 
         languageProviderManager.addTranslation(

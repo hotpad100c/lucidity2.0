@@ -26,7 +26,10 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.*;
@@ -209,6 +212,10 @@ public class SelectiveRenderingManager {
     public static void resolveSelectedAreasFromString(List<String> areaStrings){List<AreaBox> newAreas = new ArrayList<>();
 
         boolean unchanged = areaStrings.equals(lastAreaStrings);
+        // 只有末尾的透明度段变了：选区形状没动，可见性判定不变，只有颜色需要刷新
+        boolean transparencyOnly = !unchanged
+                && lastAreaStrings != null
+                && geometryOf(areaStrings).equals(geometryOf(lastAreaStrings));
         lastAreaStrings = List.copyOf(areaStrings);
         List<BlockRegion> before = regionsOf(selectedAreas);
 
@@ -227,17 +234,39 @@ public class SelectiveRenderingManager {
             selectedAreas.add(area);
             area.submit();
         });
+        refreshOwnTransparencyFlag();
         // 选区形状没变时只需要重新提交渲染用的 Shape，不必碰区块网格
         if (unchanged) {
             return;
         }
-        onSelectedAreasChanged(before, regionsOf(selectedAreas));
+        onSelectedAreasChanged(before, regionsOf(selectedAreas), transparencyOnly);
+    }
+
+    private static List<String> geometryOf(List<String> areaStrings) {
+        List<String> result = new ArrayList<>(areaStrings.size());
+        for (String areaString : areaStrings) {
+            String[] parts = areaString.split(":");
+            result.add(parts.length >= 2 ? parts[0].trim() + ":" + parts[1].trim() : areaString);
+        }
+        return result;
     }
 
     private static AreaBox parseAABB(String areaString) throws IllegalArgumentException {
         String[] parts = areaString.split(":");
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("Invalid format. Expected x1,y1,z1:x2,y2,z2");
+        if (parts.length != 2 && parts.length != 3) {
+            throw new IllegalArgumentException("Invalid format. Expected x1,y1,z1:x2,y2,z2[:transparency]");
+        }
+
+        int ownTransparency = AreaBox.FOLLOW_GLOBAL;
+        if (parts.length == 3) {
+            String raw = parts[2].trim();
+            if (!raw.isEmpty()) {
+                try {
+                    ownTransparency = Math.clamp(Integer.parseInt(raw), 0, 255);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Invalid transparency in input: " + areaString, e);
+                }
+            }
         }
 
         String[] startCoords = parts[0].split(",");
@@ -266,7 +295,7 @@ public class SelectiveRenderingManager {
                     new BlockPos(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2)),
                     new BlockPos(Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2))
                     ,color,0.2f,false
-            );
+            ).withOwnTransparency(ownTransparency);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid number format in input: " + areaString, e);
         }
@@ -376,6 +405,121 @@ public class SelectiveRenderingManager {
         }
         return false;
     }
+    // ------------------------------------------------------------------
+    // 隐藏透明度的归属
+    //
+    // 每个选区默认跟随全局的 HIDDEN_BLOCK_TRANSPARENCY，也可以带一个自己的值
+    // （配置字符串第三段，见 AreaBox#asString）。某个位置落在多个带自定义透明度的
+    // 选区里时，取列表里第一个 —— 和 SELECTED_AREAS 的书写顺序一致，可预期。
+    //
+    // 实体/方块实体的透明度是绘制时通过 uniform 施加的，一批只能有一个值，所以
+    // 那条路径不直接传数值，而是传一个"透明度来源"的槽位号，绘制时再解析成当前值。
+    // 槽位按选区对角线（AreaBox#getKey）分配，这样关键帧点名的是选区本身，
+    // 增删其它选区不会让引用错位。
+    // ------------------------------------------------------------------
+    public static final int GLOBAL_TRANSPARENCY_SOURCE = -1;
+    private static final int MAX_TRANSPARENCY_SOURCES = 64;
+    private static final Map<String, Integer> TRANSPARENCY_SOURCES = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> TRANSPARENCY_SOURCE_KEYS = new ConcurrentHashMap<>();
+    private static final Queue<Integer> FREE_TRANSPARENCY_SOURCES = new ConcurrentLinkedQueue<>();
+    private static final AtomicInteger NEXT_TRANSPARENCY_SOURCE = new AtomicInteger();
+
+    private static volatile boolean anyOwnTransparency = false;
+
+    static void refreshOwnTransparencyFlag() {
+        Set<String> live = new HashSet<>();
+        for (AreaBox area : selectedAreas) {
+            if (area.hasOwnTransparency()) {
+                live.add(area.getKey());
+            }
+        }
+        anyOwnTransparency = !live.isEmpty();
+        TRANSPARENCY_SOURCES.entrySet().removeIf(entry -> {
+            if (live.contains(entry.getKey())) {
+                return false;
+            }
+            TRANSPARENCY_SOURCE_KEYS.remove(entry.getValue(), entry.getKey());
+            FREE_TRANSPARENCY_SOURCES.offer(entry.getValue());
+            return true;
+        });
+    }
+
+    public static int globalHiddenTransparency() {
+        return HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue();
+    }
+    @Nullable
+    public static AreaBox findArea(String key) {
+        if (key == null) {
+            return null;
+        }
+        for (AreaBox area : selectedAreas) {
+            if (area.getKey().equals(key)) {
+                return area;
+            }
+        }
+        return null;
+    }
+
+    private static int sourceOfArea(AreaBox area) {
+        String key = area.getKey();
+        Integer existing = TRANSPARENCY_SOURCES.get(key);
+        if (existing != null) {
+            return existing;
+        }
+
+        Integer assigned = TRANSPARENCY_SOURCES.computeIfAbsent(key, k -> {
+            Integer recycled = FREE_TRANSPARENCY_SOURCES.poll();
+            if (recycled != null) {
+                return recycled;
+            }
+            int next = NEXT_TRANSPARENCY_SOURCE.getAndIncrement();
+            return next < MAX_TRANSPARENCY_SOURCES ? next : GLOBAL_TRANSPARENCY_SOURCE;
+        });
+        if (assigned != GLOBAL_TRANSPARENCY_SOURCE) {
+            TRANSPARENCY_SOURCE_KEYS.put(assigned, key);
+        }
+        return assigned;
+    }
+
+    public static int transparencySourceAt(Vec3 pos, boolean forBlockPos) {
+        if (!anyOwnTransparency) {
+            return GLOBAL_TRANSPARENCY_SOURCE;
+        }
+        for (AreaBox area : selectedAreas) {
+            if (area.hasOwnTransparency() && isInsideArea(pos, area, forBlockPos)) {
+                return sourceOfArea(area);
+            }
+        }
+        return GLOBAL_TRANSPARENCY_SOURCE;
+    }
+
+    public static int transparencyOfSource(int source) {
+        if (source != GLOBAL_TRANSPARENCY_SOURCE) {
+            String key = TRANSPARENCY_SOURCE_KEYS.get(source);
+            AreaBox area = key == null ? null : findArea(key);
+            if (area != null && area.hasOwnTransparency()) {
+                return area.getOwnTransparency();
+            }
+        }
+        return globalHiddenTransparency();
+    }
+
+    public static int hiddenTransparencyAt(Vec3 pos, boolean forBlockPos) {
+        if (!anyOwnTransparency) {
+            return globalHiddenTransparency();
+        }
+        for (AreaBox area : selectedAreas) {
+            if (area.hasOwnTransparency() && isInsideArea(pos, area, forBlockPos)) {
+                return area.getOwnTransparency();
+            }
+        }
+        return globalHiddenTransparency();
+    }
+
+    public static int hiddenTransparencyAt(BlockPos pos) {
+        return hiddenTransparencyAt(new Vec3(pos.getX(), pos.getY(), pos.getZ()), true);
+    }
+
     public static boolean isSelectedArea(Vec3 blockPos,boolean forBlockPos){
         for(AreaBox selectedArea : selectedAreas){
             if (isInsideArea(blockPos, selectedArea,forBlockPos )) {
@@ -456,16 +600,32 @@ public class SelectiveRenderingManager {
 
     /** 选区增删改。 */
     public static void onSelectedAreasChanged(List<BlockRegion> before, List<BlockRegion> after) {
+        onSelectedAreasChanged(before, after, false);
+    }
+
+    public static void onSelectedAreasChanged(List<BlockRegion> before, List<BlockRegion> after, boolean transparencyOnly) {
         List<BlockRegion> touched = new ArrayList<>(before.size() + after.size());
         touched.addAll(before);
         touched.addAll(after);
+
+        if (transparencyOnly) {
+            applyRebuild(touched, List.of());
+            return;
+        }
 
         SelectiveRenderingMode mode = BLOCK_RENDERING_MODE.getOptionListValue();
         // ANY_* / OFF 下 isInArea 根本不参与判定，选区怎么改都不影响方块可见性
         applyRebuild(usesArea(mode) ? touched : List.of(), touched);
     }
 
-    /** 选中方块类型/状态列表变化。 */
+    public static void onAreaTransparencyChanged(AreaBox area) {
+        refreshOwnTransparencyFlag();
+        if (BLOCK_RENDERING_MODE.getOptionListValue() == SelectiveRenderingMode.OFF) {
+            return;
+        }
+        applyRebuild(List.of(BlockRegion.of(area)), List.of());
+    }
+
     public static void onSelectedBlockTypesChanged() {
         SelectiveRenderingMode mode = BLOCK_RENDERING_MODE.getOptionListValue();
         List<BlockRegion> areas = regionsOf(selectedAreas);

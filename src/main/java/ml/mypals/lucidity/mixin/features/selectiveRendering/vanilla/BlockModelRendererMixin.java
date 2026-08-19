@@ -44,8 +44,8 @@ public class BlockModelRendererMixin {
     @WrapMethod(method = "tesselateBlock")
     private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, List<BlockModelPart> list, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, int i, Operation<Void> original){
         if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos)){
-            VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderTypes.translucentMovingBlock());
-            original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(vertexConsumer), bl, i);
+            int alpha = SelectiveRenderingManager.hiddenTransparencyAt(blockPos);
+            original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(vertexConsumer, alpha), bl, i);
             return;
         }
         original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, vertexConsumer, bl, i);

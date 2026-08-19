@@ -24,8 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class SelectiveRenderingRenderTypes {
 
-    private static final Map<RenderType, RenderType> HIDDEN_VARIANTS = new ConcurrentHashMap<>();
-    private static final Map<RenderType, Boolean> HIDDEN = new ConcurrentHashMap<>();
+    /** (原始 RenderType, 透明度来源槽位) -> 专属实例 */
+    private static final Map<RenderType, Map<Integer, RenderType>> HIDDEN_VARIANTS = new ConcurrentHashMap<>();
+    /** 专属实例 -> 它的透明度来源槽位 */
+    private static final Map<RenderType, Integer> HIDDEN = new ConcurrentHashMap<>();
 
     private SelectiveRenderingRenderTypes() {}
 
@@ -33,31 +35,47 @@ public final class SelectiveRenderingRenderTypes {
     @Nullable
     public static Identifier textureOf(RenderType renderType) {
         for (RenderSetup.TextureBinding binding : renderType.state.textures.values()) {
-            if (binding.location() != null) {
-                return binding.location();
-            }
+            return binding.location();
         }
         return null;
     }
 
-    /** 返回与 original 对应的、专供隐藏几何使用的独立 RenderType 实例。 */
+    /** 返回跟随全局透明度的隐藏几何 RenderType。 */
     public static RenderType hiddenVariantOf(RenderType original) {
-        return HIDDEN_VARIANTS.computeIfAbsent(original, key -> {
-            Identifier texture = textureOf(key);
-            RenderType translucent = texture != null
-                    ? RenderTypes.entityTranslucent(texture)
-                    : RenderTypes.translucentMovingBlock();
-            // 复用半透明的 RenderSetup，但作为独立实例，这样才能单独绑 uniform
-            RenderType variant = RenderType.create(
-                    "lucidity_hidden/" + (texture != null ? texture : "moving_block"),
-                    translucent.state);
-            HIDDEN.put(variant, Boolean.TRUE);
-            return variant;
-        });
+        return hiddenVariantOf(original, SelectiveRenderingManager.GLOBAL_TRANSPARENCY_SOURCE);
+    }
+
+    /**
+     * 返回与 original 对应的、专供隐藏几何使用的独立 RenderType 实例。
+     *
+     * <p>每个透明度来源都要有自己的实例：uniform 是按批次写的，一批只能有一个 alpha，
+     * 所以"跟随全局"和每个带自定义透明度的选区必须落在不同的批次里。
+     */
+    public static RenderType hiddenVariantOf(RenderType original, int transparencySource) {
+        return HIDDEN_VARIANTS
+                .computeIfAbsent(original, key -> new ConcurrentHashMap<>())
+                .computeIfAbsent(transparencySource, source -> {
+                    Identifier texture = textureOf(original);
+                    RenderType translucent = texture != null
+                            ? RenderTypes.entityTranslucent(texture)
+                            : RenderTypes.translucentMovingBlock();
+                    // 复用半透明的 RenderSetup，但作为独立实例，这样才能单独绑 uniform
+                    RenderType variant = RenderType.create(
+                            "lucidity_hidden/" + (texture != null ? texture : "moving_block") + "/" + source,
+                            translucent.state);
+                    HIDDEN.put(variant, source);
+                    return variant;
+                });
     }
 
     /** 这个 RenderType 是不是我们造出来的隐藏几何批次。 */
     public static boolean isHiddenVariant(RenderType renderType) {
         return HIDDEN.containsKey(renderType);
+    }
+
+    /** 这个隐藏批次的透明度来源槽位；不是隐藏批次返回 null。 */
+    @Nullable
+    public static Integer transparencySourceOf(RenderType renderType) {
+        return HIDDEN.get(renderType);
     }
 }

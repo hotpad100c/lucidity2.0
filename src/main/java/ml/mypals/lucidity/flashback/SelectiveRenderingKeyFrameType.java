@@ -6,8 +6,11 @@ import com.moulberry.flashback.keyframe.change.KeyframeChange;
 import com.moulberry.flashback.keyframe.handler.KeyframeHandler;
 import com.moulberry.flashback.keyframe.handler.MinecraftKeyframeHandler;
 import imgui.moulberry90.ImGui;
+import imgui.moulberry90.type.ImInt;
 import ml.mypals.lucidity.config.SelectiveRenderingConfigs;
 import net.minecraft.client.resources.language.I18n;
+
+import java.util.List;
 
 public class SelectiveRenderingKeyFrameType implements KeyframeType<SelectiveRenderingKeyFrame> {
 
@@ -23,18 +26,13 @@ public class SelectiveRenderingKeyFrameType implements KeyframeType<SelectiveRen
         return SelectiveRenderingKeyFrameChange.class;
     }
 
-    /**
-     * MinecraftKeyframeHandler.supportedChanges 是硬编码的不可变 Set.of(...)，
-     * KeyframeRegistry.register 不会往里添加，第三方 KeyframeChange 永远不在其中。
-     * 好在 EditorState.applyKeyframes 和 TimelineWindow 调的都是这个 default 方法，
-     * 覆写它就能绕过白名单，不需要 mixin。
-     *
-     * 限定为 MinecraftKeyframeHandler：这是客户端视觉用的那个 handler。
-     * ReplayServerKeyframeHandler（服务端线程）和 CameraPath 的采样 handler 都不该收到这个变更。
-     */
     @Override
     public boolean supportsHandler(KeyframeHandler keyframeHandler) {
         return keyframeHandler instanceof MinecraftKeyframeHandler;
+    }
+    @Override
+    public boolean allowApplyingDuplicateKeyframeChanges() {
+        return true;
     }
 
     @Override
@@ -52,18 +50,27 @@ public class SelectiveRenderingKeyFrameType implements KeyframeType<SelectiveRen
         return ID;
     }
 
+    /** 不弹窗直接添加时给全局透明度记一帧；要针对选区就走 {@link #createPopup()}。 */
     @Override
     public SelectiveRenderingKeyFrame createDirect() {
-        return new SelectiveRenderingKeyFrame(SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue());
+        return new SelectiveRenderingKeyFrame(
+                SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue());
     }
 
     @Override
     public KeyframeCreatePopup<SelectiveRenderingKeyFrame> createPopup() {
+        List<String> options = SelectiveRenderingKeyFrame.targetOptions(SelectiveRenderingKeyFrame.GLOBAL_TARGET);
+        String[] labels = SelectiveRenderingKeyFrame.targetLabels(options);
+        ImInt selected = new ImInt(0);
         float[] input = new float[]{ SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue() };
+
         return () -> {
+            ImGui.combo(I18n.get("lucidity.flashback.target"), selected, labels);
             ImGui.sliderFloat(I18n.get("lucidity.flashback.hidden_transparency"), input, 0.0f, 255.0f);
+
             if (ImGui.button(I18n.get("flashback.add")) || ReplayUI.consumeConfirm()) {
-                return new SelectiveRenderingKeyFrame(input[0]);
+                String target = options.get(Math.clamp(selected.get(), 0, options.size() - 1));
+                return new SelectiveRenderingKeyFrame(target, input[0]);
             }
             ImGui.sameLine();
             if (ImGui.button(I18n.get("gui.cancel")) || ReplayUI.consumeCancel()) {

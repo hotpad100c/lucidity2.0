@@ -85,8 +85,9 @@ public abstract class SectionBuilderMixin {
             @Local Map<ChunkSectionLayer, BufferBuilder> map,
             @Local(argsOnly = true) SectionBufferBuilderPack sectionBufferBuilderPack) {
         { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
-            VertexConsumer vertexConsumer1 =
-                    new ControllableTransparentVertexConsumer(this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT));
+            VertexConsumer vertexConsumer1 = new ControllableTransparentVertexConsumer(
+                    this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT),
+                    SelectiveRenderingManager.hiddenTransparencyAt(blockPos));
             original.call(instance, blockPos, blockAndTintGetter, vertexConsumer1, blockState, fluidState);
         }
     }

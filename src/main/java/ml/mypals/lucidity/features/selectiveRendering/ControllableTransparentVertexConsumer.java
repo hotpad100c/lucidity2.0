@@ -4,18 +4,22 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import org.jetbrains.annotations.NotNull;
 
-import static ml.mypals.lucidity.config.SelectiveRenderingConfigs.HIDDEN_BLOCK_TRANSPARENCY;
-
 public class ControllableTransparentVertexConsumer implements VertexConsumer {
     private final VertexConsumer base;
+    /**
+     * 这一批几何要用的隐藏透明度。由调用方按位置解析好传进来 —— 现在透明度可以逐选区
+     * 不同，消费者自己无从知道正在写的是哪个方块。
+     */
+    private final int alpha;
 
-    public ControllableTransparentVertexConsumer(VertexConsumer base) {
+    public ControllableTransparentVertexConsumer(VertexConsumer base, int alpha) {
         this.base = base;
+        this.alpha = alpha;
     }
 
     @Override
     public @NotNull VertexConsumer setColor(int i, int j, int k, int l) {
-        base.setColor(i,j,k, HIDDEN_BLOCK_TRANSPARENCY.getIntegerValue());
+        base.setColor(i,j,k, this.alpha);
         return this;
     }
     @Override
@@ -57,7 +61,7 @@ public class ControllableTransparentVertexConsumer implements VertexConsumer {
 
     @Override
     public @NotNull VertexConsumer setColor(int argb) {
-        // 走本类的四参重载，透明度照样会被 HIDDEN_BLOCK_TRANSPARENCY 覆盖
+        // 走本类的四参重载，透明度照样会被本批次的 alpha 覆盖
         return this.setColor((argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF, (argb >>> 24) & 0xFF);
     }
 }

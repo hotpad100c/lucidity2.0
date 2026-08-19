@@ -27,28 +27,39 @@ import java.util.List;
 public class SelectiveRenderingSubmitNodeStorage extends SubmitNodeStorage implements SubmitNodeCollector {
 
     private SubmitNodeCollector base;
+    private final int transparencySource;
+
     public SelectiveRenderingSubmitNodeStorage(SubmitNodeCollector submitNodeStorage){
+        this(submitNodeStorage, SelectiveRenderingManager.GLOBAL_TRANSPARENCY_SOURCE);
+    }
+
+    public SelectiveRenderingSubmitNodeStorage(SubmitNodeCollector submitNodeStorage, int transparencySource){
         base = submitNodeStorage;
+        this.transparencySource = transparencySource;
+    }
+
+    private RenderType hidden(RenderType renderType) {
+        return SelectiveRenderingRenderTypes.hiddenVariantOf(renderType, this.transparencySource);
     }
 
     public <S> void submitModel(Model<? super S> model, S object, PoseStack poseStack, RenderType renderType, int i, int j, int k, @Nullable TextureAtlasSprite textureAtlasSprite, int l, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
-        base.order(0).submitModel(model, object, poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), i, j, k, textureAtlasSprite, l, crumblingOverlay);
+        base.order(0).submitModel(model, object, poseStack, hidden(renderType), i, j, k, textureAtlasSprite, l, crumblingOverlay);
     }
 
     public void submitModelPart(ModelPart modelPart, PoseStack poseStack, RenderType renderType, int i, int j, @Nullable TextureAtlasSprite textureAtlasSprite, boolean bl, boolean bl2, int k, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int l) {
-        base.order(0).submitModelPart(modelPart, poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), i, j, textureAtlasSprite, bl, bl2, k, crumblingOverlay, l);
+        base.order(0).submitModelPart(modelPart, poseStack, hidden(renderType), i, j, textureAtlasSprite, bl, bl2, k, crumblingOverlay, l);
     }
 
     public void submitBlockModel(PoseStack poseStack, RenderType renderType, BlockStateModel blockStateModel, float f, float g, float h, int i, int j, int k) {
-        base.order(0).submitBlockModel(poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), blockStateModel, f, g, h, i, j, k);
+        base.order(0).submitBlockModel(poseStack, hidden(renderType), blockStateModel, f, g, h, i, j, k);
     }
 
     public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int j, int k, int[] is, List<BakedQuad> list, RenderType renderType, ItemStackRenderState.FoilType foilType) {
-        base.order(0).submitItem(poseStack, itemDisplayContext, i, j, k, is, list, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), foilType);
+        base.order(0).submitItem(poseStack, itemDisplayContext, i, j, k, is, list, hidden(renderType), foilType);
     }
 
     public void submitCustomGeometry(PoseStack poseStack, RenderType renderType, SubmitNodeCollector.CustomGeometryRenderer customGeometryRenderer) {
-        base.order(0).submitCustomGeometry(poseStack, SelectiveRenderingRenderTypes.hiddenVariantOf(renderType), customGeometryRenderer);
+        base.order(0).submitCustomGeometry(poseStack, hidden(renderType), customGeometryRenderer);
     }
 
 

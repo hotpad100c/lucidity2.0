@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.moulberry.flashback.keyframe.Keyframe;
-import com.moulberry.flashback.keyframe.interpolation.InterpolationType;
 import ml.mypals.lucidity.flashback.SelectiveRenderingKeyFrame;
+import ml.mypals.lucidity.flashback.SelectiveRenderingKeyFrameSerializer;
 import ml.mypals.lucidity.flashback.SelectiveRenderingKeyFrameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -16,7 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.Type;
 
-
+/**
+ * 按 {@code Keyframe.class} 显式读写关键帧时走的是这里；按运行时类型走的那条路
+ * 由 {@link FlashbackGsonMixin} 注册的适配器接住。两边共用同一套读写实现，
+ * 免得两处格式跑偏。
+ */
 @Pseudo
 @Mixin(Keyframe.TypeAdapter.class)
 public class KeyframeTypeAdapterMixin {
@@ -32,11 +36,7 @@ public class KeyframeTypeAdapterMixin {
         if (!(keyframe instanceof SelectiveRenderingKeyFrame selectiveRenderingKeyFrame)) {
             return;
         }
-        JsonObject json = new JsonObject();
-        json.addProperty("type", SelectiveRenderingKeyFrameType.ID);
-        json.addProperty("transparency", selectiveRenderingKeyFrame.transparency);
-        json.add("interpolation_type", context.serialize(selectiveRenderingKeyFrame.interpolationType()));
-        cir.setReturnValue(json);
+        cir.setReturnValue(SelectiveRenderingKeyFrameSerializer.write(selectiveRenderingKeyFrame, context));
     }
 
     @Inject(
@@ -51,15 +51,17 @@ public class KeyframeTypeAdapterMixin {
             return;
         }
         JsonObject json = element.getAsJsonObject();
-        if (!json.has("type") || !SelectiveRenderingKeyFrameType.ID.equals(json.get("type").getAsString())) {
+        if (!json.has("type")) {
+            SelectiveRenderingKeyFrame recovered = SelectiveRenderingKeyFrameSerializer.readLegacyReflective(json, context);
+            if (recovered != null) {
+                cir.setReturnValue(recovered);
+            }
+            return;
+        }
+        if (!SelectiveRenderingKeyFrameType.ID.equals(json.get("type").getAsString())) {
             return;
         }
 
-        float transparency = json.has("transparency") ? json.get("transparency").getAsFloat() : 0.0f;
-        InterpolationType interpolationType = json.has("interpolation_type")
-                ? context.deserialize(json.get("interpolation_type"), InterpolationType.class)
-                : InterpolationType.getDefault();
-
-        cir.setReturnValue(new SelectiveRenderingKeyFrame(transparency, interpolationType));
+        cir.setReturnValue(SelectiveRenderingKeyFrameSerializer.read(json, context));
     }
 }
