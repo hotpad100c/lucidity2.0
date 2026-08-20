@@ -20,6 +20,9 @@ public class BlockEntityRenderDispatcherMixin {
     @WrapMethod(method = "submit")
     private void renderBlockEntity(BlockEntityRenderState blockEntityRenderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, Operation<Void> original) {
         if (!SelectiveRenderingManager.shouldRenderBlock(blockEntityRenderState.blockState,blockEntityRenderState.blockPos)){
+            if (SelectiveRenderingManager.isFullyTransparentAt(blockEntityRenderState.blockPos)) {
+                return;
+            }
             int source = SelectiveRenderingManager.transparencySourceAt(
                     Vec3.atLowerCornerOf(blockEntityRenderState.blockPos), true);
             original.call(blockEntityRenderState, poseStack,new SelectiveRenderingSubmitNodeStorage(submitNodeCollector, source), cameraRenderState);

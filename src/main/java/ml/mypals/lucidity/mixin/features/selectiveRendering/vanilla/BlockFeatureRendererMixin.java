@@ -51,9 +51,13 @@ public class BlockFeatureRendererMixin {
 
         if (!SelectiveRenderingManager.shouldRenderBlock(state, pos)) {
 
+            int alpha = SelectiveRenderingManager.hiddenTransparencyAt(pos);
+            if (alpha == 0) {
+                return;
+            }
+
             VertexConsumer wrapped = new ControllableTransparentVertexConsumer(
-                    bufferSource.getBuffer(RenderTypes.translucentMovingBlock()),
-                    SelectiveRenderingManager.hiddenTransparencyAt(pos));
+                    bufferSource.getBuffer(RenderTypes.translucentMovingBlock()), alpha);
 
             original.call(instance, blockAndTintGetter, list, state, pos, poseStack, wrapped, b, i);
 

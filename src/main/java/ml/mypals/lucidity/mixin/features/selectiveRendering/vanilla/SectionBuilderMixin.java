@@ -67,10 +67,10 @@ public abstract class SectionBuilderMixin {
             target = "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;renderBatched(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLjava/util/List;)V"))
     public void onBuilBlock(
             BlockRenderDispatcher instance, BlockState blockState, BlockPos blockPos, BlockAndTintGetter blockAndTintGetter, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, List<BlockModelPart> list, Operation<Void> original) {
-        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
-            original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
+        if (SelectiveRenderingManager.shouldSkipBlockGeometry(blockState, blockPos)) {
+            return;
         }
-
+        original.call(instance, blockState, blockPos, blockAndTintGetter, poseStack, vertexConsumer, bl, list);
     }
 
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
@@ -84,19 +84,21 @@ public abstract class SectionBuilderMixin {
             Operation<Void> original,
             @Local Map<ChunkSectionLayer, BufferBuilder> map,
             @Local(argsOnly = true) SectionBufferBuilderPack sectionBufferBuilderPack) {
-        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
-            VertexConsumer vertexConsumer1 = new ControllableTransparentVertexConsumer(
-                    this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT),
-                    SelectiveRenderingManager.hiddenTransparencyAt(blockPos));
-            original.call(instance, blockPos, blockAndTintGetter, vertexConsumer1, blockState, fluidState);
+        if (SelectiveRenderingManager.shouldSkipBlockGeometry(blockState, blockPos)) {
+            return;
         }
+        VertexConsumer vertexConsumer1 = new ControllableTransparentVertexConsumer(
+                this.getOrBeginLayer(map, sectionBufferBuilderPack, ChunkSectionLayer.TRANSLUCENT),
+                SelectiveRenderingManager.hiddenTransparencyAt(blockPos));
+        original.call(instance, blockPos, blockAndTintGetter, vertexConsumer1, blockState, fluidState);
     }
     @WrapOperation(method = "compile", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/renderer/chunk/SectionCompiler;handleBlockEntity(Lnet/minecraft/client/renderer/chunk/SectionCompiler$Results;Lnet/minecraft/world/level/block/entity/BlockEntity;)V"))
     public void onBuilBlockEntity(
             SectionCompiler instance, SectionCompiler.Results results, BlockEntity blockEntity, Operation<Void> original) {
-        { // 隐藏几何一律 emit：透明度已改由颜色控制，不再用"不 emit"实现全隐
-            original.call(instance, results, blockEntity);
+        if (SelectiveRenderingManager.shouldSkipBlockGeometry(blockEntity.getBlockState(), blockEntity.getBlockPos())) {
+            return;
         }
+        original.call(instance, results, blockEntity);
     }
 }

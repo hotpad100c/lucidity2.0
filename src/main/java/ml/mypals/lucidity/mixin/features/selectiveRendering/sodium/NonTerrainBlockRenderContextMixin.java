@@ -32,6 +32,9 @@ public abstract class NonTerrainBlockRenderContextMixin {
     
     private void onRenderModel(BlockAndTintGetter blockView, BlockColors blockColors, BlockStateModel model, BlockState state, BlockPos pos, PoseStack poseStack, BlockVertexConsumerProvider buffer, boolean cull, long seed, int overlay, CallbackInfo ci) {
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingManager.hiddenTransparencyAt(pos);
+        if (alpha == 0) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "bufferQuad", at = @At("HEAD"))

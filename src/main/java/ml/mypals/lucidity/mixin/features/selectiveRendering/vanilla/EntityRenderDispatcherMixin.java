@@ -27,6 +27,9 @@ public class EntityRenderDispatcherMixin {
     private void renderEntity(EntityRenderState entityRenderState, CameraRenderState cameraRenderState, double d, double e, double f, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, Operation<Void> original) {
         Vec3 pos = new Vec3(entityRenderState.x, entityRenderState.y, entityRenderState.z);
         if (!SelectiveRenderingManager.shouldRenderEntity(entityRenderState.entityType, pos)){
+            if (SelectiveRenderingManager.isFullyTransparentAt(pos, false)) {
+                return;
+            }
             int source = SelectiveRenderingManager.transparencySourceAt(pos, false);
             original.call(entityRenderState, cameraRenderState, d, e, f, poseStack,new SelectiveRenderingSubmitNodeStorage(submitNodeCollector, source));
         }else {

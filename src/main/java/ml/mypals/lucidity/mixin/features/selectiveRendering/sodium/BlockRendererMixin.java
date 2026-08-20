@@ -27,6 +27,9 @@ public class BlockRendererMixin {
 
     private void onRenderModel(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo ci) {
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1:SelectiveRenderingManager.hiddenTransparencyAt(pos);
+        if (alpha == 0) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "bufferQuad", at = @At("HEAD"))

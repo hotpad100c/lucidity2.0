@@ -42,9 +42,12 @@ public class DefaultFluidRendererMixin {
     private int[] quadColors;
 
     private int alpha;
-    @Inject(method = "render", at = @At("HEAD"))
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     private void onRender(LevelSlice level, BlockState state, FluidState fluidState, BlockPos pos, BlockPos offset, TranslucentGeometryCollector collector, ChunkModelBuilder meshBuilder, Material material, ColorProvider<FluidState> colorProvider, TextureAtlasSprite[] sprites, CallbackInfo ci) {
         alpha = SelectiveRenderingManager.shouldRenderBlock(state,pos)?-1: SelectiveRenderingManager.hiddenTransparencyAt(pos);
+        if (alpha == 0) {
+            ci.cancel();
+        }
     }
     @WrapOperation(
             method = "writeQuad",

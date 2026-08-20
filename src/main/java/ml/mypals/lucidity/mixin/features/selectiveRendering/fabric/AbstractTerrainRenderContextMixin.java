@@ -37,6 +37,9 @@ public abstract class AbstractTerrainRenderContextMixin
     protected void bufferQuad(MutableQuadViewImpl quad, VertexConsumer vertexConsumer) {
         if (!SelectiveRenderingManager.shouldRenderBlock(blockInfo.blockState, blockInfo.blockPos)) {
             int alpha = SelectiveRenderingManager.hiddenTransparencyAt(blockInfo.blockPos);
+            if (alpha == 0) {
+                return;
+            }
             for (int i = 0; i < 4; i++) {
                 quad.color(i, rewriteQuadAlpha(quad.color(i), alpha));
             }

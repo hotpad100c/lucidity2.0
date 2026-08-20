@@ -45,6 +45,9 @@ public class BlockModelRendererMixin {
     private void tesselateBlock(BlockAndTintGetter blockAndTintGetter, List<BlockModelPart> list, BlockState blockState, BlockPos blockPos, PoseStack poseStack, VertexConsumer vertexConsumer, boolean bl, int i, Operation<Void> original){
         if(!SelectiveRenderingManager.shouldRenderBlock(blockState,blockPos)){
             int alpha = SelectiveRenderingManager.hiddenTransparencyAt(blockPos);
+            if (alpha == 0) {
+                return;
+            }
             original.call(blockAndTintGetter, list, blockState, blockPos, poseStack, new ControllableTransparentVertexConsumer(vertexConsumer, alpha), bl, i);
             return;
         }
