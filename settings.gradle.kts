@@ -20,6 +20,7 @@ stonecutter {
         )
         vcsVersion = "1.21.11"
     }
+
 }
 
 rootProject.name = "lucidity"

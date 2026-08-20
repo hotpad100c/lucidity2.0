@@ -63,6 +63,9 @@ val accesswidener = when {
     stonecutter.eval(minecraft, ">=1.21.3") -> "1.21.4.accesswidener"
     else -> "1.21.1.accesswidener"
 }
+
+
+
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json") // Useful for interface injection
     accessWidenerPath = rootProject.file("src/main/resources/accesswideners/$accesswidener")
@@ -77,6 +80,7 @@ loom {
         runDir = "../../run" // Shares the run directory between versions
     }
 }
+
 fabricApi {
     configureDataGeneration() {
         client = true
@@ -95,15 +99,18 @@ tasks {
         inputs.property("version", project.property("mod.version"))
         inputs.property("minecraft", project.property("mod.mc_dep"))
 
+
         val props = mapOf(
             "id" to project.property("mod.id"),
             "name" to project.property("mod.name"),
             "version" to project.property("mod.version"),
-            "minecraft" to project.property("mod.mc_dep")
+            "minecraft" to project.property("mod.mc_dep"),
+            "aw_file" to accesswidener,
         )
 
-        filesMatching("fabric.mod.json") { expand(props) }
-
+        filesMatching("fabric.mod.json") {
+            expand(props)
+        }
         val mixinJava = "JAVA_${requiredJava.majorVersion}"
         filesMatching("*.mixins.json") { expand("java" to mixinJava) }
     }
