@@ -95,7 +95,8 @@ tasks {
             "id" to project.property("mod.id"),
             "name" to project.property("mod.name"),
             "version" to project.property("mod.version"),
-            "minecraft" to project.property("mod.mc_dep")
+            "minecraft" to project.property("mod.mc_dep"),
+            "aw_file" to accesswidener
         )
 
         filesMatching("fabric.mod.json") { expand(props) }
