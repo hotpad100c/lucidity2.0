@@ -118,8 +118,9 @@ tasks {
     }
 }
 
-// 发布到 Modrinth，changelog 取自 CHANGELOG.md。
-// 只发 Modrinth：模板里的 curseforge 段已删掉。
+val modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+    .orElse(providers.gradleProperty("modrinthToken"))
+
 publishMods {
     file = tasks.remapJar.map { it.archiveFile.get() }
     additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
@@ -129,16 +130,12 @@ publishMods {
     type = STABLE
     modLoaders.add("fabric")
 
-    // 没设 MODRINTH_TOKEN 就自动空跑：可以先跑一遍看它打算传什么，不会真的上传
-    dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+    dryRun = !modrinthToken.isPresent
 
     modrinth {
         projectId = property("publish.modrinth") as String
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        // 每个版本各自的目标 MC 列表，见 versions/<ver>/gradle.properties
+        accessToken = modrinthToken
         minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
-        // 运行时必须装的三个。用项目 ID 而不是 slug：slug 可以被改名，ID 不会变。
-        // 注意：这个分支没有 flashback 联动，所以不列它（1.21.11 分支上才有）
         requires {
             id = "P7dR8mSH" // Fabric API
         }
