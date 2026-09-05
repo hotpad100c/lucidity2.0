@@ -7,7 +7,9 @@ plugins {
     id("me.modmuss50.mod-publish-plugin")
 }
 
-version = "${property("mod.version")}+${stonecutter.current.version}"
+val modVersion = "${property("mod.version")}+${stonecutter.current.version}"
+
+version = modVersion
 base.archivesName = property("mod.id") as String
 val requiredJava = when {
     stonecutter.eval(stonecutter.current.version, ">=1.20.6") -> JavaVersion.VERSION_21
@@ -98,14 +100,14 @@ tasks {
     processResources {
         inputs.property("id", project.property("mod.id"))
         inputs.property("name", project.property("mod.name"))
-        inputs.property("version", project.property("mod.version"))
+        inputs.property("version", modVersion)
         inputs.property("minecraft", project.property("mod.mc_dep"))
 
 
         val props = mapOf(
             "id" to project.property("mod.id"),
             "name" to project.property("mod.name"),
-            "version" to project.property("mod.version"),
+            "version" to modVersion,
             "minecraft" to project.property("mod.mc_dep"),
             "aw_file" to accesswidener,
         )
@@ -132,7 +134,7 @@ publishMods {
     file = tasks.remapJar.map { it.archiveFile.get() }
     additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
     displayName = "${property("mod.name")} ${property("mod.version")} for ${property("mod.mc_title")}"
-    version = property("mod.version") as String
+    version = modVersion
     changelog = rootProject.file("CHANGELOG.md").readText()
     type = STABLE
     modLoaders.add("fabric")
