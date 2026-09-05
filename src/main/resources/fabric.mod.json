@@ -26,6 +26,10 @@
     "fabricloader": ">=0.15",
     "minecraft": "${minecraft}",
 	"fabric-api": "*",
-    "malilib": "*"
+    "malilib": "*",
+    "ryansrenderingkit": "*"
+  },
+  "suggests": {
+    "flashback": "*"
   }
 }

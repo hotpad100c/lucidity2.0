@@ -1,8 +1,10 @@
+import me.modmuss50.mpp.ReleaseType.STABLE
+
 plugins {
     id("fabric-loom")
 
     // `maven-publish`
-    // id("me.modmuss50.mod-publish-plugin")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 version = "${property("mod.version")}+${stonecutter.current.version}"
@@ -124,8 +126,8 @@ tasks {
     }
 }
 
-/*
-// Publishes builds to Modrinth and Curseforge with changelog from the CHANGELOG.md file
+// 发布到 Modrinth，changelog 取自 CHANGELOG.md。
+// 只发 Modrinth：模板里的 curseforge 段已删掉。
 publishMods {
     file = tasks.remapJar.map { it.archiveFile.get() }
     additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
@@ -135,28 +137,30 @@ publishMods {
     type = STABLE
     modLoaders.add("fabric")
 
+    // 没设 MODRINTH_TOKEN 就自动空跑：可以先跑一遍看它打算传什么，不会真的上传
     dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
-        || providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null
 
     modrinth {
         projectId = property("publish.modrinth") as String
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        // 每个版本各自的目标 MC 列表，见 versions/<ver>/gradle.properties
         minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+        // 运行时必须装的三个。一律用项目 ID 而不是 slug：slug 可以被改名，ID 不会变。
         requires {
-            slug = "fabric-api"
+            id = "P7dR8mSH" // Fabric API
         }
-    }
-
-    curseforge {
-        projectId = property("publish.curseforge") as String
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
         requires {
-            slug = "fabric-api"
+            id = "GcWjdA9I" // malilib
+        }
+        requires {
+            id = "CdJaAf0y" // RyansRenderingKit
+        }
+        // 可选联动：装了才注册选择性渲染的透明度关键帧，没装也照常跑
+        optional {
+            id = "4das1Fjq" // Flashback
         }
     }
 }
- */
 /*
 // Publishes builds to a maven repository under `com.example:template:0.1.0+mc`
 publishing {

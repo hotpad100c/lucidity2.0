@@ -87,6 +87,7 @@ public class Lucidity implements ModInitializer {
             }
             NetherPosCaculatorManager.onPlayerUse(player, world, hand, pos);
             return InteractionResult.PASS;
+
         });
         AttackBlockCallback.EVENT.register((player, world, hand, pos, dir) -> {
             if (world.isClientSide() && player.getItemInHand(hand).getItem() == wand) {

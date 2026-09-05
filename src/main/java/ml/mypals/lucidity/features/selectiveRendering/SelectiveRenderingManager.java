@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.piston.MovingPistonBlock;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -212,7 +213,6 @@ public class SelectiveRenderingManager {
     public static void resolveSelectedAreasFromString(List<String> areaStrings){List<AreaBox> newAreas = new ArrayList<>();
 
         boolean unchanged = areaStrings.equals(lastAreaStrings);
-        // 只有末尾的透明度段变了：选区形状没动，可见性判定不变，只有颜色需要刷新
         boolean transparencyOnly = !unchanged
                 && lastAreaStrings != null
                 && geometryOf(areaStrings).equals(geometryOf(lastAreaStrings));
@@ -235,7 +235,6 @@ public class SelectiveRenderingManager {
             area.submit();
         });
         refreshOwnTransparencyFlag();
-        // 选区形状没变时只需要重新提交渲染用的 Shape，不必碰区块网格
         if (unchanged) {
             return;
         }
@@ -308,7 +307,11 @@ public class SelectiveRenderingManager {
 
         boolean render = true;
         if(block.getBlock() instanceof MovingPistonBlock && Minecraft.getInstance().level != null){
-            BlockEntity entity = Minecraft.getInstance().level.getBlockEntity(pos);
+            BlockEntity entity =
+                    Minecraft.getInstance().level.
+                            getChunkAt(pos).getBlockEntity(pos, LevelChunk.EntityCreationType.CHECK);
+
+
             if(entity instanceof PistonMovingBlockEntity piston){
                 BlockState content = piston.getMovedState();
 
