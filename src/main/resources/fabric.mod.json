@@ -21,7 +21,7 @@
   "mixins": [
     "lucidity.mixins.json"
   ],
-  "accessWidener": "${aw_file}",
+  "accessWidener": "accesswideners/${aw_file}",
   "depends": {
     "fabricloader": ">=0.15",
     "minecraft": "${minecraft}",

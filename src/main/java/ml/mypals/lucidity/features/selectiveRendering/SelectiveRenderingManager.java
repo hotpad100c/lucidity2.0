@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.piston.MovingPistonBlock;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -275,7 +276,10 @@ public class SelectiveRenderingManager {
 
         boolean render = true;
         if(block.getBlock() instanceof MovingPistonBlock && Minecraft.getInstance().level != null){
-            BlockEntity entity = Minecraft.getInstance().level.getBlockEntity(pos);
+            BlockEntity entity =
+                    Minecraft.getInstance().level.
+                    getChunkAt(pos).getBlockEntity(pos, LevelChunk.EntityCreationType.CHECK);
+
             if(entity instanceof PistonMovingBlockEntity piston){
                 BlockState content = piston.getMovedState();
 
