@@ -157,6 +157,8 @@ public class MicrotimingKeyWorldTracker {
     }
 
     public static void start(){
+        actorPosMarker.disable();
+        actorParentPosMarker.disable();
         ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"microtiming_cator"),actorPosMarker);
         ShapeManagers.addShape(Identifier.fromNamespaceAndPath(MOD_ID,"microtiming_cator_parent"),actorParentPosMarker);
         registered = true;
@@ -164,8 +166,6 @@ public class MicrotimingKeyWorldTracker {
     public static void stop(){
         actorPosMarker.disable();
         actorParentPosMarker.disable();
-        actorPosMarker.discard();
-        actorParentPosMarker.discard();
         registered = false;
     }
     public static final class MicroEventNode {
