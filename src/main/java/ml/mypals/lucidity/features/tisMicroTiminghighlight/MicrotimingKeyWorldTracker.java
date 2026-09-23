@@ -25,15 +25,21 @@ import static ml.mypals.lucidity.features.tisMicroTiminghighlight.MicroTimingAna
 
 public class MicrotimingKeyWorldTracker {
     private static boolean registered = false;
-    private static BoxFaceShape actorPosMarker = new BoxFaceShape(Shape.RenderingType.BATCH, boxTransformer -> {},Vec3.ZERO.add(0.5,0.5,0.5),Vec3.ZERO.subtract(0.5,0.5,0.5), Color.WHITE,true,BoxShape.BoxConstructionType.CORNERS);
-    private static BoxWireframeShape actorParentPosMarker = new BoxWireframeShape(Shape.RenderingType.BATCH, boxTransformer -> {},Vec3.ZERO.add(0.5,0.5,0.5),Vec3.ZERO.subtract(0.5,0.5,0.5), Color.WHITE,true,4,BoxShape.BoxConstructionType.CORNERS);
+    private static BoxFaceShape actorPosMarker = new BoxFaceShape(Shape.RenderingType.BATCH, boxTransformer -> {
+    }, Vec3.ZERO.add(0.5, 0.5, 0.5), Vec3.ZERO.subtract(0.5, 0.5, 0.5), Color.WHITE, true,
+            BoxShape.BoxConstructionType.CORNERS);
+    private static BoxWireframeShape actorParentPosMarker = new BoxWireframeShape(Shape.RenderingType.BATCH,
+            boxTransformer -> {
+            }, Vec3.ZERO.add(0.5, 0.5, 0.5), Vec3.ZERO.subtract(0.5, 0.5, 0.5), Color.WHITE, true, 4,
+            BoxShape.BoxConstructionType.CORNERS);
     public static final Pattern MARKER_POSITION_PATTERN = Pattern.compile(
-            "\\[\\s*(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)\\s*\\]"
-    );
+            "\\[\\s*(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)\\s*\\]");
     public static final Pattern INDEX_GETTER_PATTERN = Pattern.compile(":\\s*(\\d+)");
-    public static boolean isMarkerLog(String input){
+
+    public static boolean isMarkerLog(String input) {
         return MARKER_POSITION_PATTERN.matcher(input).find();
     }
+
     public static Vec3 parseMarkerPos(String input) {
         Matcher matcher = MARKER_POSITION_PATTERN.matcher(input);
 
@@ -47,6 +53,7 @@ public class MicrotimingKeyWorldTracker {
 
         return new Vec3(x, y, z);
     }
+
     public static int parseMarkerIndent(String input) {
         String upper = input.toUpperCase(Locale.ROOT);
         Matcher m = INDEX_GETTER_PATTERN.matcher(upper);
@@ -55,6 +62,7 @@ public class MicrotimingKeyWorldTracker {
         }
         return -1;
     }
+
     public static DyeColor parseMarkerColor(String input) {
         String upper = input.toUpperCase(Locale.ROOT);
 
@@ -65,64 +73,66 @@ public class MicrotimingKeyWorldTracker {
         }
         return null;
     }
-    public static void updateActorPos(Vec3 vec3, DyeColor dyeColor, MicroTimingAnalyzer.ParentInfo parentInfo){
-        if(!registered){
-            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"microtiming_cator"),actorPosMarker);
+
+    public static void updateActorPos(Vec3 vec3, DyeColor dyeColor, MicroTimingAnalyzer.ParentInfo parentInfo) {
+        if (!registered) {
+            ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, "microtiming_cator"), actorPosMarker);
         }
-        if(!actorPosMarker.enabled()){
+        if (!actorPosMarker.enabled()) {
             actorPosMarker.enable();
         }
-        actorPosMarker.setWorldPosition(vec3.add(0.5,0.5,0.5));
+        actorPosMarker.setWorldPosition(vec3.add(0.5, 0.5, 0.5));
 
         int currentRGB = actorPosMarker.getBaseColor().getRGB() & 0x00FFFFFF;
-        int targetRGB  = dyeColor.getTextColor() & 0x00FFFFFF;
+        int targetRGB = dyeColor.getTextColor() & 0x00FFFFFF;
 
         if (currentRGB != targetRGB) {
             Color color = new Color(targetRGB);
             actorPosMarker.setBaseColor(
-                    new Color(color.getRed(),color.getGreen(),color.getBlue(),40)
-            );
+                    new Color(color.getRed(), color.getGreen(), color.getBlue(), 40));
         }
 
-        if(parentInfo != null){
-            if(!actorParentPosMarker.enabled()){
+        if (parentInfo != null) {
+            if (!actorParentPosMarker.enabled()) {
                 actorParentPosMarker.enable();
             }
-            actorParentPosMarker.setWorldPosition(parentInfo.vec3().add(0.5,0.5,0.5));
+            actorParentPosMarker.setWorldPosition(parentInfo.vec3().add(0.5, 0.5, 0.5));
 
             int currentRGBP = actorParentPosMarker.getBaseColor().getRGB() & 0x00FFFFFF;
-            int targetRGBP  = parentInfo.color().getTextColor() & 0x00FFFFFF;
+            int targetRGBP = parentInfo.color().getTextColor() & 0x00FFFFFF;
             if (currentRGBP != targetRGBP) {
                 Color color = new Color(targetRGBP);
                 actorParentPosMarker.setBaseColor(
-                        color
-                );
+                        color);
             }
-        }else{
-            if(actorParentPosMarker.enabled()){
+        } else {
+            if (actorParentPosMarker.enabled()) {
                 actorParentPosMarker.disable();
             }
         }
 
-
     }
+
     public static Component track(Component component) {
         List<Component> contents = component.toFlatList();
 
-        for (int i = 0;i<contents.size();i++) {
+        for (int i = 0; i < contents.size(); i++) {
             Component component1 = contents.get(i);
             String content = component1.getString();
 
             if (content.contains("#")) {
                 HoverEvent hoverEvent = component1.getStyle().getHoverEvent();
-                //? if >=1.21.5 {
+                // ? if >=1.21.5 {
                 if (hoverEvent != null && hoverEvent.action() == HoverEvent.Action.SHOW_TEXT) {
-                    HoverEvent.ShowText showText = (HoverEvent.ShowText)hoverEvent;
+                    HoverEvent.ShowText showText = (HoverEvent.ShowText) hoverEvent;
                     String tooltip = showText.value().getString();
-                //?} else {
-                /*if (hoverEvent != null && hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT) != null) {
-                    String tooltip = hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT).getString();
-                *///?}
+                    // ?} else {
+                    /*
+                     * if (hoverEvent != null && hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT) !=
+                     * null) {
+                     * String tooltip =
+                     * hoverEvent.getValue(HoverEvent.Action.SHOW_TEXT).getString();
+                     */// ?}
                     Vec3 vec3 = parseMarkerPos(tooltip);
                     DyeColor dyeColor = parseMarkerColor(tooltip);
                     int indent = parseMarkerIndent(tooltip);
@@ -130,20 +140,18 @@ public class MicrotimingKeyWorldTracker {
                     if (vec3 != null && dyeColor != null && indent > 0) {
 
                         MicroEventNode parent = MicroTimingAnalyzer.accept(
-                                indent-1,
+                                indent - 1,
                                 vec3,
                                 dyeColor,
                                 content.trim(),
-                                component1
-                        );
+                                component1);
 
                         if (parent != null) {
                             ClickEvent data = appendParentMarker(parent);
 
                             component1 = component1.copy().withStyle(
-                                    component1.getStyle().withClickEvent(data)
-                            );
-                            contents.set(i,component1);
+                                    component1.getStyle().withClickEvent(data));
+                            contents.set(i, component1);
                             break;
                         }
                     }
@@ -161,18 +169,21 @@ public class MicrotimingKeyWorldTracker {
         return mutableComponent;
     }
 
-    public static void start(){
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"microtiming_cator"),actorPosMarker);
-        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID,"microtiming_cator_parent"),actorParentPosMarker);
-        registered = true;
-    }
-    public static void stop(){
+    public static void start() {
         actorPosMarker.disable();
         actorParentPosMarker.disable();
-        actorPosMarker.discard();
-        actorParentPosMarker.discard();
+        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, "microtiming_cator"), actorPosMarker);
+        ShapeManagers.addShape(ResourceLocation.fromNamespaceAndPath(MOD_ID, "microtiming_cator_parent"),
+                actorParentPosMarker);
+        registered = true;
+    }
+
+    public static void stop() {
+        actorPosMarker.disable();
+        actorParentPosMarker.disable();
         registered = false;
     }
+
     public static final class MicroEventNode {
         public final int depth;
         public final Vec3 pos;
@@ -188,8 +199,7 @@ public class MicrotimingKeyWorldTracker {
                 Vec3 pos,
                 DyeColor color,
                 String message,
-                Component component
-        ) {
+                Component component) {
             this.depth = depth;
             this.pos = pos;
             this.color = color;
@@ -197,7 +207,5 @@ public class MicrotimingKeyWorldTracker {
             this.component = component;
         }
     }
-
-
 
 }
