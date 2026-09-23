@@ -1,3 +1,3 @@
-# 2.0.2
+# 2.0.3
 
-- Fixed unsafe access of block-entity in SelectiveRenderingManager.java
+- Fixed the strange white cube at 0, 0, 0
