@@ -1,6 +1,7 @@
 package ml.mypals.lucidity.features.imageRender;
 
 import com.mojang.blaze3d.opengl.GlStateManager;
+import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -47,10 +48,12 @@ public class MediaShape extends Shape implements EmptyMesh {
     public static final RenderPipeline MEDIA_SHAPE_TEXTURE;
     private static final Function<Identifier, RenderType> MEDIA_SHAPE_RENDER_TYPE;
     static {
-        MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET).withCull(false).withLocation("pipeline/gui_textured").build());
-        // 1.21.11 起 RenderType 由名字 + RenderSetup 组成，纹理挂在 RenderSetup 上，
-        // 采样器名沿用原版的 Sampler0。
-        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((identifier) -> RenderType.create("media_shape_texture",
+        MEDIA_SHAPE_TEXTURE = RenderPipelines.register(RenderPipeline.builder(GUI_TEXTURED_SNIPPET)
+                .withDepthWrite(true).withDepthTestFunction(DepthTestFunction.GREATER_DEPTH_TEST)
+                .withCull(false).withLocation("pipeline/gui_textured").build());
+
+        MEDIA_SHAPE_RENDER_TYPE = Util.memoize((identifier) ->
+                RenderType.create("media_shape_texture",
                 RenderSetup.builder(RenderPipelines.GUI_TEXTURED)
                         .withTexture("Sampler0", identifier)
                         .bufferSize(1536)
@@ -71,7 +74,6 @@ public class MediaShape extends Shape implements EmptyMesh {
     public MediaShape(Color color, Vec3 center, boolean seeThrough, MediaData mediaData) {
         super(RenderingType.IMMEDIATE,
                 (defaultTransformer) ->{
-                    Shape shape = defaultTransformer.getShape();
                     if(mediaData != null && mediaData.isReady()){
                         defaultTransformer.setShapeWorldScale(mediaData.getScale());
                         defaultTransformer.setShapeWorldRotation(mediaData.getRotation());
